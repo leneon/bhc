@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{front-office/layout/auth.html}"lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <style>
+        .text-truncate-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <main layout:fragment="content" ng-controller="unAuthController">      
+        <!--================Blog Area =================-->
+        <section class="blog_area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-5 mb-lg-0">
+                        <div class="blog_left_sidebar">
+                            <article class="blog_item" ng-repeat="article in listeArticlesFilter">
+                                <div class="blog_item_img">
+                                    <img class="card-img rounded-0" ng-src="{{article.couverture}}" alt="">
+                                    <a ng-href="blog-details/{{article.id}}" class="blog_item_date">
+                                        <h3>{{article.createdAt | date:'dd' }}</h3>
+                                        <p>{{article.createdAt | date:'MMM' }}</p>
+                                    </a>
+                                </div>
+
+                                <div class="blog_details">
+                                    <a class="d-inline-block"  ng-href="blog-details/{{article.id}}">
+                                        <h2>{{article.titre}}</h2>
+                                    </a>
+                                    <p ng-bind-html="article.contenue" class="text-truncate-2"></p>
+                                    <ul class="blog-info-link">
+                                        <li><a href="#"><i class="fa fa-heart"></i> {{article.likes? article.likes : 0}} Likes</a></li>
+                                        <li><a href="#"><i class="fa fa-comments"></i> {{article.commentCount}} Commentaires</a></li>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+                                    <li class="page-item" ng-class="{disabled: $scope.currentPage === 1}">
+                                        <a href="#" class="page-link" aria-label="Previous" ng-click="setPage(currentPage - 1)">
+                                            <i class="ti-angle-left"></i>
+                                        </a>
+                                    </li>
+                            
+                                    <!-- Boucle pour afficher les pages -->
+                                    <li ng-repeat="page in [].constructor(totalPages) track by $index" class="page-item" 
+                                        ng-class="{active: $index + 1 === currentPage}">
+                                        <a href="#" class="page-link" ng-click="setPage($index + 1)">{{$index + 1}}</a>
+                                    </li>
+                            
+                                    <li class="page-item" ng-class="{disabled: $scope.currentPage === totalPages}">
+                                        <a href="#" class="page-link" aria-label="Next" ng-click="setPage(currentPage + 1)">
+                                            <i class="ti-angle-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget search_widget">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder='Search Keyword'
+                                                onfocus="this.placeholder = ''"
+                                                onblur="this.placeholder = 'Search Keyword'">
+                                            <div class="input-group-append">
+                                                <button class="btns" type="button"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Recherche</button>
+                                </form>
+                            </aside>
+
+                            <aside class="single_sidebar_widget post_category_widget">
+                                <h4 class="widget_title">Catégories</h4>
+                                <ul class="list cat-list">
+                                    <li ng-repeat="cat in listeCategories" >
+                                        <a style="cursor: pointer;" class="d-flex" ng-click="filterByCategory(cat.nom)">
+                                            <p>{{cat.nom}}</p>
+                                            <p>({{cat.articlesCount}})</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </aside>
+
+                            <aside class="single_sidebar_widget popular_post_widget">
+                                <h3 class="widget_title">Ancien article</h3>
+                                <div class="media post_item" ng-repeat="article in lastArticles">
+                                    <img ng-src="/{{article.couverture}}" alt="post" width="80" height="80">
+                                    <div class="media-body">
+                                        <a href="/details-article/{{article.id}}">
+                                            <h3>{{article.titre}}</h3>
+                                        </a>
+                                        <p>{{article.createdAt | date:'MMM dd, yyyy'}}</p>
+                                    </div>
+                                </div>
+                               
+                            </aside>
+
+                            <aside class="single_sidebar_widget newsletter_widget">
+                                <h4 class="widget_title">Newsletter</h4>
+
+                                <form action="#">
+                                    <div class="form-group">
+                                        <input ng-model="newsletterDto.useremail" type="email" class="form-control" onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Entrez l’adresse e-mail'" placeholder='Entrez l’adresse e-mail' required>
+                                    </div>
+                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="button" ng-click="newsletter()">S’inscrire</button>
+                                </form>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--================Blog Area =================-->
+    </main>
+</body>
+</html>

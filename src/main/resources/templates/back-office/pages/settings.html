@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{back-office/layout/base.html}">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+
+    <body ng-app="myApp">
+        <div layout:fragment="content" ng-controller="settingsController">
+            <div class="card mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Informations personnelles de <span th:text="${appName}">BHC</span></h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Content-->
+                <div id="kt_account_settings_profile_details" class="collapse show">
+                    <!--begin::Form-->
+                    <form id="kt_account_profile_details_form" class="form" enctype="multipart/form-data">
+                        <!--begin::Card body-->
+                        <div class="card-body border-top p-9">
+                           
+                            <!-- <div class="row mb-6"> -->
+                                <!--begin::Label-->
+                                <!-- <label class="col-lg-4 col-form-label required fw-semibold fs-6">Logo</label> -->
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <!-- <div class="col-lg-8 fv-row">
+                                    <input type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Logo" file-model="logo" />
+                                </div> -->
+                                <!--end::Col-->
+                            <!-- </div> -->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-semibold fs-6">Logo</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8">
+                                    <!--begin::Image input-->
+                                    <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
+                                        <!--begin::Preview existing avatar-->
+                                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url('/{{structureDto.logo? structureDto.logo : assets/media/avatars/blank.png }}')"></div>
+                                        <!--end::Preview existing avatar-->
+                                        <!--begin::Label-->
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                                            <i class="bi bi-pencil-fill fs-7"></i>
+                                            <!--begin::Inputs-->
+                                            <input type="file" file-model ="logo" name="avatar" accept=".png, .jpg, .jpeg" />
+                                            <input type="hidden" name="avatar_remove" />
+                                            <!--end::Inputs-->
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Cancel-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                                            <i class="bi bi-x fs-2"></i>
+                                        </span>
+                                        <!--end::Cancel-->
+                                        <!--begin::Remove-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                                            <i class="bi bi-x fs-2"></i>
+                                        </span>
+                                        <!--end::Remove-->
+                                    </div>
+                                    <!--end::Image input-->
+                                    <!--begin::Hint-->
+                                    <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+                                    <!--end::Hint-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-semibold fs-6">Nom</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="Nom" ng-model="structureDto.nom" />
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                                    <span class="required">Contacts</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Phone number must be active"></i>
+                                </label>
+                                <!--end::Label-->
+                                <div class="col-lg-8">
+                                    <!--begin::Row-->
+                                    <div class="row">
+                                        <!--begin::Col-->
+                                        <div class="col-lg-6 fv-row">
+                                            <input ng-model="structureDto.email" type="text" name="email" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Email" />
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-6 fv-row">
+                                            <input type="text" ng-model="structureDto.telephone" name="telephone" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Téléphone"  />
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Row-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-semibold fs-6">Localisation</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8">
+                                    <!--begin::Row-->
+                                    <div class="row">
+                                        <!--begin::Col-->
+                                        <div class="col-lg-4 fv-row">
+                                            <input ng-model="structureDto.pays" type="text" name="pays" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Pays"  />
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-4 fv-row">
+                                            <input type="text" ng-model="structureDto.ville"name="ville" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Ville"  />
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-4 fv-row">
+                                            <input type="text" ng-model="structureDto.localisation" name="quartier" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Quartier" />
+                                        </div>
+                                    </div>
+                                    <!--end::Row-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                        
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                                    <span class="required">Date de céation, GPS</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Phone number must be active"></i>
+                                </label>
+                                <!--end::Label-->
+                                <div class="col-lg-8">
+                                    <!--begin::Row-->
+                                    <div class="row">
+                                        <!--begin::Col-->
+                                        <div class="col-lg-6 fv-row">
+                                            <input type="date" name="dateCreation" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Date de creation" ng-model="structureDto.dateCreation" />
+                                        </div>
+                                        <!--end::Col-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-6 fv-row">
+                                            <input type="text" name="gps" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="GPS" ng-model="structureDto.gps"/>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Row-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-semibold fs-6">Bio</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <div quill-editor ng-model="structureDto.bio" style="height: 100px;"></div>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-semibold fs-6">A propos</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <!--begin::Options-->
+                                    <div quill-editor ng-model="structureDto.description" style="height: 150px;"></div>
+                                    <!--end::Options-->
+                                </div>       
+                            <!--end::Input group-->
+                            </div>
+                        
+                            <!-- <div class="row mb-0"> -->
+                                <!--begin::Label-->
+                                <!-- <label class="col-lg-4 col-form-label fw-semibold fs-6">Allow Marketing</label> -->
+                                <!--begin::Label-->
+                                <!--begin::Label-->
+                                <!-- <div class="col-lg-8 d-flex align-items-center">
+                                    <div class="form-check form-check-solid form-switch form-check-custom fv-row">
+                                        <input class="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" checked="checked" />
+                                        <label class="form-check-label" for="allowmarketing"></label>
+                                    </div>
+                                </div> -->
+                                <!--begin::Label-->
+                            <!-- </div> -->
+                            <!--end::Input group-->
+                        </div>
+                        <!--end::Card body-->
+                        <div class="card mb-5 mb-xl-10">
+                            <!--begin::Card header-->
+                            <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
+                                <div class="card-title m-0">
+                                    <h3 class="fw-bold m-0">Pub</h3>
+                                </div>
+                            </div>
+                            <!--end::Card header-->
+                            <!--begin::Content-->
+                            <div id="kt_account_settings_signin_method" class="collapse show">
+                                <!--begin::Card body-->
+                                <div class="card-body border-top p-9">
+                                    <!--end::Separator-->
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Couverture </label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input file-model="img" type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Image" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Pub Image du haut </label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input file-model="img1" type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Image" />
+                                        </div>
+                                    </div>
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Pub Image du coté </label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <input file-model="img2" type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Image" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Content-->
+                            <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
+                                <div class="card-title m-0">
+                                    <h3 class="fw-bold m-0">Réseaux Sociaux</h3>
+                                </div>
+                            </div>
+                            <!--end::Card header-->
+                            <!--begin::Content-->
+                            <div id="kt_account_settings_signin_method" class="collapse show">
+                                <div class="card-body border-top p-9 row">
+                                <div class="col-md-6">
+                                    <div class="fv-row mb-7 ">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">FaceBook</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input  ng-model="structureDto.facebook" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="FaceBook" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="fv-row mb-7 ">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">Youtube</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input  ng-model="structureDto.youtube" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Youtube" />
+                                        <!--end::Input-->
+                                    </div>
+                                </div>  
+                                <div class="col-md-6">
+                                    <div class="fv-row mb-7 ">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">Twitter</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input  ng-model="structureDto.twitter" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Twitter" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="fv-row mb-7 ">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">Instagram</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input  ng-model="structureDto.instagram" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Instagram" />
+                                        <!--end::Input-->
+                                    </div>
+                                </div>  
+                                </div>
+                            </div>
+                        </div>
+                        <!--begin::Actions-->
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button type="button" class="btn btn-primary" ng-click="validate()" id="kt_account_profile_details_submit">
+                                <span id="submitLabel">Appliquer les modifications</span>
+                                <span id="submitProgress" class="d-none">
+                                    Please wait... 
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                
+            </div>
+        </div>
+
+        
+    <script src="/assets/js/controllers/settingsController.js" layout:fragment="script"></script>
+   
+    </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{front-office/layout/auth.html}"lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <style>
+        .feedback-section {
+    margin-top: 20px;
+}
+
+.feedback-icon {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 0 5px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: white;
+}
+
+.feedback-icon i {
+    margin-right: 5px;
+}
+
+.like {
+    background-color: #28a745; /* Vert pour "Oui" */
+}
+
+.dislike {
+    background-color: #dc3545; /* Rouge pour "Non" */
+}
+
+.feedback-message {
+    margin-top: 10px;
+    color: green;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+<body ng-app="myApp">
+    
+    <main layout:fragment="content" ng-Controller="unAuthController">
+
+        <main>
+            <div class="about-area">
+                <div class="container">
+
+                       <div class="row">
+                            <div class="col-lg-8">
+                                <!-- Trending Tittle -->
+                                <div class="about-right mb-90">
+                                    <div class="about-img">
+                                        <img ng-src="/{{singleArticle.couverture}}" alt="">
+                                    </div>
+                                    <div class="section-tittle mb-30 pt-30">
+                                        <!-- <h3>{{singleArticle.categorie.nom}}</h3> -->
+                                        <p class="fw-semibold">{{singleArticle.titre}}</p>
+                                    </div>
+                                    <div class="about-prea">
+                                        <div ng-bind-html="singleArticle.contenue"></div>
+                                    </div> 
+                                    <!-- <div class="section-tittle">
+                                        <h3>Unordered list style?</h3>
+                                    </div>
+                                    <div class="social-share pt-30">
+                                        <div class="section-tittle">
+                                            <h3 class="mr-20">Share:</h3>
+                                            <ul>
+                                                <li><a ng-href="{{structureDto.instagram}}" target="_blank"><img src="/assets/img/news/icon-ins.png" alt=""></a></li>
+                                                <li><a ng-href="{{structureDto.facebook}}" target="_blank"><img src="/assets/img/news/icon-fb.png" alt=""></a></li>
+                                                <li><a ng-href="{{structureDto.twitter}}" target="_blank"><img src="/assets/img/news/icon-tw.png" alt=""></a></li>
+                                                <li><a ng-href="{{structureDto.youtube}}" target="_blank"><img src="/assets/img/news/icon-yo.png" alt=""></a></li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+                                    <div class="feedback-section" >
+                                        <p>Avez-vous aimé cet article ?</p>
+                                        <span class="feedback-icon like" ng-click="submitFeedback(true)">
+                                            <i class="ti-thumb-up"></i> Oui
+                                        </span>
+                                        <span class="feedback-icon dislike" ng-click="submitFeedback(false)">
+                                            <i class="ti-thumb-down"></i> Non
+                                        </span>
+                                    </div>
+                                
+                                    
+                                    <div ng-if="feedbackMessage" class="feedback-message">
+                                        <p>{{ feedbackMessage }}</p>
+                                    </div>
+                                </div>
+                                <!-- From -->
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <form class="form-contact contact_form mb-80" method="post" id="contactForm" novalidate="novalidate">
+                                            <input  id="articleId" type="hidden" ng-model="commentaireDto.articleId" 
+                                            th:value="${articleId}">
+                                            <div class="row">
+                                                
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <textarea  required ng-model="commentaireDto.contenue"  class="form-control w-100 error" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre commentaire'" placeholder="Enter Message"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                       <input required class="form-control" ng-model="commentaireDto.username" name="name" id="name" type="text" placeholder="Nom d'utilisatkeur">
+                                                    </div>
+                                                 </div>
+                                                 <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                       <input required class="form-control" ng-model="commentaireDto.useremail" name="email" id="email" type="email" placeholder="E-mail">
+                                                    </div>
+                                                 </div>                                                
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <button type="submit" ng-click="comment()" class="button button-contactForm boxed-btn">Envoyer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Section Tittle -->
+                                <div class="section-tittle mb-40">
+                                    <h3>Suivez-nous</h3>
+                                </div>
+                                <!-- Flow Socail -->
+                                <div class="single-follow mb-45">
+                                    <div class="single-box">
+                                        <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.facebook}}" target="_blank"><img src="/assets/img/news/icon-fb.png" alt=""></a>
+                                            </div>
+                                            <div class="follow-count">  
+                                                <span>8,045</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div> 
+                                        <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.twitter}}" target="_blank"><img src="/assets/img/news/icon-tw.png" alt=""></a>
+                                            </div>
+                                            <div class="follow-count">
+                                                <span>8,045</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div>
+                                            <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.instagram}}" target="_blank"><img src="/assets/img/news/icon-ins.png" alt=""></a>
+                                            </div>
+                                            <div class="follow-count">
+                                                <span>8,045</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div>
+                                        <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.youtube}}" target="_blank"><img src="/assets/img/news/icon-yo.png" alt=""></a>
+                                            </div>
+                                            <div class="follow-count">
+                                                <span>8,045</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- New Poster -->
+                                <div class="news-poster d-none d-lg-block">
+                                    <img ng-src="/{{structureDto.img2}}" alt="">
+                                </div>
+                            </div>
+                       </div>
+                </div>
+            </div>
+        </main>
+
+</body>
+</html>

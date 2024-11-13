@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{front-office/layout/auth.html}"lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+</head>
+<body ng-app="myApp">
+        <main layout:fragment="content" ng-controller="unAuthController">
+            <!-- About US Start -->
+            <div class="about-area">
+                <div class="container">
+                        
+                       <div class="row">
+                            <div class="col-lg-8">
+                                <!-- Trending Tittle -->
+                                        <div class="about-right mb-90">
+                                            <div class="about-img">
+                                                <img ng-src="{{structureDto.img ? structureDto.img : 'assets/img/post/about_heor.jpg'}}" alt="">
+                                            </div>
+                                            <div class="section-tittle mb-30 pt-30">
+                                                <h3>À propos de nous </h3>
+                                            </div>
+                                            <div class="about-prea" >
+                                                <div ng-bind-html="structureDto.description"></div>
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Section Tittle -->
+                                <div class="section-tittle mb-40">
+                                    <h3>Suivez-nous</h3>
+                                </div>
+                                <!-- Flow Socail -->
+                                <div class="single-follow mb-45">
+                                    <div class="single-box">
+                                        <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.facebook}}"><img src="/assets/img/news/icon-fb.png" alt=""></a>
+                                            </div>
+                                            <div class="follow-count">  
+                                                <span>4,045</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div> 
+                                        <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.twitter}}" target="_blank"><img src="/assets/img/news/icon-tw.png" alt=""></a>
+                                            </div>
+                                            <div class="follow-count">
+                                                <span>3,75</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div>
+                                            <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.instagram}}" target="_blank">
+                                                    <img src="/assets/img/news/icon-ins.png" alt="Instagram">
+                                                </a>
+                                            </div>
+                                            <div class="follow-count">
+                                                <span>5,045</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div>
+                                        <div class="follow-us d-flex align-items-center">
+                                            <div class="follow-social">
+                                                <a ng-href="{{structureDto.youtube}}" target="_blank">
+                                                    <img src="/assets/img/news/icon-yo.png" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="follow-count">
+                                                <span>8k</span>
+                                                <p>Fans</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- New Poster -->
+                                <div class="news-poster d-none d-lg-block">
+                                    <img ng-src="{{ structureDto.img2 ? structureDto.img2 : 'assets/img/post/about_heor.jpg' }}" alt="">
+
+                                </div>
+                            </div>
+                       </div>
+                </div>
+            </div>
+            <!-- About US End -->
+        </main>
+</body>
+</html>
