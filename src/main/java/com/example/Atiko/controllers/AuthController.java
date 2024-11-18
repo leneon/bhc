@@ -134,6 +134,7 @@ public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRe
     }
 
     user.setRoles(roles);
+    user.setStatus(true);
     userRepository.save(user);
 
     // Créer le profil après l'enregistrement de l'utilisateur

@@ -28,7 +28,8 @@ public class CategorieDto {
         this.id = cat.getId();
         this.nom = cat.getNom();
         this.statut = cat.getStatut();
-        this.articlesCount = cat.getArticles().size();
+        if(cat.getArticles() != null )
+            this.articlesCount = cat.getArticles().size();
     }
 
     // Getters and Setters

@@ -1,78 +1,137 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{front-office/layout/auth.html}"lang="en" >
+<html  ng-app="myApp" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front-office/layout/auth.html}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"/>
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
-</head>
-<body ng-app="myApp">
-    
-    <main layout:fragment="content" ng-Controller="unAuthController">
-        <section class="contact-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h2 class="contact-title">Nous Contacter</h2>
-                    </div>
-                    <div  class="col-lg-8">
-                        <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-                            <div class="row">
+    <body>
+
+     <main layout:fragment="content" ng-controller="unAuthController">
+        <!-- Contact Start -->
+        <div class="container-fluid contact py-5">
+            <div class="container py-5">
+                <div class="row g-5"> 
+                    <div class="col-12 col-xl-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <div>
+                            <div class="pb-5">
+                                <h4 class="text-primary">Contactez-nous</h4>
+                                <p class="mb-0" ng-bind-html="structureDto.bio"></p>
+                            </div>
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="contact-add-item rounded bg-light p-4">
+                                        <div class="contact-icon text-primary mb-4">
+                                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4>Adresse</h4>
+                                            <p class="mb-0">{{structureDto.localisation}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="contact-add-item rounded bg-light p-4">
+                                        <div class="contact-icon text-primary mb-4">
+                                            <i class="fas fa-envelope fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4>Envoyez-nous un mail</h4>
+                                            <p class="mb-0">{{structureDto.email}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="contact-add-item rounded bg-light p-4">
+                                        <div class="contact-icon text-primary mb-4">
+                                            <i class="fa fa-phone-alt fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4>Téléphone</h4>
+                                            <p class="mb-0">{{structureDto.telephone}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <!-- <div class="contact-add-item rounded bg-light p-4">
+                                        <div class="contact-icon text-primary mb-4">
+                                            <i class="fab fa-firefox-browser fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h4>Yoursite@ex.com</h4>
+                                            <p class="mb-0">(+012) 3456 7890</p>
+                                        </div>
+                                    </div> -->
+                                </div>
                                 <div class="col-12">
-                                    <div class="form-group">
-                                        <textarea ng-model="contactDto.message" class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrez votre message'" placeholder="Entrez votre message"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input ng-model="contactDto.username"  class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrez votre nom'" placeholder="Entrez votre nom">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input ng-model="contactDto.useremail"  class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrez l\'adresse email'" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <input ng-model="contactDto.subject"  class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Entrez l\'objet'" placeholder="Entrez l'objet">
+                                    <div class="d-flex justify-content-around bg-light rounded p-4">
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" ng-href="structureDto."><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" href="#"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mt-3">
-                                <button type="submit" ng-click="contact()" class="button button-contactForm boxed-btn">Envoyer</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                    <div class="col-lg-3 offset-lg-1">
-                        <div class="media contact-info">
-                            <span class="contact-info__icon"><i class="ti-location-pin"></i></span>
-                            <a ng-href="https://www.google.com/maps?q={{structureDto.gps}}" target="_blank">
-                                <div class="media-body">
-                                    <h3>{{structureDto.ville}} - {{structureDto.pays}}</h3>
-                                    <p>{{structureDto.localisation}}</p>
+                    <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="bg-light p-5 rounded h-100">
+                            <h4 class="text-primary mb-4">Envoyez votre message</h4>
+                            <form>
+                                <div class="row g-4">
+                                    <div class="col-lg-12 col-xl-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control border-0" id="name" placeholder="Votre nom">
+                                            <label for="name">Votre nom</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-6">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control border-0" id="email" placeholder="Votre email">
+                                            <label for="email">Votre email</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-6">
+                                        <div class="form-floating">
+                                            <input type="phone" class="form-control border-0" id="phone" placeholder="Téléphone">
+                                            <label for="phone">Votre téléphone</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-xl-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control border-0" id="project" placeholder="Projet">
+                                            <label for="project">Votre projet</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control border-0" id="subject" placeholder="Sujet">
+                                            <label for="subject">Sujet</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control border-0" placeholder="Laissez un message ici" id="message" style="height: 160px"></textarea>
+                                            <label for="message">Message</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3">Envoyer le message</button>
+                                    </div>
                                 </div>
-                            </a>
-                            
+                            </form>
                         </div>
-                        <div class="media contact-info">
-                            <span class="contact-info__icon"><i class="ti-tablet"></i></span>
-                            <div class="media-body">
-                                <h3>{{structureDto.telephone}}</h3>
-                                <p>Du lun au vend de 9h à 18h</p>
-                            </div>
-                        </div>
-                        <div class="media contact-info">
-                            <span class="contact-info__icon"><i class="ti-email"></i></span>
-                            <div class="media-body">
-                                <h3>{{structureDto.email}}</h3>
-                                <p>Envoyez-nous votre demande!</p>
-                            </div>
+                    </div>
+                    <div class="col-12 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="rounded">
+                            <iframe class="rounded w-100" 
+                            style="height: 400px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387191.33750346623!2d-73.97968099999999!3d40.6974881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1694259649153!5m2!1sen!2sbd" 
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
-                
             </div>
-        </section>
+            
+        </div>
+        <!-- Contact End -->
     </main>
 
 </body>

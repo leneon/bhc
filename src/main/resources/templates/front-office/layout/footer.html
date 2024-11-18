@@ -1,104 +1,90 @@
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
-    <footer ng-controller="unAuthController">
-        <!-- Footer Start-->
-        <div class="footer-area footer-padding fix">
-             <div class="container">
-                 <div class="row d-flex justify-content-between">
-                     <div class="col-xl-5 col-lg-5 col-md-7 col-sm-12">
-                         <div class="single-footer-caption">
-                             <div class="single-footer-caption">
-                                 <!-- logo -->
-                                 <div class="footer-logo">
-                                    <a href="/">
-                                        <img class=" rounded" ng-src="/{{ structureDto.logo ? structureDto.logo : 'assets/img/logo/logo.png' }}" 
-                                             alt="Description of the image" 
-                                             width="235" 
-                                             height="79">
-                                    </a>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!--begin::Footer-->
+    <footer  th:fragment="footer" ng-controller="unAuthController">
+      <!-- Footer Start -->
+      <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-6 col-xl-4">
+                    <div class="footer-item">
+                        <a href="/" class="p-0">
+                            <h4 class="text-white mb-4"><i class="fas fa-swimmer text-primary me-3"></i><span th:text="${appName}"></span></h4>
+                            <!-- <img src="img/logo.png" alt="Logo"> -->
+                        </a>
+                        <p class="mb-2" ng-bind-html="structureDto.bio"></p>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                            <p class="text-white mb-0" >{{structureDto.localisation}}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope text-primary me-3"></i>
+                            <p class="text-white mb-0">{{structureDto.email}}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-phone-alt text-primary me-3"></i>
+                            <p class="text-white mb-0">{{structureDto.telephone}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-3">
+                    <div class="footer-item">
+                        <h4 class="text-white mb-4">Liens rapides</h4>
+                        <a th:href="@{qui-sommes-nous}"><i class="fas fa-angle-right me-2"></i> Qui sommes-nous</a>
+                        <a th:href="@{services}"><i class="fas fa-angle-right me-2"></i> Services</a>
+                        <a th:href="@{blog}"><i class="fas fa-angle-right me-2"></i> Blog</a>
+                        <a th:href="@{contat}"><i class="fas fa-angle-right me-2"></i> Contact</a>
+                        <a th:href="@{login}"><i class="fas fa-angle-right me-2"></i> Connexion</a>
+                    </div>
+                </div>
+               
+                <div class="col-md-6 col-lg-6 col-xl-5">
+                    <div class="footer-item">
+                        <h4 class="text-white mb-4">Heures d’ouverture</h4>
+                        <div class="opening-date mb-3 pb-3">
+                            <div class="opening-clock flex-shrink-0">
+                                <h6 class="text-white mb-0 me-auto">Lundi - Vendredi :</h6>
+                                <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i> 11:00 AM - 16:00 PM</p>
+                            </div>
+                            <div class="opening-clock flex-shrink-0">
+                                <h6 class="text-white mb-0 me-auto">Samedi - Dimanche:</h6>
+                                <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i> 09:00 AM - 17:00 PM</p>
+                            </div>
+                            <!-- <div class="opening-clock flex-shrink-0">
+                                <h6 class="text-white mb-0 me-auto">Vacances:</h6>
+                                <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i> 09:00 AM - 17:00 PM</p>
+                            </div> -->
+                        </div>
+                        <div>
+                            <!-- <p class="text-white mb-2">Paiement accepté</p>
+                            <img src="/img/payment.png" class="img-fluid" alt="Image"> -->
+                            <div class="ftco-footer-widget ">
+                                <h5 class="ftco-heading-2 text-light">Abonnez-nous !</h5>
+                              <form action="#" class="subscribe-form">
+                                <div class="form-group">
+                                  <input type="email" ng-model="newsletterDto.useremail" class="form-control mb-2 text-center" placeholder="Entrer l'adresse email">
+                                  <input type="button" ng-click="newsletter()" value="S'inscrire" class="form-control submit px-3">
                                 </div>
-                                
-                                 <div class="footer-tittle">
-                                     <div class="footer-pera" >
-                                        <p ng-bind-html="structureDto.bio" ></p>
-                                     </div>
-                                 </div>
-                                 <!-- social -->
-                                 <div class="footer-social">
-                                     <a ng-href="{{structureDto.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
-                                     <a ng-href="{{structureDto.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
-                                     <a ng-href="{{structureDto.youtube}}" target="_blank"><i class="fab fa-youtube"></i></a>
-                                     <a ng-href="{{structureDto.facebook}}" target="_blank"><i class="fab fa-facebook"></i></a>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col-xl-3 col-lg-3 col-md-4  col-sm-6">
-                         <div class="single-footer-caption mt-60">
-                             <div class="footer-tittle">
-                                 <h4>Newsletter</h4>
-                                 <p>Le paradis fructueux ne semble pas rampant pendant les jours</p>                                 <!-- Form -->
-                                 <div class="footer-form" >
-                                     <div id="mc_embed_signup">
-                                         <form  >
-                                             <input type="email" ng-model="newsletterDto.useremail" name="email" id="newsletter-form-email" placeholder="Adresse Mail"
-                                             class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                             onblur="this.placeholder = ' Email Address '">
-                                             <div class="form-icon">
-                                             <button type="button" name="submit" ng-click="newsletter()" id="newsletter-submit"
-                                             class="email_icon "><img src="/assets/img/logo/form-iocn.png" alt=""></button>
-                                             </div>
-                                             <div class="mt-10 info"></div>
-                                         </form>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
-                         <div class="single-footer-caption mb-50 mt-60">
-                             <!-- <div class="footer-tittle">
-                                 <h4>Images</h4>
-                             </div>
-                             <div class="instagram-gellay">
-                                 <ul class="insta-feed">
-                                     <li><a href="#"><img src="/assets/img/post/instra1.jpg" alt=""></a></li>
-                                     <li><a href="#"><img src="/assets/img/post/instra2.jpg" alt=""></a></li>
-                                     <li><a href="#"><img src="/assets/img/post/instra3.jpg" alt=""></a></li>
-                                     <li><a href="#"><img src="/assets/img/post/instra4.jpg" alt=""></a></li>
-                                     <li><a href="#"><img src="/assets/img/post/instra5.jpg" alt=""></a></li>
-                                     <li><a href="#"><img src="/assets/img/post/instra6.jpg" alt=""></a></li>
-                                 </ul>
-                             </div> -->
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-        <!-- footer-bottom aera -->
-        <div class="footer-bottom-area">
-            <div class="container">
-                <div class="footer-border">
-                     <div class="row d-flex align-items-center justify-content-between">
-                         <div class="col-lg-6">
-                             <div class="footer-copy-right">
-                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tous droits réservés, <i class="ti-heart" aria-hidden="true"></i>  <a href="#" target="_blank">BHC</a>
-                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                             </div>
-                         </div>
-                         <div class="col-lg-6">
-                             <div class="footer-menu f-right">
-                                 <ul>                             
-                                     <li><a th:href="@{#}">Politique de confidentialité </a></li>
-                                     <li><a target="_blank" href="/login">Connexion</a></li>
-                                     <li><a href="/contact">Contact</a></li>
-                                 </ul>
-                             </div>
-                         </div>
-                     </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- Footer End-->
-    </footer>
+    </div>
+    <!-- Footer End -->
+    
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-md-0">
+                    <span class="text-body"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>bhc.com</a>,  Tous droits réservés.</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+</footer>
 </html>

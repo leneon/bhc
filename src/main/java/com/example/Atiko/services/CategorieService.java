@@ -41,7 +41,10 @@ public class CategorieService {
     }
 
     public CategorieDto createCategorie(CategorieDto categorieDto) {
-        Categorie categorie = convertToEntity(categorieDto);
+        Categorie categorie = new Categorie();
+        categorie.setId(categorieDto.getId());
+        categorie.setNom(categorieDto.getNom());
+        categorie.setStatut(true);        
         Categorie savedCategorie = categorieRepository.save(categorie);
         return convertToDto(savedCategorie);
     }

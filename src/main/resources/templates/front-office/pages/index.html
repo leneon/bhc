@@ -1,352 +1,555 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" mlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{front-office/layout/auth.html}"lang="en" >
+<html  ng-app="myApp" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front-office/layout/auth.html}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${appName} + ' - ' + ${title}">Site</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/carousel/">
-</head>
-<body>
-    
-    <main layout:fragment="content" ng-controller="unAuthController">
-    <!-- Trending Area Start -->
-    <div class="trending-area fix">
-        <div class="container">
-            <div class="trending-main">
-                <!-- Trending Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="trending-tittle">
-                            <strong>Trending now</strong>
-                            <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
-                            <div class="trending-animated">
-                                <ul id="js-news" class="js-hidden">
-                                    <li class="news-item">Bangladesh dolor sit amet, consectetur adipisicing elit.</li>
-                                    <li class="news-item">Spondon IT sit amet, consectetur.......</li>
-                                    <li class="news-item">Rem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-                                </ul>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <!-- Trending Top -->
-                        <div class="trending-top mb-30">
-                            <div class="trend-top-img">
-                                <img src="/{{firstArticle.couverture}}" alt="" >
-                                <div class="trend-top-cap">
-                                    <span>{{firstArticle.categorie.nom}}</span>
-                                    <h2><a ng-href="details-article/{{firstArticle.id}}" >{{firstArticle.titre}}</a></h2>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Trending Bottom -->
-                        <div class="trending-bottom">
-                            <div class="row">
-                                <div class="col-lg-4" ng-repeat="article in firstArticles">
-                                    <div class="single-bottom mb-35">
-                                        <div class="trend-bottom-img mb-30">
-                                            <img src="/{{article.couverture}}" alt="" width="240" height="160">
-                                        </div>
-                                        <div class="trend-bottom-cap">
-                                            <span class="color1">{{article.categorie.nom}}</span>
-                                            <h4><a ng-href="details-article/{{article.id}}" >{{article.titre}}</a></h4>
-                                        </div>
+    <meta charset="UTF-8"/>
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <body>
+
+     <main layout:fragment="content" ng-controller="unAuthController">
+        <!-- Carousel Start -->
+        <div class="header-carousel owl-carousel">
+            <div class="header-carousel-item">
+                <img src="/img/carousel-1.jpg" class="img-fluid w-100" alt="Image">
+                <div class="carousel-caption">
+                    <div class="container align-items-center py-4">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-xl-7 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
+                                <div class="text-start">
+                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To WaterLand</h4>
+                                    <h1 class="display-4 text-uppercase text-white mb-4">The Biggest Theme & Amusement Park</h1>
+                                    <p class="mb-4 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
+                                    </p>
+                                    <div class="d-flex flex-shrink-0">
+                                        <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="#">Our Packages</a>
                                     </div>
                                 </div>
-                               
                             </div>
-                        </div>
-                    </div>
-                    <!-- Riht content -->
-                    <div class="col-lg-4">
-                        <div class="trand-right-single d-flex" ng-repeat="article in lastArticles">
-                            <div class="trand-right-img">
-                                <img src="/{{article.couverture}}" alt="" width="120" height="100">
-                            </div>  
-                            <div class="trand-right-cap">
-                                <span class="color1">{{article.categorie.nom}}</span>
-                                <h4><a ng-href="details-article/{{article.id}}" >{{article.titre}}</a></h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Trending Area End -->
-    <!--   Weekly-News start -->
-          <!-- Kamal -->
-    <!-- End Weekly-News -->
-   <!-- Quoi de neuf Start -->
-    <section class="whats-news-area pt-50 pb-20">
-        <div class="container">
-            <div class="row">
-            <div class="col-lg-8">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-lg-3 col-md-3">
-                        <div class="section-tittle mb-30">
-                            <h3>Quoi de neuf</h3>
-                        </div>
-                    </div>
-                    <div class="col-lg-9 col-md-9">
-                        <div class="properties__button">
-                            <!--Nav Button  -->                                            
-                            <nav>                                                                     
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link" id="nav-home-tab" ng-click="filterByCategory()" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Toutes</a>
-                                    <a ng-repeat="cat in listeCategories" class="nav-item nav-link" 
-                                    id="nav-profile-tab" data-toggle="tab" 
-                                    href="#nav-profile" role="tab" 
-                                    aria-controls="nav-profile" 
-                                    ng-click="filterByCategory(cat.nom); selectedCategory = cat.nom" 
-                                    aria-selected="false">{{cat.nom}}
-                                </a>
-                                <!-- ng-class="{'active': selectedCategory === cat.nom}"  -->
-                                <!-- <a  ng-repeat="cat in listeCategories" class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{cat.nom}}</a> -->
-                                   
-                                </div>
-                            </nav>
-                            <!--End Nav Button  -->
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Nav Card -->
-                        <div class="tab-content" id="nav-tabContent">
-                            <!-- card one -->
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">           
-                                <div class="whats-news-caption">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6" ng-repeat="article in listeArticlesFilter">
-                                            <div class="single-what-news mb-100">
-                                                <div class="what-img">
-                                                    <img ng-src="/{{article.couverture}}" alt="">
-                                                </div>
-                                                <div class="what-cap">
-                                                    <span class="color1">{{article.categorie.nom}}</span>
-                                                    <h4><a href="#">{{article.titre}}</a></h4>
-                                                </div>
+                            <div class="col-xl-5 fadeInRight animated" data-animation="fadeInRight" data-delay="1s" style="animation-delay: 1s;">
+                                <div class="ticket-form p-5">
+                                    <h2 class="text-dark text-uppercase mb-4">book your ticket</h2>
+                                    <form>
+                                        <div class="row g-4">
+                                            <div class="col-12">
+                                                <input type="text" class="form-control border-0 py-2" id="name" placeholder="Your Name">
+                                            </div>
+                                            <div class="col-12 col-xl-6">
+                                                <input type="email" class="form-control border-0 py-2" id="email" placeholder="Your Email">
+                                            </div>
+                                            <div class="col-12 col-xl-6">
+                                                <input type="phone" class="form-control border-0 py-2" id="phone" placeholder="Phone">
+                                            </div>
+                                            <div class="col-12">
+                                                <select class="form-select border-0 py-2" aria-label="Default select example">
+                                                    <option selected>Select Packages</option>
+                                                    <option value="1">Family Packages</option>
+                                                    <option value="2">Basic Packages</option>
+                                                    <option value="3">Premium Packages</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12">
+                                                <input class="form-control border-0 py-2" type="date">
+                                            </div>
+                                            <div class="col-12">
+                                                <input type="number" class="form-control border-0 py-2" id="number" placeholder="Guest">
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="button" class="btn btn-primary w-100 py-2 px-5">Book Now</button>
                                             </div>
                                         </div>
-                                       
+                                    </form>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-carousel-item">
+                <img src="/img/carousel-2.jpg" class="img-fluid w-100" alt="Image">
+                <div class="carousel-caption">
+                    <div class="container py-4">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-xl-7 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
+                                <div class="text-start">
+                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To WaterLand</h4>
+                                    <h1 class="display-4 text-uppercase text-white mb-4">The Greatest Water and Amusement Park</h1>
+                                    <p class="mb-4 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
+                                    </p>
+                                    <div class="d-flex flex-shrink-0">
+                                        <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="#">Our Packages</a>
                                     </div>
                                 </div>
                             </div>
-                           
-                        </div>
-                    <!-- End Nav Card -->
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <!-- Section Tittle -->
-                <div class="section-tittle mb-40">
-                    <h3>Suivez-nous</h3>
-                </div>
-                <!-- Flow Socail -->
-                <div class="single-follow mb-45">
-                    <div class="single-box">
-                        <div class="follow-us d-flex align-items-center">
-                            <div class="follow-social">
-                                <a ng-href="{{structureDto.facebook}}" target="_blank"><img src="/assets/img/news/icon-fb.png" alt=""></a>
-                            </div>
-                            <div class="follow-count">  
-                                <span>8,045</span>
-                                <p>Fans</p>
-                            </div>
-                        </div> 
-                        <div class="follow-us d-flex align-items-center">
-                            <div class="follow-social">
-                                <a ng-href="{{structureDto.twitter}}" target="_blank"><img src="/assets/img/news/icon-tw.png" alt=""></a>
-                            </div>
-                            <div class="follow-count">
-                                <span>8,045</span>
-                                <p>Fans</p>
-                            </div>
-                        </div>
-                            <div class="follow-us d-flex align-items-center">
-                            <div class="follow-social">
-                                <a  ng-href="{{structureDto.instagram}}"><img src="/assets/img/news/icon-ins.png" alt=""></a>
-                            </div>
-                            <div class="follow-count">
-                                <span>8,045</span>
-                                <p>Fans</p>
-                            </div>
-                        </div>
-                        <div class="follow-us d-flex align-items-center">
-                            <div class="follow-social">
-                                <a  ng-href="{{structureDto.youtube}}"><img src="/assets/img/news/icon-yo.png" alt=""></a>
-                            </div>
-                            <div class="follow-count">
-                                <span>8,045</span>
-                                <p>Fans</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- New Poster -->
-                <div class="news-poster d-none d-lg-block">
-                    <img src="{{structureDto.img2}}" alt="">
-                </div>
-            </div>
-            </div>
-        </div>
-    </section>
-    <!-- Quoi de neuf End -->
-    <!--   Weekly2-News start -->
-    <div class="weekly2-news-area  weekly2-pading gray-bg">
-        <div class="container">
-            <div class="weekly2-wrapper">
-                <!-- section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle mb-30">
-                            <h3>Voir aussi</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="weekly2-news-active dot-style d-flex dot-style">
-                            <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    <img src="/assets/img/news/weekly2News1.jpg" alt="">
-                                </div>
-                                <div class="weekly2-caption">
-                                    <span class="color1">Corporate</span>
-                                    <p>25 Jan 2020</p>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div> 
-                            <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    <img src="/assets/img/news/weekly2News2.jpg" alt="">
-                                </div>
-                                <div class="weekly2-caption">
-                                    <span class="color1">Event night</span>
-                                    <p>25 Jan 2020</p>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div> 
-                            <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    <img src="/assets/img/news/weekly2News3.jpg" alt="">
-                                </div>
-                                <div class="weekly2-caption">
-                                    <span class="color1">Corporate</span>
-                                    <p>25 Jan 2020</p>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
-                             <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    <img src="/assets/img/news/weekly2News4.jpg" alt="">
-                                </div>
-                                <div class="weekly2-caption">
-                                    <span class="color1">Event time</span>
-                                    <p>25 Jan 2020</p>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div> 
-                             <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    <img src="/assets/img/news/weekly2News4.jpg" alt="">
-                                </div>
-                                <div class="weekly2-caption">
-                                    <span class="color1">Corporate</span>
-                                    <p>25 Jan 2020</p>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div> 
+                            <div th:replace="~{front-office/pages/_demande :: _demande}"></div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>           
-   
-    <div class="recent-articles">
-        <div class="container">
-           <div class="recent-wrapper">
-                <!-- section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle mb-30">
-                            <h3>Recent Articles</h3>
+        <!-- Carousel End -->
+
+
+        <!-- Feature Start -->
+        <div class="container-fluid feature py-5">
+            <div class="container py-5">
+                <div class="row g-4">
+                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="feature-item">
+                            <img src="/img/feature-1.jpg" class="img-fluid rounded w-100" alt="Image">
+                            <div class="feature-content p-4">
+                                <div class="feature-content-inner">
+                                    <h4 class="text-white">Best Pools</h4>
+                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis porro soluta voluptatum laborum mollitia blanditiis suscipit,
+                                    </p>
+                                    <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fa fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="recent-active dot-style d-flex dot-style">
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="/assets/img/news/recent1.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
+                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="feature-item">
+                            <img src="/img/feature-2.jpg" class="img-fluid rounded w-100" alt="Image">
+                            <div class="feature-content p-4">
+                                <div class="feature-content-inner">
+                                    <h4 class="text-white">Waterslides</h4>
+                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis porro soluta voluptatum laborum mollitia blanditiis suscipit,
+                                    </p>
+                                    <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fa fa-arrow-right ms-1"></i></a>
                                 </div>
                             </div>
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="/assets/img/news/recent2.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="/assets/img/news/recent3.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
-                            <div class="single-recent mb-100">
-                                <div class="what-img">
-                                    <img src="/assets/img/news/recent2.jpg" alt="">
-                                </div>
-                                <div class="what-cap">
-                                    <span class="color1">Night party</span>
-                                    <h4><a href="#">Welcome To The Best Model  Winner Contest</a></h4>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                </div>
-           </div>
-        </div>
-    </div>           
-    <!--Recent Articles End -->
-    <!--Start pagination -->
-    <div class="pagination-area pb-45 text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="single-wrap d-flex justify-content-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-start">
-                              <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow roted"></span></a></li>
-                                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                              <li class="page-item"><a class="page-link" href="#"><span class="flaticon-arrow right-arrow"></span></a></li>
-                            </ul>
-                          </nav>
+                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="feature-item">
+                            <img src="/img/feature-3.jpg" class="img-fluid rounded w-100" alt="Image">
+                            <div class="feature-content p-4">
+                                <div class="feature-content-inner">
+                                    <h4 class="text-white">River Rides</h4>
+                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis porro soluta voluptatum laborum mollitia blanditiis suscipit,
+                                    </p>
+                                    <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fa fa-arrow-right ms-1"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End pagination  -->
+        <!-- Feature End -->
+        <div th:replace="~{front-office/pages/_about :: _about}"></div>
+
+
+
+        <!-- Service Start -->
+        <div class="container-fluid service py-5">
+            <div class="container service-section py-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Our Service</h4>
+                    <h1 class="display-5 text-white mb-4">Explore Waterland Park service</h1>
+                    <p class="mb-0 text-white">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    </p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-0 col-md-1 col-lg-2 col-xl-2"></div>
+                    <div class="col-md-10 col-lg-8 col-xl-8 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="service-days p-4">
+                            <div class="py-2 border-bottom border-top d-flex align-items-center justify-content-between flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Monday - Friday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>11:00 AM - 16:00 PM</p></div>
+                            <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Saturday - Sunday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 AM - 17:00 PM</p></div>
+                            <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0">Holiday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 AM - 17:00 PM</p></div>
+                        </div>
+                    </div>
+                    <div class="col-0 col-md-1 col-lg-2 col-xl-2"></div>
+
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="service-item p-4">
+                            <div class="service-content">
+                                <div class="mb-4">
+                                    <i class="fas fa-home fa-4x"></i>
+                                </div>
+                                <a href="#" class="h4 d-inline-block mb-3">Private Gazebo</a>
+                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="service-item p-4">
+                            <div class="service-content">
+                                <div class="mb-4">
+                                    <i class="fas fa-utensils fa-4x"></i>
+                                </div>
+                                <a href="#" class="h4 d-inline-block mb-3">Delicious Food</a>
+                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="service-item p-4">
+                            <div class="service-content">
+                                <div class="mb-4">
+                                    <i class="fas fa-door-closed fa-4x"></i>
+                                </div>
+                                <a href="#" class="h4 d-inline-block mb-3">Safety Lockers</a>
+                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
+                        <div class="service-item p-4">
+                            <div class="service-content">
+                                <div class="mb-4">
+                                    <i class="fas fa-swimming-pool fa-4x"></i>
+                                </div>
+                                <a href="#" class="h4 d-inline-block mb-3">River Rides</a>
+                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
+
+
+
+        <!-- Attractions Start -->
+        <div class="container-fluid attractions py-5">
+            <div class="container attractions-section py-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Attractions</h4>
+                    <h1 class="display-5 text-white mb-4">Explore WaterLand Park Attractions</h1>
+                    <p class="text-white mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    </p>
+                </div>
+                <div class="owl-carousel attractions-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="attractions-item wow fadeInUp" data-wow-delay="0.2s">
+                        <img src="/img/attraction-1.jpg" class="img-fluid rounded w-100" alt="">
+                        <a href="#" class="attractions-name">Roller Coaster</a>
+                    </div>
+                    <div class="attractions-item wow fadeInUp" data-wow-delay="0.4s">
+                        <img src="/img/attraction-2.jpg" class="img-fluid rounded w-100" alt="">
+                        <a href="#" class="attractions-name">Carousel</a>
+                    </div>
+                    <div class="attractions-item wow fadeInUp" data-wow-delay="0.6s">
+                        <img src="/img/attraction-3.jpg" class="img-fluid rounded w-100" alt="">
+                        <a href="#" class="attractions-name">Arcade Game</a>
+                    </div>
+                    <div class="attractions-item wow fadeInUp" data-wow-delay="0.8s">
+                        <img src="/img/attraction-4.jpg" class="img-fluid rounded w-100" alt="">
+                        <a href="#" class="attractions-name">Hanging Carousel</a>
+                    </div>
+                    <div class="attractions-item wow fadeInUp" data-wow-delay="1s">
+                        <img src="/img/attraction-2.jpg" class="img-fluid rounded w-100" alt="">
+                        <a href="#" class="attractions-name">Carousel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Attractions End -->
+
+        <!-- Gallery Start -->
+        <div class="container-fluid gallery pb-5">
+            <div class="container pb-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Our Gallery</h4>
+                    <h1 class="display-5 mb-4">Captured Moments In Waterland</h1>
+                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    </p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="gallery-item">
+                            <img src="/img/gallery-1.jpg" class="img-fluid rounded w-100 h-100" alt="">
+                            <div class="search-icon">
+                                <a href="img/gallery-1.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-1"><i class="fas fa-search-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="gallery-item">
+                            <img src="/img/gallery-2.jpg" class="img-fluid rounded w-100 h-100" alt="">
+                            <div class="search-icon">
+                                <a href="img/gallery-2.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-2"><i class="fas fa-search-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="gallery-item">
+                            <img src="/img/gallery-3.jpg" class="img-fluid rounded w-100 h-100" alt="">
+                            <div class="search-icon">
+                                <a href="img/gallery-3.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-3"><i class="fas fa-search-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="gallery-item">
+                            <img src="/img/gallery-4.jpg" class="img-fluid rounded w-100 h-100" alt="">
+                            <div class="search-icon">
+                                <a href="img/gallery-4.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-4"><i class="fas fa-search-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="gallery-item">
+                            <img src="/img/gallery-5.jpg" class="img-fluid rounded w-100 h-100" alt="">
+                            <div class="search-icon">
+                                <a href="img/gallery-5.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-5"><i class="fas fa-search-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="gallery-item">
+                            <img src="/img/gallery-6.jpg" class="img-fluid rounded w-100 h-100" alt="">
+                            <div class="search-icon">
+                                <a href="img/gallery-6.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-6"><i class="fas fa-search-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gallery End -->
+
+
+        <!-- Blog Start -->
+        <div class="container-fluid blog pb-5">
+            <div class="container pb-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Our Blog</h4>
+                    <h1 class="display-5 mb-4">Latest Blog & Articles</h1>
+                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    </p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="/img/blog-2.jpg" class="img-fluid w-100 rounded-top" alt="Image">
+                                </a>
+                                <div class="blog-category py-2 px-4">Vacation</div>
+                                <div class="blog-date"><i class="fas fa-clock me-2"></i>August 19, 2025</div>
+                            </div>
+                            <div class="blog-content p-4">
+                                <a href="#" class="h4 d-inline-block mb-4">Why Children Dont Like Getting Out Of The Water</a>
+                                <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam aspernatur nam quidem porro sapiente, neque a quibusdam....
+                                </p>
+                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fas fa-arrow-right ms-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="/img/blog-3.jpg" class="img-fluid w-100 rounded-top" alt="Image">
+                                </a>
+                                <div class="blog-category py-2 px-4">Insight</div>
+                                <div class="blog-date"><i class="fas fa-clock me-2"></i>August 19, 2025</div>
+                            </div>
+                            <div class="blog-content p-4">
+                                <a href="#" class="h4 d-inline-block mb-4">5 Ways To Enjoy Waterland This Spring Break</a>
+                                <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam aspernatur nam quidem porro sapiente, neque a quibusdam....
+                                </p>
+                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fas fa-arrow-right ms-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <a href="#">
+                                    <img src="/img/blog-1.jpg" class="img-fluid w-100 rounded-top" alt="Image">
+                                </a>
+                                <div class="blog-category py-2 px-4">Insight</div>
+                                <div class="blog-date"><i class="fas fa-clock me-2"></i>August 19, 2025</div>
+                            </div>
+                            <div class="blog-content p-4">
+                                <a href="#" class="h4 d-inline-block mb-4">3 Tips for Your Family Spring Break at Amusement Park</a>
+                                <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam aspernatur nam quidem porro sapiente, neque a quibusdam....
+                                </p>
+                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fas fa-arrow-right ms-2"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Blog End -->
+
+
+        <!-- Team Start -->
+        <div class="container-fluid team pb-5">
+            <div class="container pb-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Meet Our Team</h4>
+                    <h1 class="display-5 mb-4">Our Waterland Park Dedicated Team Member</h1>
+                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    </p>
+                </div>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="team-item p-4">
+                            <div class="team-content">
+                                <div class="d-flex justify-content-between border-bottom pb-4">
+                                    <div class="text-start">
+                                        <h4 class="mb-0">David James</h4>
+                                        <p class="mb-0">Profession</p>
+                                    </div>
+                                    <div>
+                                        <img src="/img/team-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                    </div>
+                                </div>
+                                <div class="team-icon rounded-pill my-4 p-3">
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
+                                <p class="text-center mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, quibusdam eveniet itaque provident sequi deserunt.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="team-item p-4">
+                            <div class="team-content">
+                                <div class="d-flex justify-content-between border-bottom pb-4">
+                                    <div class="text-start">
+                                        <h4 class="mb-0">William John</h4>
+                                        <p class="mb-0">Profession</p>
+                                    </div>
+                                    <div>
+                                        <img src="/img/team-2.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                    </div>
+                                </div>
+                                <div class="team-icon rounded-pill my-4 p-3">
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
+                                <p class="text-center mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, quibusdam eveniet itaque provident sequi deserunt.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="team-item p-4">
+                            <div class="team-content">
+                                <div class="d-flex justify-content-between border-bottom pb-4">
+                                    <div class="text-start">
+                                        <h4 class="mb-0">Michael John</h4>
+                                        <p class="mb-0">Profession</p>
+                                    </div>
+                                    <div>
+                                        <img src="/img/team-3.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
+                                    </div>
+                                </div>
+                                <div class="team-icon rounded-pill my-4 p-3">
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
+                                <p class="text-center mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, quibusdam eveniet itaque provident sequi deserunt.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Team End -->
+
+
+        <!-- Testimonial Start -->
+        <div class="container-fluid testimonial py-5">
+            <div class="container py-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Testimonials</h4>
+                    <h1 class="display-5 text-white mb-4">Our Clients Riviews</h1>
+                    <p class="text-white mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    </p>
+                </div>
+                <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="testimonial-item p-4">
+                        <p class="text-white fs-4 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos mollitia fugiat, nihil autem reprehenderit aperiam maxime minima consequatur, nam iste eius velit perferendis voluptatem at atque neque soluta reiciendis doloremque.
+                        </p>
+                        <div class="testimonial-inner">
+                            <div class="testimonial-img">
+                                <img src="/img/testimonial-1.jpg" class="img-fluid" alt="Image">
+                                <div class="testimonial-quote btn-lg-square rounded-circle"><i class="fa fa-quote-right fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="ms-4">
+                                <h4>Person Name</h4>
+                                <p class="text-start text-white">Profession</p>
+                                <div class="d-flex text-primary">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4">
+                        <p class="text-white fs-4 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos mollitia fugiat, nihil autem reprehenderit aperiam maxime minima consequatur, nam iste eius velit perferendis voluptatem at atque neque soluta reiciendis doloremque.
+                        </p>
+                        <div class="testimonial-inner">
+                            <div class="testimonial-img">
+                                <img src="/img/testimonial-2.jpg" class="img-fluid" alt="Image">
+                                <div class="testimonial-quote btn-lg-square rounded-circle"><i class="fa fa-quote-right fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="ms-4">
+                                <h4>Person Name</h4>
+                                <p class="text-start text-white">Profession</p>
+                                <div class="d-flex text-primary">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4">
+                        <p class="text-white fs-4 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos mollitia fugiat, nihil autem reprehenderit aperiam maxime minima consequatur, nam iste eius velit perferendis voluptatem at atque neque soluta reiciendis doloremque.
+                        </p>
+                        <div class="testimonial-inner">
+                            <div class="testimonial-img">
+                                <img src="/img/testimonial-3.jpg" class="img-fluid" alt="Image">
+                                <div class="testimonial-quote btn-lg-square rounded-circle"><i class="fa fa-quote-right fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="ms-4">
+                                <h4>Person Name</h4>
+                                <p class="text-start text-white">Profession</p>
+                                <div class="d-flex text-primary">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial End -->
+
     </main>
 
 </body>

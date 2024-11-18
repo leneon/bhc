@@ -27,6 +27,7 @@ public class CommentaireService {
         commentaire.setContenue(commentaireDto.getContenue());
         commentaire.setUseremail(commentaireDto.getUseremail());
         commentaire.setUsername(commentaireDto.getUsername());
+        commentaire.setStatut(true);
         
         // Set the associated article
         Article article = articleRepository.findById(commentaireDto.getArticleId())

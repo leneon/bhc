@@ -54,7 +54,8 @@ public class ArticleDto {
     this.couverture = art.getCouverture();
     this.categorie = new CategorieDto(art.getCategorie());
     this.createdAt = art.getCreatedAt();
-    this.commentaires = art.getCommentaires().stream()
+    if(art.getCommentaires() != null)
+        this.commentaires = art.getCommentaires().stream()
                 .map(commentaire -> new CommentaireDto(commentaire))
                 .collect(Collectors.toList());
     }

@@ -19,10 +19,10 @@ public class UnAuthController {
         return ("front-office/pages/index");
     }
 
-    @GetMapping("/about")
+    @GetMapping("/qui-sommes-nous")
     public String abut(Model model) {
         model.addAttribute("appName", appName);
-        model.addAttribute("title", "A propos");
+        model.addAttribute("title", "Qui sommes-nous");
         return "front-office/pages/about";
     }
     @GetMapping("/contact")

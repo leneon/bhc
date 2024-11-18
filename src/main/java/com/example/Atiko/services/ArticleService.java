@@ -38,6 +38,7 @@ public class ArticleService {
         Article article = new Article();
         article.setTitre(articleDto.getTitre());
         article.setContenue(articleDto.getContenue());
+        article.setStatut(true);
 
         // Save image file if present
         if (imageFile != null && !imageFile.isEmpty()) {
