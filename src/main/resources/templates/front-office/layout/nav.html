@@ -1,48 +1,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
-    <!--begin::Footer-->
-    <nav  th:fragment="nav"> 
-               <!-- Navbar & Hero Start -->
-               <div class="container-fluid nav-bar sticky-top px-4 py-2 py-lg-0">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <a href="" class="navbar-brand p-0">
-                        <h1 class="display-6 text-dark"><i class="fas fa-swimmer text-primary me-3"></i><span th:text="${appName}">BHC</span></h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="fa fa-bars"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav mx-auto py-0">
-                            <a href="/" class="nav-item nav-link active">Accueil</a>
-                            <a th:href="@{qui-sommes-nous}" class="nav-item nav-link">A propos</a>
-                            <a th:href="@{services}" class="nav-item nav-link">Services</a>
-                            <a th:href="@{blog}" class="nav-item nav-link">Blog</a>
+    <div th:fragment="nav" ng-controller="unAuthController" class="container-fluid nav-bar sticky-top px-4 py-2 py-lg-0">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a href="/" class="navbar-brand p-0">
+                <h1 class="display-6 text-dark"><i class="fas fa-swimmer text-primary me-3" ng-if="!structureDto.logo"></i> <img ng-src="/{{structureDto.logo}}" alt="Logo" ng-if="structureDto.logo"><span th:text="${appName}">BHC</span></h1>
+                
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav mx-auto py-0">
+                    <a href="/" class="nav-item nav-link active">Accueil</a>
+                    <a th:href="@{qui-sommes-nous}" class="nav-item nav-link">A propos</a>
+                    <!-- <a th:href="@{services}" class="nav-item nav-link">Services</a> -->
+                    
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                        <div class="dropdown-menu m-0">
+                            <a ng-href="/services" class="dropdown-item">Services</a>
+                            <a ng-repeat="service in listeServices" ng-href="/services/{{service.id}}" class="dropdown-item">{{service.nom}}</a>
                             
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0">
-                                    <a href="feature.html" class="dropdown-item">Our Feature</a>
-                                    <a href="gallery.html" class="dropdown-item">Our Gallery</a>
-                                    <a href="attraction.html" class="dropdown-item">Attractions</a>
-                                    <a href="package.html" class="dropdown-item">Ticket Packages</a>
-                                    <a href="team.html" class="dropdown-item">Our Team</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
-                                </div>
-                            </div>
-                            <a th:href="@{contact}" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="team-icon d-none d-xl-flex justify-content-center me-3">
-                            <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                        <!-- <a href="#" class="btn btn-primary rounded-pill py-2 px-4 flex-shrink-0">Get Started</a> -->
                     </div>
-                </nav>
+                    <a th:href="@{blog}" class="nav-item nav-link">Blog</a>
+                    <a th:href="@{contact}" class="nav-item nav-link">Contact</a>
+                </div>
+                <div class="team-icon d-none d-xl-flex justify-content-center me-3">
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.facebook}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.youtube}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <a href="#" class="btn btn-primary rounded-pill py-2 px-4 flex-shrink-0">Consulting</a>
             </div>
-            <!-- Navbar & Hero End --> 
-    </nav>
-
+        </nav>
+    </div>
 </html>

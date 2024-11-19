@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Atiko.dtos.ArticleDto;
 import com.example.Atiko.dtos.CategorieDto;
 import com.example.Atiko.dtos.CommentaireDto;
+import com.example.Atiko.dtos.ContactDTO;
 import com.example.Atiko.dtos.EspaceDto;
 import com.example.Atiko.dtos.NewsletterDto;
 import com.example.Atiko.dtos.ServiceDto;
 import com.example.Atiko.dtos.StructureDto;
+import com.example.Atiko.entities.Contact;
 import com.example.Atiko.entities.Espace;
 import com.example.Atiko.services.ArticleService;
 import com.example.Atiko.services.CategorieService;
 import com.example.Atiko.services.CommentaireService;
+import com.example.Atiko.services.ContactService;
 import com.example.Atiko.services.EspaceService;
 import com.example.Atiko.services.NewsletterService;
 import com.example.Atiko.services.ServiceService;
@@ -47,6 +50,9 @@ public class UnAuthResource {
     private EspaceService espaceService;
     @Autowired
     private ServiceService serviceService;
+    @Autowired
+    private ContactService contactService;
+
 
 
     @GetMapping("/structure")
@@ -96,6 +102,12 @@ public class UnAuthResource {
         return ResponseEntity.ok(newsletterService.createNewsletter(dto));  // 200 OK avec la première structure
     }
 
+    
+    @PostMapping("/contact")
+    public ResponseEntity<Contact> contact(@RequestBody ContactDTO dto) {
+        return ResponseEntity.ok(contactService.createContact(dto));  // 200 OK avec la première structure
+    }
+ 
     @PostMapping("/commentaire")
     public ResponseEntity<CommentaireDto> postComment(@RequestBody CommentaireDto dto) {
         CommentaireDto comment = commentaireService.saveCommentaire(dto);
@@ -110,6 +122,10 @@ public class UnAuthResource {
         List<ServiceDto> services = serviceService.getAllservices();
         return ResponseEntity.ok(services);
     }
+    // @GetMapping("/categories")
+    // public ResponseEntity<List<CategorieDto>> getAllCtategories() {
+    //     return ResponseEntity.ok(categorieService.getAllCategories());
+    // }
     @GetMapping("/espaces")
     public ResponseEntity<List<EspaceDto>> getAllEspaces() {
         List<EspaceDto> espaces =  espaceService.findAll().stream()

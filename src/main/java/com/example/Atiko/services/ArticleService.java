@@ -102,7 +102,7 @@ public class ArticleService {
             Article article = optionalArticle.get();
             article.setTitre(articleDto.getTitre());
             article.setContenue(articleDto.getContenue());
-            article.setStatut(articleDto.getStatut());
+            //article.setStatut(articleDto.getStatut());
             // Save image file if present
             if (imageFile != null && !imageFile.isEmpty() && imageFile instanceof MultipartFile ) {
                 article.setCouverture(fileStorageService.storeFile(imageFile)); // Set image file path to `couverture`

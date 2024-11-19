@@ -3,6 +3,25 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <style>
+        .truncate-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Nombre de lignes à afficher */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .blog-date {
+            font-size: 14px;
+            color: #6c757d; /* Couleur de texte par défaut */
+        }
+        .blog-date i {
+            font-size: 16px;
+        }
+        .blog-date span {
+            margin-left: 4px;
+        }
+    </style>
     <body>
 
      <main layout:fragment="content" ng-controller="unAuthController">
@@ -13,52 +32,19 @@
                 <div class="carousel-caption">
                     <div class="container align-items-center py-4">
                         <div class="row g-5 align-items-center">
-                            <div class="col-xl-7 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
+                            <div class="col-xl-7 fadeInLeft animated" data-animation="fadeInLeft" data-delay="3s" style="animation-delay: 1s;">
                                 <div class="text-start">
-                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To WaterLand</h4>
-                                    <h1 class="display-4 text-uppercase text-white mb-4">The Biggest Theme & Amusement Park</h1>
-                                    <p class="mb-4 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
+                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Bienvenue à <span th:text="${appName}"></span></h4>
+                                    <h1 class="display-4 text-uppercase text-white mb-4"> {{listeServices[0].nom}} </h1>
+                                    <p class="mb-4 fs-5">
+                                        {{listeServices[1].description}}
                                     </p>
                                     <div class="d-flex flex-shrink-0">
                                         <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="#">Our Packages</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-5 fadeInRight animated" data-animation="fadeInRight" data-delay="1s" style="animation-delay: 1s;">
-                                <div class="ticket-form p-5">
-                                    <h2 class="text-dark text-uppercase mb-4">book your ticket</h2>
-                                    <form>
-                                        <div class="row g-4">
-                                            <div class="col-12">
-                                                <input type="text" class="form-control border-0 py-2" id="name" placeholder="Your Name">
-                                            </div>
-                                            <div class="col-12 col-xl-6">
-                                                <input type="email" class="form-control border-0 py-2" id="email" placeholder="Your Email">
-                                            </div>
-                                            <div class="col-12 col-xl-6">
-                                                <input type="phone" class="form-control border-0 py-2" id="phone" placeholder="Phone">
-                                            </div>
-                                            <div class="col-12">
-                                                <select class="form-select border-0 py-2" aria-label="Default select example">
-                                                    <option selected>Select Packages</option>
-                                                    <option value="1">Family Packages</option>
-                                                    <option value="2">Basic Packages</option>
-                                                    <option value="3">Premium Packages</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-12">
-                                                <input class="form-control border-0 py-2" type="date">
-                                            </div>
-                                            <div class="col-12">
-                                                <input type="number" class="form-control border-0 py-2" id="number" placeholder="Guest">
-                                            </div>
-                                            <div class="col-12">
-                                                <button type="button" class="btn btn-primary w-100 py-2 px-5">Book Now</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div> 
+                            <div th:replace="front-office/pages/_demande :: _demande"></div>
                         </div>
                     </div>
                 </div>
@@ -68,14 +54,15 @@
                 <div class="carousel-caption">
                     <div class="container py-4">
                         <div class="row g-5 align-items-center">
-                            <div class="col-xl-7 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
+                            <div class="col-xl-7 fadeInLeft animated" data-animation="fadeInLeft" data-delay="3s" style="animation-delay: 1s;">
                                 <div class="text-start">
-                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To WaterLand</h4>
-                                    <h1 class="display-4 text-uppercase text-white mb-4">The Greatest Water and Amusement Park</h1>
-                                    <p class="mb-4 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
+                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Bienvenue à <span th:text="${appName}"></span></h4>
+                                    <h1 class="display-4 text-uppercase text-white mb-4">{{listeServices[1].nom}}</h1>
+                                    <p class="mb-4 fs-5">
+                                        {{listeServices[1].description}} 
                                     </p>
                                     <div class="d-flex flex-shrink-0">
-                                        <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="#">Our Packages</a>
+                                        <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="#">Lire la suite</a>
                                     </div>
                                 </div>
                             </div>
@@ -147,70 +134,26 @@
         <div class="container-fluid service py-5">
             <div class="container service-section py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Our Service</h4>
-                    <h1 class="display-5 text-white mb-4">Explore Waterland Park service</h1>
-                    <p class="mb-0 text-white">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    <h4 class="text-primary">Nos Services</h4>
+                    <h1 class="display-5 text-white mb-4">Des Solutions Complètes pour Vos Projets</h1>
+                    <p class="mb-0 text-white">
+                        Nous offrons une gamme complète de services adaptés à vos besoins : location de salles pour réunions, formations, conférences et séminaires, accompagnement aux Entrepreneurs ainsi que des solutions sur mesure pour la gestion et l’organisation de vos événements professionnels. Faites confiance à notre expertise pour garantir la réussite de vos projets.
                     </p>
                 </div>
+                
+                
                 <div class="row g-4">
                     <div class="col-0 col-md-1 col-lg-2 col-xl-2"></div>
                     <div class="col-md-10 col-lg-8 col-xl-8 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="service-days p-4">
-                            <div class="py-2 border-bottom border-top d-flex align-items-center justify-content-between flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Monday - Friday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>11:00 AM - 16:00 PM</p></div>
-                            <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Saturday - Sunday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 AM - 17:00 PM</p></div>
-                            <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0">Holiday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 AM - 17:00 PM</p></div>
+                            <div class="py-2 border-bottom border-top d-flex align-items-center justify-content-between flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Lundi - Vendredi</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>08h GMT - 18:00 GMT</p></div>
+                            <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Samedi - Dimanche</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09h GMT - 18:00 GMT</p></div>
+                            <!-- <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0">Holiday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 AM - 17:00 PM</p></div> -->
                         </div>
                     </div>
                     <div class="col-0 col-md-1 col-lg-2 col-xl-2"></div>
 
-                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="service-item p-4">
-                            <div class="service-content">
-                                <div class="mb-4">
-                                    <i class="fas fa-home fa-4x"></i>
-                                </div>
-                                <a href="#" class="h4 d-inline-block mb-3">Private Gazebo</a>
-                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="service-item p-4">
-                            <div class="service-content">
-                                <div class="mb-4">
-                                    <i class="fas fa-utensils fa-4x"></i>
-                                </div>
-                                <a href="#" class="h4 d-inline-block mb-3">Delicious Food</a>
-                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="service-item p-4">
-                            <div class="service-content">
-                                <div class="mb-4">
-                                    <i class="fas fa-door-closed fa-4x"></i>
-                                </div>
-                                <a href="#" class="h4 d-inline-block mb-3">Safety Lockers</a>
-                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
-                        <div class="service-item p-4">
-                            <div class="service-content">
-                                <div class="mb-4">
-                                    <i class="fas fa-swimming-pool fa-4x"></i>
-                                </div>
-                                <a href="#" class="h4 d-inline-block mb-3">River Rides</a>
-                                <p class="mb-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet vel beatae numquam.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    <div th:replace="front-office/pages/_service :: _service"></div>
                 </div>
             </div>
         </div>
@@ -222,9 +165,10 @@
         <div class="container-fluid attractions py-5">
             <div class="container attractions-section py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Attractions</h4>
-                    <h1 class="display-5 text-white mb-4">Explore WaterLand Park Attractions</h1>
-                    <p class="text-white mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    <h4 class="text-primary">Nos Services</h4>
+                    <h1 class="display-5 text-white mb-4">Location de Salles pour Tous Vos Besoins</h1>
+                    <p class="mb-0 text-white">
+                        Découvrez nos espaces adaptés pour vos réunions, formations, conférences et séminaires. Profitez d’un cadre moderne, équipé des dernières technologies, pour garantir le succès de vos événements professionnels.
                     </p>
                 </div>
                 <div class="owl-carousel attractions-carousel wow fadeInUp" data-wow-delay="0.1s">
@@ -257,10 +201,14 @@
         <div class="container-fluid gallery pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Our Gallery</h4>
-                    <h1 class="display-5 mb-4">Captured Moments In Waterland</h1>
-                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
-                    </p>
+                    <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                        <h4 class="text-primary">Notre Galerie</h4>
+                        <h1 class="display-5 mb-4">Moments Capturés à <span th:text="${appName}"></span></h1>
+                        <p class="mb-0">
+                            Découvrez les moments inoubliables que nous avons partagés à Waterland. Chaque image raconte une histoire unique, une expérience, un instant magique capturé pour être revécu. Explorez notre galerie pour revivre ces instants mémorables.
+                        </p>
+                    </div>
+                    
                 </div>
                 <div class="row g-4">
                     <div class="col-md-6 wow fadeInUp" data-wow-delay="0.2s">
@@ -321,60 +269,46 @@
         <div class="container-fluid blog pb-5">
             <div class="container pb-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Our Blog</h4>
-                    <h1 class="display-5 mb-4">Latest Blog & Articles</h1>
-                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
-                    </p>
+                    <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                        <h4 class="text-primary">Blog Récent</h4>
+                        <h1 class="display-5 mb-4">Les Derniers Articles & Actualités</h1>
+                        <p class="mb-0">
+                            Explorez nos dernières publications, astuces et actualités pour rester informé et inspiré. Découvrez des contenus riches et variés qui répondent à vos besoins et interrogations.
+                        </p>
+                    </div>
+                    
                 </div>
                 <div class="row g-4">
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <div ng-repeat="article in firstArticles track by $index" class="col-lg-4 wow fadeInUp" data-wow-delay="{{0.2*$index}}s" >
                         <div class="blog-item">
                             <div class="blog-img">
-                                <a href="#">
-                                    <img src="/img/blog-2.jpg" class="img-fluid w-100 rounded-top" alt="Image">
+                                <a href="/blog/details-article/{{article.id}}">
+                                    <img ng-src="/{{article.couverture}}" class="img-fluid w-100 rounded-top" alt="Image">
                                 </a>
-                                <div class="blog-category py-2 px-4">Vacation</div>
-                                <div class="blog-date"><i class="fas fa-clock me-2"></i>August 19, 2025</div>
-                            </div>
+                                <div class="blog-category py-2 px-4">{{article.categorie.nom}}</div>
+                                <div class="blog-date d-flex justify-content-between align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-clock me-2"></i>{{ article.createdAt | date:'MMM dd, yyyy' }}
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <!-- Likes -->
+                                        <div class="me-3 d-flex align-items-center">
+                                            <i class="fas fa-thumbs-up me-1 text-primary"></i>
+                                            <span>{{article.likes?article.likes:0}}</span>
+                                        </div>
+                                        <!-- Comments -->
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-comment me-1 text-secondary"></i>
+                                            <span>{{article.commentCount}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
                             <div class="blog-content p-4">
-                                <a href="#" class="h4 d-inline-block mb-4">Why Children Dont Like Getting Out Of The Water</a>
-                                <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam aspernatur nam quidem porro sapiente, neque a quibusdam....
+                                <a href="#" class="h4 d-inline-block mb-4 " style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{article.titre}}</a>
+                                <p class="mb-4 truncate-text" ng-bind-html="article.contenue">
                                 </p>
-                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fas fa-arrow-right ms-2"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="/img/blog-3.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                                </a>
-                                <div class="blog-category py-2 px-4">Insight</div>
-                                <div class="blog-date"><i class="fas fa-clock me-2"></i>August 19, 2025</div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <a href="#" class="h4 d-inline-block mb-4">5 Ways To Enjoy Waterland This Spring Break</a>
-                                <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam aspernatur nam quidem porro sapiente, neque a quibusdam....
-                                </p>
-                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fas fa-arrow-right ms-2"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-item">
-                            <div class="blog-img">
-                                <a href="#">
-                                    <img src="/img/blog-1.jpg" class="img-fluid w-100 rounded-top" alt="Image">
-                                </a>
-                                <div class="blog-category py-2 px-4">Insight</div>
-                                <div class="blog-date"><i class="fas fa-clock me-2"></i>August 19, 2025</div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <a href="#" class="h4 d-inline-block mb-4">3 Tips for Your Family Spring Break at Amusement Park</a>
-                                <p class="mb-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam aspernatur nam quidem porro sapiente, neque a quibusdam....
-                                </p>
-                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fas fa-arrow-right ms-2"></i></a>
+                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Lire la suite<i class="fas fa-arrow-right ms-2"></i></a>
                             </div>
                         </div>
                     </div>

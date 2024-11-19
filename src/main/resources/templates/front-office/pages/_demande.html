@@ -1,34 +1,28 @@
 <html  ng-app="myApp" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front-office/layout/auth.html}">
     <div th:fragment="_demande" ng-controller="unAuthController" class="col-xl-5 fadeInRight animated" data-animation="fadeInRight" data-delay="1s" style="animation-delay: 1s;">
         <div class="ticket-form p-5">
-            <h2 class="text-dark text-uppercase mb-4">book your ticket</h2>
+            <h2 class="text-dark text-uppercase mb-4">Demande de services</h2>
             <form>
                 <div class="row g-4">
                     <div class="col-12">
-                        <input type="text" class="form-control border-0 py-2" id="name" placeholder="Your Name">
+                        <input ng-model="contactDto.username" type="text" class="form-control border-0 py-2" id="name" placeholder="Entrer votre nom">
                     </div>
                     <div class="col-12 col-xl-6">
-                        <input type="email" class="form-control border-0 py-2" id="email" placeholder="Your Email">
+                        <input ng-model="contactDto.useremail" type="email" class="form-control border-0 py-2" id="email" placeholder="E-mail">
                     </div>
                     <div class="col-12 col-xl-6">
-                        <input type="phone" class="form-control border-0 py-2" id="phone" placeholder="Phone">
+                        <input ng-model="contactDto.userphone" type="phone" class="form-control border-0 py-2" id="phone" placeholder="Numéro de téléphone">
                     </div>
                     <div class="col-12">
-                        <select class="form-select border-0 py-2" aria-label="Default select example">
-                            <option selected>Select Packages</option>
-                            <option value="1">Family Packages</option>
-                            <option value="2">Basic Packages</option>
-                            <option value="3">Premium Packages</option>
+                        <select ng-model="contactDto.serviceId" class="form-select border-0 py-2" aria-label="Default select example">
+                            <option selected>Sélectionnez un service</option>
+                            <option value="{{service.id}}" ng-repeat="service in listeServices">{{service.nom}}</option>
+                            
                         </select>
                     </div>
+                  
                     <div class="col-12">
-                        <input class="form-control border-0 py-2" type="date">
-                    </div>
-                    <div class="col-12">
-                        <input type="number" class="form-control border-0 py-2" id="number" placeholder="Guest">
-                    </div>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-primary w-100 py-2 px-5">Book Now</button>
+                        <button type="button" ng-click="contact()" class="btn btn-primary w-100 py-2 px-5">Contacter</button>
                     </div>
                 </div>
             </form>

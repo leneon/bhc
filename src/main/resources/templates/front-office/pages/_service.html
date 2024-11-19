@@ -1,0 +1,14 @@
+<html  ng-app="myApp" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front-office/layout/auth.html}">
+    <div th:fragment="_service" ng-controller="unAuthController" ng-repeat="item in listeServices track by $index" class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="{{$inde*0.2}}s" >
+        <div class="service-item p-4">
+            <div class="service-content">
+                <div class="mb-4">
+                    <i class="{{dataIcons[$index]}}"></i>
+                </div>
+                <a href="/details-services/{{item.id}}" class="h4 d-inline-block mb-3">{{item.nom}}</a>
+                <p class="mb-0">{{item.description}}
+                </p>
+            </div>
+        </div>
+    </div>
+</html>

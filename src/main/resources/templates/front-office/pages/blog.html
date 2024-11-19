@@ -3,6 +3,25 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+        <style>
+        .truncate-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Nombre de lignes à afficher */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .blog-date {
+            font-size: 14px;
+            color: #6c757d; /* Couleur de texte par défaut */
+        }
+        .blog-date i {
+            font-size: 16px;
+        }
+        .blog-date span {
+            margin-left: 4px;
+        }
+    </style>
     <body>
 
     <main layout:fragment="content" ng-controller="unAuthController">
@@ -24,24 +43,40 @@
         <div class="container-fluid blog py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Our Blog</h4>
-                    <h1 class="display-5 mb-4">Latest Blog & Articles</h1>
-                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    <h4 class="text-primary">Notre Blog</h4>
+                    <p class="mb-0">
+                        Découvrez des articles inspirants, des conseils pratiques et des idées innovantes pour enrichir vos connaissances et élargir vos horizons. Plongez dans notre univers et laissez-vous guider par notre passion pour le partage.
                     </p>
                 </div>
+                
                 <div class="row g-4">
-                    <div ng-repeat="article in listeArticles track by $index" class="col-lg-4 wow fadeInUp" data-wow-delay="{{0.2*($index+1)}}s">
+                    <div ng-repeat="article in listeArticles track by $index" class="col-lg-4 wow fadeInUp" data-wow-delay="{{0.2*$index}}s">
                         <div class="blog-item">
                             <div class="blog-img">
                                 <a href="#">
                                     <img ng-src="/{{article.couverture}}" class="img-fluid w-100 rounded-top" alt="Image">
                                 </a>
-                                <div class="blog-category py-2 px-4">{{article.categorie.nom}}</div>
-                                <div class="blog-date"><i class="fas fa-clock me-2"></i>{{article.createdAt | date:'MMM dd, yyyy'}}</div>
-                            </div>
-                            <div class="blog-content p-4">
-                                <a href="#" class="h4 d-inline-block mb-4">{{article.titre}}</a>
-                                <p class="mb-4" ng-bind-html="article.contenue">
+                                <div class="blog-category py-2 px-4  ">{{article.categorie.nom}}</div>
+                                <div class="blog-date d-flex justify-content-between align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-clock me-2"></i>{{ article.createdAt | date:'MMM dd, yyyy' }}
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <!-- Likes -->
+                                        <div class="me-3 d-flex align-items-center">
+                                            <i class="fas fa-thumbs-up me-1 text-primary"></i>
+                                            <span>{{article.likes?article.likes:0}}</span>
+                                        </div>
+                                        <!-- Comments -->
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-comment me-1 text-secondary"></i>
+                                            <span>{{article.commentCount}}</span>
+                                        </div>
+                                    </div>
+                                </div>                            </div>
+                            <div class="blog-content p-4 ">
+                                <a href="#" class="h4 d-inline-block mb-4  text-truncate" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{article.titre}}</a>
+                                <p class="mb-4 truncate-text" ng-bind-html="article.contenue">
 
                                 </p>
                                 <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Lire plus <i class="fas fa-arrow-right ms-2"></i></a>

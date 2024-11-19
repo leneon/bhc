@@ -18,6 +18,14 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
         nom: null,
         descriptio: null
     };
+    $scope.contactDto = {
+        id: null,
+        useremail: null,
+        username: null,
+        message: null,
+        sevice: null,
+        userphone: null,
+    };
     $scope.listeServices = [];
     $scope.listeEspaces = null;
     $scope.urldata = [
@@ -27,6 +35,13 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
         "/services-incubations",
         "/services-gestion-projets"
     ];
+    $scope.dataIcons = [
+        "fas fa-hand-holding-usd fa-3x ",
+        "fas fa-home fa-3x",
+        "fas fa-swimming-pool fa-3x",
+        "fas fa-door-closed fa-3x"
+    ];
+
 
     // Initialisation des variables
     $scope.newsletter = null;
@@ -37,7 +52,7 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
     $scope.commentaireDto = {id:null,contenue:null, useremail:null,username:null, articleId:null, createdAt:null};
     $scope.commentaireMasterDto = {id:null,contenue:null, useremail:null,username:null, articleId:null, createdAt:null};
     $scope.contactMasterDto = {message:null, useremail:null,username:null,subject:null};
-    $scope.contactDto = {message:null, useremail:null,username:null,subject:null};
+    $scope.contactDto = {message:null, useremail:null,username:null,message:null, serviceId: null};
     $scope.newsletterDto = {useremail:null};
     $scope.listeCategories = [];
     $scope.listeArticlesFilter = [];
@@ -236,6 +251,7 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
         $scope.newsletterDto.useremail = null;   
         
     }; 
+    
     $scope.comment = function() {
         $scope.commentaireDto.articleId = articleIdElement.value;
         
@@ -277,10 +293,15 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
 
     $scope.contact = function() {
         
-        if(!$scope.contactDto.username || !$scope.contactDto.useremail || contactDto.message || contactDto.subject){
-            return null;
+        if(!$scope.contactDto.username || !$scope.contactDto.useremail || !$scope.contactDto.message || !$scope.contactDto.serviceId){
+            return Swal.fire({
+                title: 'Erreur !',
+                text: "Veillez remplire tous les champs oligatoire!",
+                icon: 'error',
+                confirmButtonText: 'Merci !'
+            });;
         }
-
+        console.log(angular.toJson($scope.contactDto));
         fetch(contactUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -299,6 +320,7 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
                 icon: 'success',
                 confirmButtonText: 'Merci !'
             });
+
         })
         .catch(error => {
             Swal.fire({
@@ -309,7 +331,7 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
             });
         });
         
-        $scope.commentaireDto = angular.copy($scope.commentaireMasterDto);
+        $scope.contactDto = angular.copy($scope.contactMasterDto);
 
     };
 

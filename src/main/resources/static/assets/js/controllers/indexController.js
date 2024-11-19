@@ -3,6 +3,7 @@ var App = angular.module('myApp', []);
 App.controller('indexController', ['$scope', '$http', function($scope, $http) {
     // URLs pour les opérations CRUD sur les structures
     const appUrl = 'unauth/structure';
+    const servicesUrl = 'unauth/services';
 
     // Initialisation des variables
     $scope.structureDto = {
@@ -20,6 +21,7 @@ App.controller('indexController', ['$scope', '$http', function($scope, $http) {
         img1: null,
         img2: null
     };
+    $scope.listeServices = [];
 
     // Fonction pour charger la liste des structures
     $scope.loadStructure = function () {
@@ -36,5 +38,17 @@ App.controller('indexController', ['$scope', '$http', function($scope, $http) {
 
     // Chargement des structures au chargement de la page
     $scope.loadStructure();
+
+         // Fonction pour charger la liste des structures
+         $scope.loadServices= function () {
+            $http.get(servicesUrl)
+                .then(function (res) {
+                    $scope.listeServices = res.data;
+                })
+                .catch(function (error) {
+                    console.error("ERREUR DE RECUPERATION DES DONNEES : ", error);
+                });
+        };
+        $scope.loadServices();
 
 }]);

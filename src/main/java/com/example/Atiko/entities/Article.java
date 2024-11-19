@@ -3,7 +3,6 @@ package com.example.Atiko.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.CascadeType;

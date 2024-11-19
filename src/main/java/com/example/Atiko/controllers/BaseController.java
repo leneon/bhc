@@ -93,5 +93,18 @@ public class BaseController {
         model.addAttribute("title", "Espaces");
         return "back-office/services/espaces";
     }
+    @GetMapping("/services/contacts")
+    public String contacts(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("title", "Services");
+        return "back-office/services/contacts";
+    }
+    @GetMapping("/newsletters")
+    public String news(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("title", "Newslaters");
+        return "back-office/pages/newsletters";
+    }
+   
    
 }

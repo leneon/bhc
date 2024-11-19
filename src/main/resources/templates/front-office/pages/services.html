@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html  ng-app="myApp" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front-office/layout/auth.html}">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <body>
+
+     <main layout:fragment="content" ng-controller="unAuthController">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Header Start -->
+        <!-- <div class="container-fluid bg-breadcrumb">
+            <div class="container text-center py-3" style="max-width: 900px;">
+                <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Nos Services</h4>
+                <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
+                    <li class="breadcrumb-item"><a href="/"><span th:text="${appName}"></span></a></li>
+                    <li class="breadcrumb-item active text-primary">Services</li>
+                </ol>    
+            </div>
+        </div> -->
+        <!-- Header End -->
+
+        <!-- Service Start -->
+        <div class="container-fluid service " style="margin-top: 100px;">
+            <div class="container service-section py-5">
+                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h4 class="text-primary">Nos Services</h4>
+                    <h1 class="display-5 text-white mb-4">Des Solutions Complètes pour Vos Projets</h1>
+                    <p class="mb-0 text-white">
+                        Nous offrons une gamme complète de services adaptés à vos besoins : location de salles pour réunions, formations, conférences et séminaires, accompagnement aux Entrepreneurs ainsi que des solutions sur mesure pour la gestion et l’organisation de vos événements professionnels. Faites confiance à notre expertise pour garantir la réussite de vos projets.
+                    </p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-0 col-md-1 col-lg-2 col-xl-2"></div>
+                    <div class="col-md-10 col-lg-8 col-xl-8 wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="service-days p-4">
+                            <div class="py-2 border-bottom border-top d-flex align-items-center justify-content-between flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Lundi - Vendredi</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>8h GMT - 18:00 GMT</p></div>
+                            <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0 pb-2 pb-sm-0">Samedi - Dimanche</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 GMT - 18:00 GMT</p></div>
+                            <!-- <div class="py-2 border-bottom d-flex align-items-center justify-content-between flex-shrink-1 flex-wrap"><h4 class="mb-0">Holiday</h4> <p class="mb-0"><i class="fas fa-clock text-primary me-2"></i>09:00 AM - 17:00 PM</p></div> -->
+                        </div>
+                    </div>
+                    <div class="col-0 col-md-1 col-lg-2 col-xl-2"></div>
+
+                   <div th:replace="front-office/pages/_service :: _service"></div>
+                   
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
+    </main>
+
+</body>
+</html>

@@ -41,16 +41,25 @@ public class UnAuthController {
     @GetMapping("/details-article")
     public String details(Model model) {
         model.addAttribute("appName", appName);
-        model.addAttribute("title", "Details");
+        model.addAttribute("title", "Details-article");
         return "front-office/pages/details";
     }
 
     @GetMapping("/services")
-    public String service(Model model) {
+    public String services(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Services");
+        return "front-office/pages/services";
+    }
+
+    @GetMapping("/details-services/{id}")
+    public String service(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("title", "Détails-ervices");
         return "front-office/pages/service";
     }
+
+
 
         
     @GetMapping("/login")
@@ -84,16 +93,24 @@ public class UnAuthController {
     }
 
        
-    @GetMapping("/blog-details/{id}")
+    @GetMapping("/details-blog/{id}")
     public String blogDetails(Model model, @PathVariable Long id) {
         model.addAttribute("articleId", id);
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Détails du blog");
         return "front-office/pages/single-blog";
     }
+
+    @GetMapping("/details-service/{id}")
+    public String servicesDetails(Model model, @PathVariable Long id) {
+        model.addAttribute("serviceId", id);
+        model.addAttribute("appName", appName);
+        model.addAttribute("title", "Détails du service");
+        return "front-office/pages/service";
+    }
     
     
-    @GetMapping("/services*appui-techniques")
+    @GetMapping("/services/appui-techniques")
     public String appi(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Appui");        
@@ -123,6 +140,6 @@ public class UnAuthController {
         model.addAttribute("title", "Nouveau mot de passe");        
     return "front-office/services/gestion";
     }
-
+   
     
 }

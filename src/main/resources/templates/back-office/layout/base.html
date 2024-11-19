@@ -209,29 +209,30 @@
 		<script src="/assets/js/widgets.bundle.js"></script>
 		<script src="/assets/js/custom/widgets.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+		<script>
+			$(document).ready(function() {
+					// Cibler l'élément avec data-kt-menu-trigger="click"
+					$('[data-kt-menu-service="click"]').on('click', function(e) {
+						e.preventDefault(); // Empêcher le lien de rediriger
+						var submenu = $(this).next('.menu-sub'); // Récupérer le sous-menu (menu-sub)
+						
+						// Bascule de la visibilité du sous-menu
+						submenu.toggle();  // Afficher ou masquer le sous-menu
+					});
 
+					// Si vous cliquez en dehors du menu, fermer le sous-menu
+					$(document).on('click', function(e) {
+						if (!$(e.target).closest('[data-kt-menu-service="click"]').length) {
+							// Cacher tous les sous-menus ouverts
+							$('.menu-sub').hide();
+						}
+					});
+				});
+
+
+		</script>
 		<script layout:fragment="script" ></script>
-
-		<!-- <script >
-		 ClassicEditor
-                .create(document.querySelector('#bio'))
-                .then(editor => {
-                    console.log('Éditeur 1 initialisé', editor);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-		ClassicEditor
-                .create(document.querySelector('#description'))
-                .then(editor => {
-                    console.log('Éditeur 2 initialisé', editor);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-		</script> -->
+	
 
 	</body>
 	<!--end::Body-->
