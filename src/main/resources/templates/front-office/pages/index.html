@@ -38,7 +38,7 @@
                                     <h4 class="text-primary text-uppercase fw-bold mb-4">Bienvenue à <span th:text="${appName}"></span></h4>
                                     <h1 class="display-4 text-uppercase text-white mb-4"> {{listeServices[0].nom}} </h1>
                                     <p class="mb-4 fs-5">
-                                        {{listeServices[1].description}}
+                                        {{listeServices[0].description}}
                                     </p>
                                     <div class="d-flex flex-shrink-0">
                                         <a class="btn btn-primary rounded-pill text-white py-3 px-5" href="#">Our Packages</a>
@@ -127,7 +127,7 @@
             </div>
         </div>
         <!-- Feature End -->
-        <div th:replace="~{front-office/pages/_about :: _about}"></div>
+        <!-- <div th:replace="~{front-office/pages/_about :: _about}"></div> -->
 
 
 
