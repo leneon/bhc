@@ -1,5 +1,6 @@
 package com.example.Atiko.resources;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,12 +48,19 @@ public class UnAuthResource {
     @GetMapping("/structure")
     public ResponseEntity<StructureDto> getFirstStructure() {
         List<StructureDto> structures = structureService.getAllStructures();
+        
         if (structures.isEmpty()) {
-            return ResponseEntity.noContent().build();  // 204 No Content si aucune structure n'existe
+            return ResponseEntity.noContent().build(); // 204 No Content si aucune structure n'existe
         }
-        return ResponseEntity.ok(structures.get(0));  // 200 OK avec la première structure
-    } 
-
+        
+        // Trier par date de création et récupérer la première
+        StructureDto firstStructure = structures.stream()
+                .min(Comparator.comparing(StructureDto::getDateCreation))
+                .orElse(null);
+        
+        return ResponseEntity.ok(firstStructure); // 200 OK avec la structure
+    }
+    
     @GetMapping("/articles")
     public ResponseEntity<List<ArticleDto>> getAllArticlesWithComments() {
         List<ArticleDto> aricles = articleService.getAllArticlesWithCommentCount();

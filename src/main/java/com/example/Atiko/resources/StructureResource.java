@@ -10,6 +10,7 @@ import com.example.Atiko.entities.Structure;
 import com.example.Atiko.services.StructureService;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -36,9 +37,15 @@ public class StructureResource {
     public ResponseEntity<StructureDto> getFirstStructure() {
         List<StructureDto> structures = structureService.getAllStructures();
         if (structures.isEmpty()) {
-            return ResponseEntity.noContent().build();  // 204 No Content si aucune structure n'existe
+            return ResponseEntity.noContent().build(); // 204 No Content si aucune structure n'existe
         }
-        return ResponseEntity.ok(structures.get(0));  // 200 OK avec la première structure
+        
+        // Trier par date de création et récupérer la première
+        StructureDto firstStructure = structures.stream()
+                .min(Comparator.comparing(StructureDto::getDateCreation))
+                .orElse(null);
+        
+        return ResponseEntity.ok(firstStructure); // 200 OK avec la structure        
     }
 
 
