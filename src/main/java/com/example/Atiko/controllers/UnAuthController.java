@@ -37,6 +37,14 @@ public class UnAuthController {
         model.addAttribute("title", "Blog");
         return "front-office/pages/blog";
     }
+    @GetMapping("/details-blog/{id}")
+    public String detailsBlog(Model model,@PathVariable Long id) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("articleId", id);
+        model.addAttribute("title", "details blog");
+        return "front-office/pages/singleBlog";
+    }
+
 
     @GetMapping("/details-article")
     public String details(Model model) {
@@ -53,9 +61,10 @@ public class UnAuthController {
     }
 
     @GetMapping("/details-services/{id}")
-    public String service(Model model) {
+    public String service(Model model, Long id) {
         model.addAttribute("appName", appName);
-        model.addAttribute("title", "Détails-ervices");
+        model.addAttribute("serviceId", id);
+        model.addAttribute("title", "Détails ervices");
         return "front-office/pages/service";
     }
 
@@ -92,14 +101,6 @@ public class UnAuthController {
         return "front-office/pages/details";
     }
 
-       
-    @GetMapping("/details-blog/{id}")
-    public String blogDetails(Model model, @PathVariable Long id) {
-        model.addAttribute("articleId", id);
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Détails du blog");
-        return "front-office/pages/single-blog";
-    }
 
     @GetMapping("/details-service/{id}")
     public String servicesDetails(Model model, @PathVariable Long id) {
@@ -110,13 +111,13 @@ public class UnAuthController {
     }
     
     
-    @GetMapping("/services/appui-techniques")
+    @GetMapping("/details-service/appui")
     public String appi(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Appui");        
     return "front-office/services/appui";
     }
-    @GetMapping("/services-location-espaces")
+    @GetMapping("/details-service/location")
     public String location(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Locations");        

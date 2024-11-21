@@ -9,8 +9,8 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
     const newslettersUrl = url + '/newsletter';
     const commentaireUrl = url + '/commentaire';
     const contactUrl = url + '/contact';
-    const servicesUrl = 'unauth/services';
-    const espasesUrl = 'unauth/espaces';
+    const servicesUrl = url+'/services';
+    const espasesUrl = url+'/espaces';
 
 
     $scope.serviceDto = {
@@ -18,6 +18,7 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
         nom: null,
         descriptio: null
     };
+    $scope.singleService = null;
     $scope.contactDto = {
         id: null,
         useremail: null,
@@ -180,7 +181,9 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
     };
     
     // Fonction pour charger la liste des structures
+    const serviceIdElement = document.getElementById("serviceId");
     const articleIdElement = document.getElementById("articleId");
+
 
     $scope.loadArticle = function (articleId) {
         $http.get(articlesUrl+"/"+articleId)
@@ -194,13 +197,7 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
                 console.error("ERREUR DE RECUPERATION DES CATEGORIES : ", error);
             });
     };
-    // Chargement des structures au chargement de la page
-    if (articleIdElement && articleIdElement.value) {
-        const articleId = articleIdElement.value;
-        console.log("Article ID:", articleId);
-        $scope.loadArticle (articleId);
-    }
-
+   
     $scope.submitFeedback = function(liked) {
         const url = "/unauth/" + (liked? "like/" : "dislike/") + $scope.singleArticle.id;
         $http.put(url)
@@ -392,7 +389,43 @@ $scope.loadArticles = function() {
 // Initialisation au chargement
 $scope.loadArticles();
 
-    
+$scope.appui = false;
+$scope.loadService = function (serviceId) {
+    $http.get(servicesUrl+"/"+serviceId)
+        .then(function (res) {
+
+            $scope.singleService = res.data;
+            $scope.singleService.description = $sce.trustAsHtml($scope.singleService.description);
+            $scope.singleService.createdAt = new Date($scope.singleService.createdAt );
+            console.log("SERVICE ",res.data);
+        })
+        .catch(function (error) {
+            console.error("ERREUR DE RECUPERATION DES CATEGORIES : ", error);
+        });
+};
+ // Chargement des structures au chargement de la page
+ if (serviceIdElement && serviceIdElement.value) {
+    const serviceId = serviceIdElement.value;
+    $scope.loadService (serviceId);
+}
+ // Chargement des structures au chargement de la page
+ if (articleIdElement && articleIdElement.value) {
+    const articleId = articleIdElement.value;
+    $scope.loadArticle (articleId);
+}
+
+$scope.toggleFinancementFields = function () {
+    const financementCheckbox = document.getElementById("financement");
+    const financementDetails = document.getElementById("financementDetails");
+    financementDetails.style.display = financementCheckbox.checked ? "block" : "none";
+  }
+  $scope.toggleAutreFields =  function () {
+    const autresCheckBox = document.getElementById("autresCheckBox");
+    const autres = document.getElementById("autres");
+    autres.style.display = autresCheckBox.checked ? "block" : "none";
+  }
+
+  
 }]);
 
 

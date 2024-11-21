@@ -26,6 +26,7 @@ public class ServiceService {
         service.setId(dto.getId());
         service.setNom(dto.getNom());
         service.setDescription(dto.getDescription());
+        service.setType(dto.getType());
         return service;
     }
 
@@ -49,6 +50,7 @@ public class ServiceService {
         return serviceRepository.findById(id).map(existingservice -> {
             existingservice.setNom(serviceDto.getNom());
             existingservice.setDescription(serviceDto.getDescription());
+            existingservice.setType(serviceDto.getType());
             return convertToDto(serviceRepository.save(existingservice));
         });
     }

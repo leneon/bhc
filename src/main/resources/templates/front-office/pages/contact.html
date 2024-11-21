@@ -6,7 +6,7 @@
 </head>
     <body>
 
-     <main layout:fragment="content" >
+     <main layout:fragment="content" ng-controller="unAuthController">
         <!-- Contact Start -->
         <div class="container-fluid contact py-5">
             <div class="container py-5">
@@ -14,7 +14,7 @@
                     <div class="col-12 col-xl-6 wow fadeInUp" data-wow-delay="0.2s">
                         <div>
                             <div class="pb-5">
-                                <h4 class="text-primary">Contactez-nous</h4>
+                                <h1 class="text-primary">Contactez-nous</h1>
                                 <p class="mb-0" ng-bind-html="structureDto.description"></p>
                             </div>
                             <div class="row g-4">
@@ -64,10 +64,10 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="d-flex justify-content-around bg-light rounded p-4">
-                                        <a class="btn btn-xl-square btn-primary rounded-circle" ng-href="structureDto."><i class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-xl-square btn-primary rounded-circle" href="#"><i class="fab fa-twitter"></i></a>
-                                        <a class="btn btn-xl-square btn-primary rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
-                                        <a class="btn btn-xl-square btn-primary rounded-circle" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" ng-href="/{{structureDto.facebook}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" ng-href="/{{structureDto.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" ng-href="/{{structureDto.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                        <a class="btn btn-xl-square btn-primary rounded-circle" ng-href="/{{structureDto.youtube}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                     </div>
                                 </div>
                             </div>

@@ -28,6 +28,7 @@
 
      <main layout:fragment="content" ng-controller="unAuthController">
         <!-- Spinner Start -->
+         <input type="hidden" name="serviceId" id="serviceId" th:value="${serviceId}">
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
@@ -37,12 +38,12 @@
 
         <!-- Header Start -->
         <div class="container-fluid bg-breadcrumb">
-            <div class="container text-center py-5" style="max-width: 900px;">
-                <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Our Features</h4>
+            <div class="container text-center " style="max-width: 900px;">
+                <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Nos services</h4>
                 <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                    <li class="breadcrumb-item active text-primary">Feature</li>
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <!-- <li class="breadcrumb-item"><a href="#">Pages</a></li> -->
+                    <li class="breadcrumb-item active text-primary">Services</li>
                 </ol>    
             </div>
         </div>
@@ -52,60 +53,26 @@
         <div class="container-fluid feature py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Our Features</h4>
-                    <h1 class="display-5 mb-4">Explore Waterland Park Best Features</h1>
-                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
-                    </p>
+                    <!-- <h4 class="text-primary">Service : </h4> -->
+                    <h1 class="display-5 mb-4">{{singleService.nom}}</h1>
+                    <p class="mb-0" ng-bind-html="singleService.description"></p>
                 </div>
-                <div class="row g-4">
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="feature-item">
-                            <img src="/img/feature-1.jpg" class="img-fluid rounded w-100" alt="Image">
-                            <div class="feature-content p-4">
-                                <div class="feature-content-inner">
-                                    <h4 class="text-white">Best Pools</h4>
-                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis porro soluta voluptatum laborum mollitia blanditiis suscipit,
-                                    </p>
-                                    <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fa fa-arrow-right ms-1"></i></a>
-                                </div>
-                            </div>
+            <div id="appuiDiv" style="display:none;"   th:replace="front-office/pages/_serviceForm :: _form">
+                <h4>Location Section</h4>
+            </div>
+            
+            <!-- Section 2 (appui)
+            <div id="locationDiv" style="display:none;"  th:replace="front-office/pages/_espace :: _espace">
 
-                        </div>
-                    </div>
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="feature-item">
-                            <img src="/img/feature-2.jpg" class="img-fluid rounded w-100" alt="Image">
-                            <div class="feature-content p-4">
-                                <div class="feature-content-inner">
-                                    <h4 class="text-white">Waterslides</h4>
-                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis porro soluta voluptatum laborum mollitia blanditiis suscipit,
-                                    </p>
-                                    <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fa fa-arrow-right ms-1"></i></a>
-                                </div>
-                            </div>
+                <h4>Appui Section</h4>
+            </div> -->
 
-                        </div>
-                    </div>
-                    <div class="col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="feature-item">
-                            <img src="/img/feature-3.jpg" class="img-fluid rounded w-100" alt="Image">
-                            <div class="feature-content p-4">
-                                <div class="feature-content-inner">
-                                    <h4 class="text-white">River Rides</h4>
-                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis porro soluta voluptatum laborum mollitia blanditiis suscipit,
-                                    </p>
-                                    <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More <i class="fa fa-arrow-right ms-1"></i></a>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
         <!-- Feature End -->
 
-       <div th:replace="front-office/pages/_espace :: _espace"></div>
         
     </main>
 

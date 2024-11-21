@@ -1,6 +1,7 @@
 package com.example.Atiko.resources;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Atiko.dtos.ArticleDto;
-import com.example.Atiko.dtos.CategorieDto;
-import com.example.Atiko.dtos.CommentaireDto;
-import com.example.Atiko.dtos.ContactDTO;
-import com.example.Atiko.dtos.EspaceDto;
-import com.example.Atiko.dtos.NewsletterDto;
-import com.example.Atiko.dtos.ServiceDto;
-import com.example.Atiko.dtos.StructureDto;
+import com.example.Atiko.dtos.*;
 import com.example.Atiko.entities.Contact;
 import com.example.Atiko.entities.Espace;
-import com.example.Atiko.services.ArticleService;
-import com.example.Atiko.services.CategorieService;
-import com.example.Atiko.services.CommentaireService;
-import com.example.Atiko.services.ContactService;
-import com.example.Atiko.services.EspaceService;
-import com.example.Atiko.services.NewsletterService;
-import com.example.Atiko.services.ServiceService;
-import com.example.Atiko.services.StructureService;
+import com.example.Atiko.services.*;
+
+import jakarta.websocket.server.PathParam;
 
 @RequestMapping("/unauth")
 @RestController
@@ -73,7 +62,7 @@ public class UnAuthResource {
         return ResponseEntity.ok(aricles);  // 200 OK avec la première structure
     }
     @GetMapping("/articles/{id}")
-    public ResponseEntity<ArticleDto> getAarticle(@PathVariable Long id) {
+    public ResponseEntity<ArticleDto> getArticle(@PathVariable Long id) {
         ArticleDto aricle = articleService.getArticleById(id);
         if (aricle==null) {
             return ResponseEntity.noContent().build();  // 204 No Content si aucune structure n'existe
@@ -122,12 +111,25 @@ public class UnAuthResource {
         List<ServiceDto> services = serviceService.getAllservices();
         return ResponseEntity.ok(services);
     }
-    // @GetMapping("/categories")
-    // public ResponseEntity<List<CategorieDto>> getAllCtategories() {
-    //     return ResponseEntity.ok(categorieService.getAllCategories());
-    // }
+    @GetMapping("/services/{id}")
+    public ResponseEntity<Optional<ServiceDto>> getService(@PathVariable Long id) {
+        Optional<ServiceDto> service = serviceService.getServiceById(id);
+            if (service==null) {
+                return ResponseEntity.noContent().build();  // 204 No Content si aucune structure n'existe
+            }
+        return ResponseEntity.ok(service);
+    }
+  
     @GetMapping("/espaces")
     public ResponseEntity<List<EspaceDto>> getAllEspaces() {
+        List<EspaceDto> espaces =  espaceService.findAll().stream()
+                                                .map(this::convertToDto)
+                                                .collect(Collectors.toList());;
+                                        
+        return ResponseEntity.ok(espaces);
+    }
+    @GetMapping("/espaces/{id}")
+    public ResponseEntity<List<EspaceDto>> getEspace(Long id) {
         List<EspaceDto> espaces =  espaceService.findAll().stream()
                                                 .map(this::convertToDto)
                                                 .collect(Collectors.toList());;

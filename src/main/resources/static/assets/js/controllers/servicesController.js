@@ -23,6 +23,13 @@ var KTservices = function () {
                                 }
                             }
                         },
+                        type: {
+                            validators: {
+                                notEmpty: {
+                                    message: "Le namespace est requis"
+                                }
+                            }
+                        },
                        
                     },
                     plugins: {
@@ -50,6 +57,7 @@ var KTservices = function () {
                             const articleDto = {
                                 id: formElement.querySelector("#service_id").value,
                                 nom: formElement.querySelector("#nom").value,
+                                type: formElement.querySelector("#type").value,
                                 description: formElement.querySelector("#description").value,
                               
                             };
