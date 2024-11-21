@@ -3,6 +3,26 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <style>
+        .truncate-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Nombre de lignes à afficher */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .blog-date {
+            font-size: 14px;
+            color: #6c757d; /* Couleur de texte par défaut */
+        }
+        .blog-date i {
+            font-size: 16px;
+        }
+        .blog-date span {
+            margin-left: 4px;
+        }
+        </style>
+        
 </head>
 
     <body>
