@@ -64,9 +64,7 @@ public class StructureResource {
             @RequestPart(value ="img2", required = false) MultipartFile img2) throws IOException{ 
 
         try {
-            System.out.println("\n\n=============DTO===================\n\n");
-            System.out.println(structureDto);
-            System.out.println("\n\n================================\n\n");
+           
             StructureDto updatedStructure = structureService.updateStructure(id, structureDto,logo,img,img1,img2);
             return ResponseEntity.ok(updatedStructure);
         } catch (RuntimeException e) {

@@ -45,12 +45,12 @@ public class UnAuthResource {
 
 
     @GetMapping("/structure")
-    public ResponseEntity<StructureDto> getFirstStructure() {
-        List<StructureDto> structures = structureService.getAllStructures();
-        if (structures.isEmpty()) {
+    public ResponseEntity<Optional<StructureDto>> getFirstStructure() {
+        Optional<StructureDto> str = structureService.getStructureById((long) 1);
+        if (str==null) {
             return ResponseEntity.noContent().build();  // 204 No Content si aucune structure n'existe
         }
-        return ResponseEntity.ok(structures.get(0));  // 200 OK avec la première structure
+        return ResponseEntity.ok(str);  // 200 OK avec la première structure
     } 
 
     @GetMapping("/articles")
