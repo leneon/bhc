@@ -28,16 +28,16 @@
     <main layout:fragment="content" ng-controller="unAuthController">
 
         <!-- Header Start -->
-        <!-- <div class="container-fluid bg-breadcrumb">
+        <div class="container-fluid bg-breadcrumb">
             <div class="container text-center py-1" style="max-width: 900px;">
                 <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Our Blog</h4>
                 <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                    <!-- <li class="breadcrumb-item"><a href="#">Pages</a></li> -->
                     <li class="breadcrumb-item active text-primary">Blog</li>
                 </ol>    
             </div>
-        </div> -->
+        </div>
         <!-- Header End -->
 
         <!-- Blog Start -->
@@ -54,7 +54,7 @@
                     <div ng-repeat="article in listeArticles track by $index" class="col-lg-4 wow fadeInUp" data-wow-delay="{{0.2*$index}}s">
                         <div class="blog-item">
                             <div class="blog-img">
-                                <a href="#">
+                                <a href="/details-blog/{{article.id}}">
                                     <img ng-src="/{{article.couverture}}" class="img-fluid w-100 rounded-top" alt="Image">
                                 </a>
                                 <div class="blog-category py-2 px-4  ">{{article.categorie.nom}}</div>
@@ -80,7 +80,7 @@
                                 <p class="mb-4 truncate-text" ng-bind-html="article.contenue">
 
                                 </p>
-                                <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Lire plus <i class="fas fa-arrow-right ms-2"></i></a>
+                                <a href="/details-blog/{{article.id}}" class="btn btn-primary rounded-pill py-2 px-4">Lire plus <i class="fas fa-arrow-right ms-2"></i></a>
                             </div>
                         </div>
                     </div>

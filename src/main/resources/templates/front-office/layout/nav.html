@@ -2,9 +2,7 @@
     <div th:fragment="nav" ng-controller="unAuthController" class="container-fluid nav-bar sticky-top px-4 py-2 py-lg-0">
         <nav class="navbar navbar-expand-lg navbar-light">
             <a href="/" class="navbar-brand p-0">
-                <h1 class="display-6 text-dark"><i class="fas fa-swimmer text-primary me-3" ng-if="!structureDto.logo"></i> <img ng-src="/{{structureDto.logo}}" alt="Logo" ng-if="structureDto.logo">
-                    <!-- <span th:text="${appName}">BHC</span> -->
-                </h1>
+                <h1 class="display-6 text-dark"><i class="fas fa-swimmer text-primary me-3" ng-if="!structureDto.logo"></i> <img ng-src="/{{structureDto.logo}}" alt="Logo" ng-if="structureDto.logo"></h1>
                 
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -12,26 +10,26 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav mx-auto py-0">
-                    <a href="/" class="nav-item nav-link active">Accueil</a>
-                    <a th:href="@{qui-sommes-nous}" class="nav-item nav-link">A propos</a>
+                    <a href="/" class="nav-item nav-link " th:classappend="${title == 'Accueil'} ? 'active' : ''">Accueil</a>
+                    <a th:href="@{/qui-sommes-nous}" class="nav-item nav-link" th:classappend="${title == 'Qui sommes-nous'} ? 'active' : ''">A propos</a>
                     <!-- <a th:href="@{services}" class="nav-item nav-link">Services</a> -->
                     
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Services</a>
+                        <a href="#" class="nav-link dropdown-toggle" th:classappend="${title == 'Services'} ? 'active' : ''" data-bs-toggle="dropdown">Services</a>
                         <div class="dropdown-menu m-0">
                             <a ng-href="/services" class="dropdown-item">Services</a>
-                            <a ng-repeat="service in listeServices" ng-href="/services/{{service.id}}" class="dropdown-item">{{service.nom}}</a>
+                            <a ng-repeat="service in listeServices" ng-href="/details-service/{{service.id}}" class="dropdown-item">{{service.nom}}</a>
                             
                         </div>
                     </div>
-                    <a th:href="@{blog}" class="nav-item nav-link">Blog</a>
-                    <a th:href="@{contact}" class="nav-item nav-link">Contact</a>
+                    <a th:href="@{/blog}" class="nav-item nav-link" th:classappend="${title == 'Blog'} ? 'active' : ''">Blog</a>
+                    <a th:href="@{/contact}" class="nav-item nav-link" th:classappend="${title == 'Contact'} ? 'active' : ''">Contact</a>
                 </div>
                 <div class="team-icon d-none d-xl-flex justify-content-center me-3">
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.facebook}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="{{structureDto.youtube}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.facebook}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.youtube}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <a href="#" class="btn btn-primary rounded-pill py-2 px-4 flex-shrink-0">Consulting</a>
             </div>

@@ -6,13 +6,16 @@ public class ServiceDto {
     private Long id;
     private String nom;
     private  String description;
+    private  String type;
 
 
     
+
     public ServiceDto(Service service) {
         this.id = service.getId();
         this.nom = service.getNom();
         this.description = service.getDescription();
+        this.type = service.getType();
     }
     public ServiceDto() {
     }
@@ -34,5 +37,10 @@ public class ServiceDto {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
 }

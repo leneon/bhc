@@ -20,6 +20,18 @@ public class Service {
     @Column(columnDefinition = "TEXT", nullable = true)  // Utilise le type TEXT
     private String description;
 
+    
+    @Column
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Service() {
     }
 

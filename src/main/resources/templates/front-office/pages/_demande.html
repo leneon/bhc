@@ -1,7 +1,7 @@
 <html  ng-app="myApp" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{front-office/layout/auth.html}">
     <div th:fragment="_demande" ng-controller="unAuthController" class="col-xl-5 fadeInRight animated" data-animation="fadeInRight" data-delay="1s" style="animation-delay: 1s;">
         <div class="ticket-form p-5">
-            <h2 class="text-dark text-uppercase mb-4">Demande de services</h2>
+            <h2 class="text-dark text-uppercase mb-4">Demande un service</h2>
             <form>
                 <div class="row g-4">
                     <div class="col-12">
@@ -20,9 +20,14 @@
                             
                         </select>
                     </div>
-                  
                     <div class="col-12">
-                        <button type="button" ng-click="contact()" class="btn btn-primary w-100 py-2 px-5">Contacter</button>
+                        <div class="form-floating">
+                            <textarea ng-model="contactDto.message" class="form-control border-0" placeholder="Laissez un message ici" id="message" rows="2"></textarea>
+                            <label for="message">Message</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" ng-click="contact()" class="btn btn-primary w-100 py-2 px-5">Demander</button>
                     </div>
                 </div>
             </form>

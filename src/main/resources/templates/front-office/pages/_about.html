@@ -3,12 +3,12 @@
         <!-- About Start -->
         <div th:fragment="_about" ng-controller="unAuthController">
             <!-- About Start -->
-            <div class="container-fluid about py-2">
+            <div class="container-fluid about py-5">
                 <div class="container py-1">
                     <div class="row g-5">
                         <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.2s">
                             <div>
-                                <h4 class="text-primary">A propos de <span th:text="${appName}"></span></h4>
+                                <h1 class="text-primary">A propos de <span>{{structureDto.nom}}</span></h1>
                                 <p ng-bind-html="structureDto.description"></p>
 
                                 <div class="row g-4">
