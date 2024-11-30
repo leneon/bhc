@@ -37,10 +37,10 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
         "/services-gestion-projets"
     ];
     $scope.dataIcons = [
-        "fas fa-hand-holding-usd fa-3x ",
-        "fas fa-home fa-3x",
-        "fas fa-swimming-pool fa-3x",
-        "fas fa-door-closed fa-3x"
+        "line-icon-Archery-2",
+        "line-icon-Medal-2",
+        "line-icon-Financial",
+        "line-icon-Money-Bag"
     ];
 
 
@@ -393,7 +393,6 @@ $scope.appui = false;
 $scope.loadService = function (serviceId) {
     $http.get(servicesUrl+"/"+serviceId)
         .then(function (res) {
-
             $scope.singleService = res.data;
             $scope.singleService.description = $sce.trustAsHtml($scope.singleService.description);
             $scope.singleService.createdAt = new Date($scope.singleService.createdAt );

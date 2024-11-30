@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
-    <style>
+        <style>
         .truncate-text {
             display: -webkit-box;
             -webkit-line-clamp: 2; /* Nombre de lignes à afficher */
@@ -11,168 +11,232 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .blog-date {
-            font-size: 14px;
-            color: #6c757d; /* Couleur de texte par défaut */
-        }
-        .blog-date i {
-            font-size: 16px;
-        }
-        .blog-date span {
-            margin-left: 4px;
-        }
+
         </style>
-        
 </head>
-
     <body>
-
     <main layout:fragment="content" ng-controller="unAuthController">
-
-        <!-- Header Start -->
-        <div class="container-fluid bg-breadcrumb">
-            <div class="container text-center py-3" style="max-width: 900px;">
-                <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s"><span>{{structureDto.nom}}</span></h4>
-                <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
-                    <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-                    <li class="breadcrumb-item active text-primary"><span th:text="${title}"></span></li>
-                </ol>    
-            </div>
-        </div>
-        <!-- Header End -->
-
-       
-        <div th:replace="~{front-office/pages/_about :: _about}"></div>
-
-        <div class="container-fluid gallery pb-5">
-            <div class="container pb-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                        <h4 class="text-primary">Notre Galerie</h4>
-                        <h1 class="display-5 mb-4">Moments Capturés à Waterland</h1>
-                        <p class="mb-0">
-                            Découvrez les moments inoubliables que nous avons partagés à Waterland. Chaque image raconte une histoire unique, une expérience, un instant magique capturé pour être revécu. Explorez notre galerie pour revivre ces instants mémorables.
-                        </p>
+         <!-- start page title -->
+         <section class="top-space-margin page-title-big-typography border-radius-6px lg-border-radius-0px p-0" data-parallax-background-ratio="0.5" style="background-image: url('/images/banner-001.jpg')">
+            <div class="opacity-extra-medium bg-blue-whale"></div>
+            <div class="container">
+                <div class="row align-items-center justify-content-center small-screen">
+                    <div class="col-lg-8 position-relative text-center page-title-extra-large" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <h1 class="m-auto text-white text-shadow-double-large fw-600 ls-minus-2px">A propos de nous</h1>
                     </div>
-                    
-                </div>
-                <div class="row g-4">
-                    <div class="col-6 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="gallery-item">
-                            <img src="img/gallery-1.jpg" class="img-fluid rounded w-100 h-100" alt="">
-                            <div class="search-icon">
-                                <a href="img/gallery-1.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-1"><i class="fas fa-search-plus"></i></a>
+                    <div class="down-section text-center" data-anime='{ "translateY": [-50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <a href="#down-section" class="section-link">
+                            <div class="text-white">
+                                <i class="feather icon-feather-chevron-down icon-very-medium"></i>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-3 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="gallery-item">
-                            <img src="img/gallery-2.jpg" class="img-fluid rounded w-100 h-100" alt="">
-                            <div class="search-icon">
-                                <a href="img/gallery-2.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-2"><i class="fas fa-search-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="gallery-item">
-                            <img src="img/gallery-3.jpg" class="img-fluid rounded w-100 h-100" alt="">
-                            <div class="search-icon">
-                                <a href="img/gallery-3.jpg" class="btn btn-light btn-lg-square rounded-circle" data-lightbox="Gallery-3"><i class="fas fa-search-plus"></i></a>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Gallery End -->
-
-        <!-- Team Start -->
-        <div class="container-fluid team pb-5">
-            <div class="container pb-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">Nos Projets en Cours</h4>
-                    <h1 class="display-5 mb-4">Exploration et Incubation d'Idées Innovantes</h1>
-                    <p class="mb-0">
-                        Découvrez comment nous transformons des concepts novateurs en projets concrets. Notre équipe dédiée travaille avec passion pour développer des solutions uniques dans divers domaines, tout en mettant un accent particulier sur l'incubation d'idées prometteuses. 
-                    </p>
+        </section>
+        <!-- end page title -->
+        <!-- start section -->
+        <section id="down-section" class="border-bottom border-color-extra-medium-gray">
+            <div class="container overlap-gap-section"> 
+                <div class="row align-items-end justify-content-center mb-5 md-mb-40px text-center text-md-start">                    
+                    <div class="col-xl-11 col-lg-11 col-md-10 md-mb-20px text-center text-lg-start" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">A propos</span>
+                        <h3 class="text-dark-gray fw-700 mb-0 ls-minus-1px"><span>{{structureDto.nom}}</span></h3>
+                        <div class="feature-box-content">
+                            <span class="d-block fs-19 fw-700 text-dark-gray mb-5px"><span ng-bind-html="structureDto.bio"></span></span>
+                            <p ng-bind-html="structureDto.description">
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-6 col-lg-6 col-md-10 offset-xl-1 text-center text-lg-start last-paragraph-no-margin">
+                        <p class="w-90 xl-w-100" data-anime='{ "el": "lines", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>We strive to develop real-world web solutions that are ideal for small to large projects with bespoke project requirements. we compelling web, <span class="fw-600 text-dark-gray text-decoration-line-bottom">which are the right-fit for your target.</span></p>
+                    </div> -->
                 </div>
-                
-                <div class="row g-4 justify-content-center">
-                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="team-item p-4">
-                            <div class="team-content">
-                                <div class="d-flex justify-content-between border-bottom pb-4">
-                                    <div class="text-start">
-                                        <h4 class="mb-0">David James</h4>
-                                        <p class="mb-0">Profession</p>
-                                    </div>
-                                    <div>
-                                        <img src="img/team-1.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                                    </div>
-                                </div>
-                                <div class="team-icon rounded-pill my-4 p-3">
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <p class="text-center mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, quibusdam eveniet itaque provident sequi deserunt.
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 row-cols-sm-2 justify-content-center" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <!-- start features box item -->
+                    <div class="col custom-icon-with-text-style-02">
+                        <div class="feature-box p-6 last-paragraph-no-margin overflow-hidden md-mb-20px">
+                            <div class="feature-box-icon">
+                                <img class="custom-image-icon mb-20px" src="/images/demo-corporate-about-icon-01.webp" alt="" />
+                            </div>
+                            <div class="feature-box-content">
+                                <span class="d-block truncate-text fs-19 fw-700 text-dark-gray mb-5px">Intégrité</span>
+                                <p>Nous opérons avec transparence et honnêteté.
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="team-item p-4">
-                            <div class="team-content">
-                                <div class="d-flex justify-content-between border-bottom pb-4">
-                                    <div class="text-start">
-                                        <h4 class="mb-0">William John</h4>
-                                        <p class="mb-0">Profession</p>
-                                    </div>
-                                    <div>
-                                        <img src="img/team-2.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                                    </div>
-                                </div>
-                                <div class="team-icon rounded-pill my-4 p-3">
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <p class="text-center mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, quibusdam eveniet itaque provident sequi deserunt.
-                                </p>
+                    <!-- end features box item -->
+                    <!-- start features box item -->
+                    <div class="col custom-icon-with-text-style-02">
+                        <div class="feature-box p-6 last-paragraph-no-margin overflow-hidden md-mb-20px">
+                            <div class="feature-box-icon">
+                                <img class="custom-image-icon mb-20px" src="/images/demo-corporate-about-icon-02.webp" alt="" />
+                            </div>
+                            <div class="feature-box-content">
+                                <span class="d-block truncate-text fs-19 fw-700 text-dark-gray mb-5px">Innovation</span>
+                                <p>Nous promouvons des solutions créatives et
+                                    avant-gardistes pour répondre aux défis
+                                    entrepreneuriaux</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-6 col-xl-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="team-item p-4">
-                            <div class="team-content">
-                                <div class="d-flex justify-content-between border-bottom pb-4">
-                                    <div class="text-start">
-                                        <h4 class="mb-0">Michael John</h4>
-                                        <p class="mb-0">Profession</p>
-                                    </div>
-                                    <div>
-                                        <img src="img/team-3.jpg" class="img-fluid rounded" style="width: 100px; height: 100px;" alt="">
-                                    </div>
-                                </div>
-                                <div class="team-icon rounded-pill my-4 p-3">
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href=""><i class="fab fa-linkedin-in"></i></a>
-                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                                <p class="text-center mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, quibusdam eveniet itaque provident sequi deserunt.
-                                </p>
+                    <!-- end features box item -->
+                    <!-- start features box item -->
+                    <div class="col custom-icon-with-text-style-02">
+                        <div class="feature-box p-6 last-paragraph-no-margin overflow-hidden xs-mb-20px">
+                            <div class="feature-box-icon">
+                                <img class="custom-image-icon mb-20px" src="/images/demo-corporate-about-icon-03.webp" alt="" />
+                            </div>
+                            <div class="feature-box-content">
+                                <span class="d-block truncate-text fs-19 fw-700 text-dark-gray mb-5px">Collaboration</span>
+                                <p>Nous valorisons le travail en réseau et les
+                                    partenariats pour maximiser les impacts.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end features box item -->
+                    <!-- start features box item -->
+                    <div class="col custom-icon-with-text-style-02">
+                        <div class="feature-box p-6 last-paragraph-no-margin overflow-hidden">
+                            <div class="feature-box-icon">
+                                <img class="custom-image-icon mb-20px" src="/images/demo-corporate-about-icon-04.webp" alt="" />
+                            </div>
+                            <div class="feature-box-content">
+                                <span class="d-block truncate-text fs-19 fw-700 text-dark-gray mb-5px">Inclusion</span>
+                                <p>ous soutenons des initiatives diversifiées pour
+                                    favoriser l'entrepreneuriat à tous les niveaux.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end features box item -->
+                </div>
+            </div>
+        </section>
+        <!-- end section -->
+        <!-- start section --> 
+        <section class="py-0 sm-pt-50px" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+            <div class="container overlap-section">
+                <div class="row justify-content-center g-0">
+                    <div class="col-auto text-center last-paragraph-no-margin icon-with-text-style-08 pt-20px pb-20px ps-8 pe-8 md-ps-30px md-pe-30px bg-white border border-color-extra-medium-gray box-shadow-medium-bottom border-radius-100px xs-border-radius-10px">
+                        <div class="feature-box feature-box-left-icon-middle overflow-hidden">
+                            <div class="feature-box-icon me-10px">
+                                <i class="bi bi-chat-text icon-extra-medium text-base-color"></i>
+                            </div>
+                            <div class="feature-box-content last-paragraph-no-margin text-dark-gray text-uppercase fs-15 fw-700 ls-05px">
+                                Ensemble, nous allons réaliser quelque chose de formidable. <a href="/contact" class="text-base-color text-decoration-line-bottom-medium border-1"> Vous avez un projet en tête ?</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Team End -->
-
+        </section>
+        <!-- end section -->
+        <!-- start section -->
+        <section class="position-relative overflow-hidden">
+            <div class="container">
+                <div class="row justify-content-center align-items-center mb-3">
+                    <div class="col-xl-5 col-lg-6 md-mb-14 sm-mb-18 xs-mb-23 position-relative" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <div class="w-75 sm-w-80" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
+                            <img src="/images/demo-corporate-about-img-01.jpg" alt="" class="border-radius-6px w-100">
+                            <div class="position-absolute top-30px z-index-8 left-minus-90px lg-left-minus-25px sm-left-minus-0px lg-w-30">
+                                <img src="images/demo-corporate-about-01.png" alt="" />
+                            </div>
+                        </div>
+                        <div class="w-55 overflow-hidden position-absolute right-15px xs-w-55 bottom-minus-50px" data-shadow-animation="true" data-animation-delay="100" data-bottom-top="transform: translateY(20px)" data-top-bottom="transform: translateY(-20px)">
+                            <img src="/images/demo-corporate-about-img-02.jpg" alt="" class="border-radius-6px box-shadow-quadruple-large w-100" />
+                        </div>
+                    </div>
+                    <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <div class="swiper position-relative magic-cursor" data-slider-options='{ "autoHeight": true, "loop": true, "allowTouchMove": true, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "navigation": { "nextEl": ".swiper-button-next", "prevEl": ".swiper-button-prev" }, "effect": "slide" }'>
+                            <div class="swiper-wrapper mb-10px">
+                                <!-- start text slider item -->
+                                <div class="swiper-slide" ng-repeat="service in listeServices">
+                                    <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">Nos services</span>
+                                    <h3 class="text-dark-gray fw-700 ls-minus-1px mb-20px">{{service.nom}}</h3>
+                                    <p class="w-95 xl-w-100">{{service.description}}</p>
+                                </div>
+                               
+                            </div> 
+                            <div class="d-flex justify-content-center justify-content-lg-start">
+                                <!-- start slider navigation -->
+                                <div class="slider-one-slide-prev-1 swiper-button-prev slider-navigation-style-04 border border-color-extra-medium-gray bg-white"><i class="bi bi-arrow-left-short icon-very-medium text-dark-gray"></i></div>
+                                <div class="slider-one-slide-next-1 swiper-button-next slider-navigation-style-04 border border-color-extra-medium-gray bg-white"><i class="bi bi-arrow-right-short icon-very-medium text-dark-gray"></i></div>
+                                <!-- end slider navigation --> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <img src="/images/demo-corporate-services-bg-02.png" class="position-absolute bottom-minus-50px right-minus-50px z-index-minus-1" data-bottom-top="transform: rotate(0deg) translateY(0)" data-top-bottom="transform:rotate(-15deg) translateY(0)" alt=""/>
+        </section>
+     
+        <section class="pt-0">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-5 col-lg-6 text-center mb-1" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <span class="text-dark-gray fw-700 fs-15 text-uppercase border-1 pb-5px border-bottom border-color-extra-medium-gray text-dark-gray">Rejoignez les 10 000+ entreprises qui utilisent crafto</span>
+                    </div>
+                </div>
+                <div class="row position-relative clients-style-08 mt-25px" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 800, "delay":100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                    <div class="col swiper text-center feather-shadow" data-slider-options='{ "slidesPerView": 2, "spaceBetween":0, "speed": 3000, "loop": true, "pagination": { "el": ".slider-four-slide-pagination-2", "clickable": false }, "allowTouchMove": false, "autoplay": { "delay":0, "disableOnInteraction": false, "pauseOnMouseEnter": false}, "navigation": { "nextEl": ".slider-four-slide-next-2", "prevEl": ".slider-four-slide-prev-2" }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "1200": { "slidesPerView": 5 }, "768": { "slidesPerView": 3 }, "576": { "slidesPerView": 2 } }, "effect": "slide" }'>
+                        <div class="swiper-wrapper marquee-slide">
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-walmart-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-netflix-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-invision-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-yahoo-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-amazon-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-walmart-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-netflix-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-invision-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-yahoo-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                            <!-- start client item -->
+                            <div class="swiper-slide">
+                                <a href="#"><img src="images/logo-invision-dark-blue.svg" alt="" /></a>
+                            </div>
+                            <!-- end client item -->
+                        </div> 
+                    </div>  
+                </div>
+            </div>
+        </section>
+        <!-- end section -->
     </main>
-
-</body>
+    </body>
 </html>

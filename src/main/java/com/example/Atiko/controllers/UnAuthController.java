@@ -42,7 +42,7 @@ public class UnAuthController {
         model.addAttribute("appName", appName);
         model.addAttribute("articleId", id);
         model.addAttribute("title", "details blog");
-        return "front-office/pages/singleBlog";
+        return "front-office/pages/single-blog";
     }
 
 
@@ -50,7 +50,7 @@ public class UnAuthController {
     public String details(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Details-article");
-        return "front-office/pages/details";
+        return "front-office/pages/details-article";
     }
 
     @GetMapping("/services")
@@ -60,12 +60,12 @@ public class UnAuthController {
         return "front-office/pages/services";
     }
 
-    @GetMapping("/details-services/{id}")
-    public String service(Model model, Long id) {
+    @GetMapping("/details-service/{id}")
+    public String service(Model model,@PathVariable Long id) {
         model.addAttribute("appName", appName);
         model.addAttribute("serviceId", id);
         model.addAttribute("title", "Détails ervices");
-        return "front-office/pages/service";
+        return "front-office/pages/single-service";
     }
 
 
@@ -101,15 +101,6 @@ public class UnAuthController {
         return "front-office/pages/details";
     }
 
-
-    @GetMapping("/details-service/{id}")
-    public String servicesDetails(Model model, @PathVariable Long id) {
-        model.addAttribute("serviceId", id);
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Détails du service");
-        return "front-office/pages/service";
-    }
-    
     
     @GetMapping("/details-service/appui")
     public String appi(Model model) {

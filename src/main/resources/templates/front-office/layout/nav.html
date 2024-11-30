@@ -1,38 +1,69 @@
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:fragment="nav" ng-controller="unAuthController" class="container-fluid nav-bar sticky-top px-4 py-2 py-lg-0">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a href="/" class="navbar-brand p-0">
-                <h1 class="display-6 text-dark"><i class="fas fa-swimmer text-primary me-3" ng-if="!structureDto.logo"></i> <img ng-src="/{{structureDto.logo}}" alt="Logo" ng-if="structureDto.logo"></h1>
-                
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="fa fa-bars"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav mx-auto py-0">
-                    <a href="/" class="nav-item nav-link " th:classappend="${title == 'Accueil'} ? 'active' : ''">Accueil</a>
-                    <a th:href="@{/qui-sommes-nous}" class="nav-item nav-link" th:classappend="${title == 'Qui sommes-nous'} ? 'active' : ''">A propos</a>
-                    <!-- <a th:href="@{services}" class="nav-item nav-link">Services</a> -->
-                    
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" th:classappend="${title == 'Services'} ? 'active' : ''" data-bs-toggle="dropdown">Services</a>
-                        <div class="dropdown-menu m-0">
-                            <a ng-href="/services" class="dropdown-item">Services</a>
-                            <a ng-repeat="service in listeServices" ng-href="/details-service/{{service.id}}" class="dropdown-item">{{service.nom}}</a>
-                            
-                        </div>
-                    </div>
-                    <a th:href="@{/blog}" class="nav-item nav-link" th:classappend="${title == 'Blog'} ? 'active' : ''">Blog</a>
-                    <a th:href="@{/contact}" class="nav-item nav-link" th:classappend="${title == 'Contact'} ? 'active' : ''">Contact</a>
-                </div>
-                <div class="team-icon d-none d-xl-flex justify-content-center me-3">
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.facebook}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-square btn-light rounded-circle mx-1" ng-href="/{{structureDto.youtube}}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <a href="#" class="btn btn-primary rounded-pill py-2 px-4 flex-shrink-0">Consulting</a>
+    <!-- start navigation -->
+    <nav class="navbar navbar-expand-lg header-light bg-white disable-fixed" th:layout="nav" ng-controller="unAuthController">
+        <div class="container-fluid">
+            <div class="col-auto col-xl-3 col-lg-2 me-lg-0 me-auto">
+                <a class="navbar-brand" href="/">
+                    <img ng-src="/{{structureDto.logo}}" data-at2x="images/demo-corporate-logo-black@2x.png" alt="" class="default-logo">
+                    <img ng-src="/{{structureDto.logo}}" data-at2x="images/demo-corporate-logo-black@2x.png" alt="" class="alt-logo">
+                    <img ng-src="/{{structureDto.logo}}" data-at2x="images/demo-corporate-logo-black@2x.png" alt="" class="mobile-logo">
+                </a>
             </div>
-        </nav>
-    </div>
+            <div class="col-auto col-xl-6 col-lg-8 menu-order position-static">
+                <button class="navbar-toggler float-start" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-line"></span>
+                    <span class="navbar-toggler-line"></span>
+                    <span class="navbar-toggler-line"></span>
+                    <span class="navbar-toggler-line"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a href="/" class="nav-link">Accueil</a></li>
+                        <li class="nav-item"><a href="/qui-sommes-nous" class="nav-link">Qui sommes-nous</a></li>
+                        <li class="nav-item dropdown dropdown-with-icon-style02">
+                            <a href="demo-corporate-services.html" class="nav-link">Services</a>
+                            <i class="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li ng-repeat="service in listeServices track by $index"><a href="/details-service/{{service.id}}"><i class="{{dataIcons[$index]}}"></i>{{service.nom}}</a></li>
+                            </ul>
+                        </li>
+                        <!-- <li class="nav-item"><a href="demo-corporate-customer-stories.html" class="nav-link">Testimonials</a></li> -->
+                        <!-- <li class="nav-item"><a href="demo-corporate-pricing.html" class="nav-link">Souscriptions</a></li> -->
+                        <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
+                        <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-auto col-xl-3 col-lg-2 text-end md-pe-0">
+                <div class="header-icon">
+                    <div class="header-search-icon icon">
+                        <a href="#" class="search-form-icon header-search-form"><i class="feather icon-feather-search"></i></a>
+                        <!-- start search input -->
+                        <div class="search-form-wrapper">
+                            <button title="Close" type="button" class="search-close">×</button>
+                            <form id="search-form" role="search" method="get" class="search-form text-left" action="search-result.html">
+                                <div class="search-form-box">
+                                    <h2 class="text-dark-gray text-center fw-600 mb-4 ls-minus-1px">Qu'avez-vous a rechercher?</h2>
+                                    <input class="search-input" id="search-form-input5e219ef164995" placeholder="Entrer un mot" name="s" value="" type="text" autocomplete="off">
+                                    <button type="submit" class="search-button">
+                                        <i class="feather icon-feather-search" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- end search input -->
+                    </div>
+                    <div class="header-button ms-20px d-none d-xl-inline-block">
+                        <a href="/contact" class="btn btn-rounded btn-transparent-light-gray border-1 btn-medium btn-switch-text text-transform-none">
+                            <span>
+                                <span class="btn-double-text fw-600" data-text="Free consultation">Consultation gratuit e</span>
+                                <span><i class="fa-regular fa-envelope"></i></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- end navigation -->
 </html>
