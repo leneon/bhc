@@ -41,7 +41,7 @@
                 <div class="row align-items-end justify-content-center mb-5 md-mb-40px text-center text-md-start">                    
                     <div class="col-xl-11 col-lg-11 col-md-10 md-mb-20px text-center text-lg-start" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                         <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">A propos</span>
-                        <h3 class="text-dark-gray fw-700 mb-0 ls-minus-1px"><span>{{structureDto.nom}}</span></h3>
+                        <h6 class="text-dark-gray fw-700 mb-0 ls-minus-1px"><span>{{structureDto.nom}}</span></h6>
                         <div class="feature-box-content">
                             <span class="d-block fs-19 fw-700 text-dark-gray mb-5px"><span ng-bind-html="structureDto.bio"></span></span>
                             <p ng-bind-html="structureDto.description">
@@ -131,32 +131,83 @@
                 </div>
             </div>
         </section>
-        <!-- end section -->
-        <!-- start section -->
+      <!-- start section -->
         <section class="position-relative overflow-hidden">
             <div class="container">
                 <div class="row justify-content-center align-items-center mb-3">
                     <div class="col-xl-5 col-lg-6 md-mb-14 sm-mb-18 xs-mb-23 position-relative" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
                         <div class="w-75 sm-w-80" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
-                            <img src="/images/demo-corporate-about-img-01.jpg" alt="" class="border-radius-6px w-100">
+                            <img src="/images/img-001.jpg" alt="" class="border-radius-6px w-100">
                             <div class="position-absolute top-30px z-index-8 left-minus-90px lg-left-minus-25px sm-left-minus-0px lg-w-30">
                                 <img src="images/demo-corporate-about-01.png" alt="" />
                             </div>
                         </div>
                         <div class="w-55 overflow-hidden position-absolute right-15px xs-w-55 bottom-minus-50px" data-shadow-animation="true" data-animation-delay="100" data-bottom-top="transform: translateY(20px)" data-top-bottom="transform: translateY(-20px)">
-                            <img src="/images/demo-corporate-about-img-02.jpg" alt="" class="border-radius-6px box-shadow-quadruple-large w-100" />
+                            <img src="/images/img-002.jpg" alt="" class="border-radius-6px box-shadow-quadruple-large w-100" />
                         </div>
                     </div>
                     <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
                         <div class="swiper position-relative magic-cursor" data-slider-options='{ "autoHeight": true, "loop": true, "allowTouchMove": true, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "navigation": { "nextEl": ".swiper-button-next", "prevEl": ".swiper-button-prev" }, "effect": "slide" }'>
                             <div class="swiper-wrapper mb-10px">
                                 <!-- start text slider item -->
-                                <div class="swiper-slide" ng-repeat="service in listeServices">
-                                    <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">Nos services</span>
-                                    <h3 class="text-dark-gray fw-700 ls-minus-1px mb-20px">{{service.nom}}</h3>
-                                    <p class="w-95 xl-w-100">{{service.description}}</p>
+                                <div class="swiper-slide">
+                                    <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">Nos Mission</span>
+                                    <h6 class="text-dark-gray fw-700 ls-minus-1px mb-20px">Business Help Consulting</h6>
+                                    <p class="w-95 xl-w-100">Soutenir les entrepreneurs en leur
+                                        offrant un accompagnement optimisé
+                                        et en facilitant leur accès aux outils,
+                                        ressources et opportunités
+                                        nécessaires pour transformer leurs
+                                        idées en entreprises pérennes,
+                                        contribuant ainsi à un impact
+                                        économique et social durable.</p>
                                 </div>
-                               
+                                <!-- end text slider item -->
+                                <!-- start text slider item -->
+                                <div class="swiper-slide">
+                                    <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">Notre Vision</span>
+                                    <h6 class="text-dark-gray fw-700 ls-minus-1px mb-20px">Business Help Consulting</h6>
+                                    <p class="w-95 xl-w-100">Être acteur de référence au niveau
+                                        national et international dans
+                                        l’accompagnement entrepreneurial, en
+                                        créant un écosystème innovant et
+                                        inclusif qui favorise l’émergence d’une
+                                        génération d’entrepreneurs innovants,
+                                        autonomes, résilients, contribuant à
+                                        l’émergence d’entreprises durables,
+                                        moteur de transformation économique,
+                                        sociale et environnementale.
+                                        </p>
+                                </div>
+                                <!-- end text slider item -->
+                                <!-- start text slider item -->
+                                <div class="swiper-slide">
+                                    <span class="ps-25px pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">Nos valeurs</span>
+                                    <h6 class="text-dark-gray fw-700 ls-minus-1px mb-20px">Business Help Consulting</h6>
+                                    <p class="w-95 xl-w-100">
+                                        <br>Intégrité <br>
+                                        Nous opérons avec transparence et honnêteté.
+                                        <br>Innovation <br>
+                                        Nous promouvons des solutions créatives et
+                                        avant-gardistes pour répondre aux défis
+                                        entrepreneuriaux.
+                                       <br> Excellence <br>
+                                       Nous nous engageons à fournir des
+                                        services de haute qualité, axés sur les
+                                        résultats.
+                                        <br>Collaboration <br>
+                                        Nous valorisons le travail en réseau et les
+                                        partenariats pour maximiser les impacts.
+                                        <br>Inclusion <br>
+                                        Nous soutenons des initiatives diversifiées pour
+                                        favoriser l'entrepreneuriat à tous les niveaux.
+                                        <br>Impact durable <br>
+                                        Nous plaçons la durabilité au cœur de nos actions
+                                        pour générer des bénéfices économiques, sociaux
+                                        et environnementaux à long terme
+                                    </p>
+                                </div>
+                                <!-- end text slider item -->
                             </div> 
                             <div class="d-flex justify-content-center justify-content-lg-start">
                                 <!-- start slider navigation -->
@@ -168,8 +219,9 @@
                     </div>
                 </div>
             </div>
-            <img src="/images/demo-corporate-services-bg-02.png" class="position-absolute bottom-minus-50px right-minus-50px z-index-minus-1" data-bottom-top="transform: rotate(0deg) translateY(0)" data-top-bottom="transform:rotate(-15deg) translateY(0)" alt=""/>
+            <img src="/images/demo-corporate-bg-01.png" class="position-absolute bottom-minus-50px right-minus-50px z-index-minus-1" data-bottom-top="transform: rotate(0deg) translateY(0)" data-top-bottom="transform:rotate(-15deg) translateY(0)" alt=""/>
         </section>
+        <!-- end section -->
      
         <section class="pt-0">
             <div class="container">

@@ -32,10 +32,8 @@
                 <div class="col-6 col-xl-2 col-lg-3 col-sm-4 xs-mb-30px order-sm-4 order-lg-3">
                     <span class="fs-17 fw-600 d-block text-dark-gray mb-5px">Services</span>
                     <ul>
-                        <li><a href="demo-corporate-services-details.html">Planning</a></li>
-                        <li><a href="demo-corporate-services-details.html">Research</a></li>
-                        <li><a href="demo-corporate-services-details.html">Consulting</a></li>
-                        <li><a href="demo-corporate-services-details.html">Analysis</a></li>
+                        <li ng-repeat="service in listeServices track by $index "><a href="/details-service/{{service.id}}">{{service.nom}}</a></li>
+                       
                     </ul>
                 </div>
                 <!-- end footer column -->

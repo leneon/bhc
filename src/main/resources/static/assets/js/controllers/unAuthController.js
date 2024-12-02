@@ -37,9 +37,9 @@ App.controller('unAuthController', ['$scope', '$http', '$sce', function($scope, 
         "/services-gestion-projets"
     ];
     $scope.dataIcons = [
-        "line-icon-Archery-2",
         "line-icon-Medal-2",
-        "line-icon-Financial",
+        "line-icon-Home",
+        "line-icon-Archery-2",
         "line-icon-Money-Bag"
     ];
 
