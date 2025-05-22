@@ -19,8 +19,8 @@ WORKDIR /app
 # Copiez le fichier JAR de l'image précédente
 COPY --from=build /app/target/*.jar app.jar
 
-# Exposez le port sur lequel votre application écoute (par défaut Spring Boot écoute sur le port 8080)
-EXPOSE 8080
+# Exposez le port sur lequel votre application écoute (par défaut Spring Boot écoute sur le port 8000)
+EXPOSE 8000
 
 # Commande pour exécuter l'application
 ENTRYPOINT ["java", "-jar", "app.jar"]
