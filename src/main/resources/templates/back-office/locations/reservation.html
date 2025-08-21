@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{back-office/layout/base.html}">
+
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+</head>
+
+<body ng-app="myApp" ng-controller="reservationController">
+    <div layout:fragment="content">
+        <div class="card mt-5">
+            <div class="card-header">
+                <h3 class="card-title">Nouvelle réservation</h3>
+            </div>
+            <div class="card-body">
+                <form class="row g-3" ng-submit="valider()">
+                    <!-- Section Informations Client & Voiture -->
+                    <div class="separator separator-dashed my-8">
+                        <span class="w-125px text-gray-500 fw-semibold fs-7">Informations client & voiture</span>
+                    </div>
+                    <div class="row mb-7 g-3">
+                        <!-- Client -->
+                        <div class="col-md-6">
+                            <!-- Label + bouton alignés -->
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <label class="form-label required mb-0">Client</label>
+                                <button type="button"
+                                    class="btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#kt_modal_add_client"
+                                    title="Créer un nouveau client">+ 
+                                    <i class="fa fa-user"></i>
+                                </button>
+                            </div>
+
+                            <!-- Select -->
+                            <select class="form-select" ng-model="reservationDto.clientId" id="reservation_client"
+                                name="reservation_client" data-control="select2"
+                                data-placeholder="Sélectionner un client..." required
+                                ng-options="client.id as (client.nom + ' (' + (client.telephone || client.phone || '') + ')') for client in clients">
+                                <option value="">Sélectionner un client...</option>
+                            </select>
+                        </div>
+
+
+                        <!-- Voiture -->
+                        <div class="col-md-6">
+                            <label class="form-label required">Voiture</label>
+                            <select class="form-select" ng-model="reservationDto.voiture" id="reservation_voiture"
+                                name="reservation_voiture" data-control="select2"
+                                data-placeholder="Sélectionner une voiture..." required
+                                ng-options="voiture.id as (voiture.nom + ' (' + (voiture.immatriculation || voiture.matricule || '') + ')') for voiture in voitures">
+                                <option value="">Sélectionner une voiture...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Modal Ajouter Client -->
+                    <div class="modal fade" id="kt_modal_add_client" tabindex="-1"
+                        aria-labelledby="kt_modal_add_client_label" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered mw-650px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fw-bold" id="kt_modal_add_client_label">Nouveau client</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Fermer"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="form_add_client" class="form">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Nom complet</label>
+                                            <input type="text" class="form-control" placeholder="Nom complet"
+                                                ng-model="clientForm.nomComplet" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label required">Email</label>
+                                            <input type="email" class="form-control" placeholder="example@domain.com"
+                                                ng-model="clientForm.email" required>
+                                        </div>
+                                          <div class="mb-3">
+                                            <label class="form-label">Téléphone</label>
+                                            <input type="text" class="form-control" placeholder="Téléphone du client"
+                                                ng-model="clientForm.telephone">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Adresse</label>
+                                            <input type="text" class="form-control" placeholder="Adresse du client"
+                                                ng-model="clientForm.adresse">
+                                        </div>
+                                      
+                                    </form> 
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                                        ng-click="clientForm = {nomComplet: '', email: '', adresse: '', telephone: ''}">
+                                        Annuler
+                                    </button>
+                                    <button type="button" class="btn btn-primary" ng-click="addClient()">
+                                        Ajouter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section Détails de la réservation -->
+                    <div class="separator separator-dashed my-8">
+                        <span class="w-125px text-gray-500 fw-semibold fs-7">Détails de la réservation</span>
+                    </div>
+                    <div class="row mb-7 g-3">
+                        <div class="col-md-4">
+                            <label class="form-label required">Date réservation</label>
+                            <input type="datetime-local" class="form-control" ng-model="reservationDto.dateReservation"
+                                required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label required">Début prévue</label>
+                            <input type="datetime-local" class="form-control" ng-model="reservationDto.dateDebutPrevue"
+                                required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label required">Fin prévue</label>
+                            <input type="datetime-local" class="form-control" ng-model="reservationDto.dateFinPrevue"
+                                required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Lieu départ</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.lieuDepart"
+                                placeholder="Lieu de départ">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Lieu retour</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.lieuRetour"
+                                placeholder="Lieu de retour">
+                        </div>
+                    </div>
+                    <!-- Section Paiement (affichée si modePaiement sélectionné) -->
+                    <div class="separator separator-dashed my-8">
+                        <span class="w-125px text-gray-500 fw-semibold fs-7">Informations paiement</span>
+                    </div>
+                    <div class="row mb-7 g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required">Mode paiement</label>
+                            <select class="form-select" ng-model="reservationDto.modePaiement" required>
+                                <option value="">Sélectionner...</option>
+                                <option value="ESPECES">Espèces</option>
+                                <option value="CARTE">Carte</option>
+                                <option value="MOBILE_MONEY">Mobile Money</option>
+                            </select>
+                        </div>
+                        <!-- Paiement par carte -->
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'CARTE'">
+                            <label class="form-label">Numéro de carte</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.numeroCarte" maxlength="16"
+                                pattern="\d{16}" placeholder="Numéro (16 chiffres)" />
+                        </div>
+                        <div class="col-md-3" ng-if="reservationDto.modePaiement === 'CARTE'">
+                            <label class="form-label">Expiration (MM/AA)</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.expirationCarte"
+                                maxlength="5" pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/AA" />
+                        </div>
+                        <div class="col-md-3" ng-if="reservationDto.modePaiement === 'CARTE'">
+                            <label class="form-label">CVV/CVC</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.cvvCarte" maxlength="4"
+                                pattern="\d{3,4}" placeholder="CVV/CVC" />
+                        </div>
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'CARTE'">
+                            <label class="form-label">Nom du titulaire</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.nomTitulaireCarte"
+                                placeholder="Nom sur la carte" />
+                        </div>
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'CARTE'">
+                            <label class="form-label">Montant à débiter</label>
+                            <input type="number" class="form-control" ng-model="reservationDto.montantTotal"
+                                placeholder="Montant à débiter">
+                        </div>
+                        <!-- Paiement par mobile money -->
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'MOBILE_MONEY'">
+                            <label class="form-label">Téléphone Mobile Money</label>
+                            <input type="text" class="form-control" ng-model="reservationDto.telephoneMobileMoney"
+                                placeholder="Numéro de téléphone" />
+                        </div>
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'MOBILE_MONEY'">
+                            <label class="form-label">Montant à débiter</label>
+                            <input type="number" class="form-control" ng-model="reservationDto.montantTotal"
+                                placeholder="Montant à débiter">
+                        </div>
+                        <!-- Paiement espèces ou acompte -->
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'ESPECES'">
+                            <label class="form-label">Montant total</label>
+                            <input type="number" class="form-control" ng-model="reservationDto.montantTotal"
+                                placeholder="Montant total">
+                        </div>
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement">
+                            <label class="form-label">Acompte</label>
+                            <input type="number" class="form-control" ng-model="reservationDto.acompte"
+                                placeholder="Acompte">
+                        </div>
+                    </div>
+                    <!-- Section Statut -->
+                    <div class="separator separator-dashed my-8">
+                        <span class="w-125px text-gray-500 fw-semibold fs-7">Statut de la réservation</span>
+                    </div>
+                    <div class="row mb-7 g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required">État</label>
+                            <select class="form-select" ng-model="reservationDto.etatReservation" required>
+                                <option value="">Sélectionner...</option>
+                                <option value="EN_ATTENTE">En attente</option>
+                                <option value="CONFIRMEE">Confirmée</option>
+                                <option value="ANNULEE">Annulée</option>
+                                <option value="TERMINEE">Terminée</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Section Notes -->
+                    <div class="separator separator-dashed my-8">
+                        <span class="w-125px text-gray-500 fw-semibold fs-7">Notes</span>
+                    </div>
+                    <div class="row mb-7 g-3">
+                        <div class="col-12">
+                            <label class="form-label">Notes</label>
+                            <textarea class="form-control" ng-model="reservationDto.notes" rows="2"
+                                placeholder="Notes supplémentaires"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center pt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="indicator-label">Enregistrer la réservation</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/js/controllers/reservationController.js" layout:fragment="script"></script>
+</body>
+
+</html>

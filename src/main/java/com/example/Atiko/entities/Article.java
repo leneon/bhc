@@ -2,6 +2,7 @@ package com.example.Atiko.entities;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -9,12 +10,11 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 
@@ -22,8 +22,13 @@ import jakarta.persistence.Table;
 @Table(name = "articles")
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
     @Column
     private String titre;
     @Column(columnDefinition = "TEXT", nullable = true)  // Utilise le type TEXT

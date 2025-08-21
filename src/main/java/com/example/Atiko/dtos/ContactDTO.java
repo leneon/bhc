@@ -4,7 +4,7 @@ public class ContactDTO {
     private String useremail;
     private String userphone;
     private String message;
-    private Long serviceId; // ID du service associé au contact (nullable)
+    private String service; // ID du service associé au contact (nullable)
     private String status;  // Nouveau champ status
 
     // Getters and Setters
@@ -40,12 +40,12 @@ public class ContactDTO {
         this.message = message;
     }
 
-    public Long getServiceId() {
-        return serviceId;
+    public String getservice() {
+        return service;
     }
 
-    public void setServiceId(Long serviceId) {
-        this.serviceId = serviceId;
+    public void setservice(String service) {
+        this.service = service;
     }
 
     public String getStatus() {

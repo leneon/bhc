@@ -2,8 +2,6 @@ package com.example.Atiko.resources;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Atiko.dtos.*;
 import com.example.Atiko.entities.Contact;
-import com.example.Atiko.entities.Espace;
 import com.example.Atiko.services.*;
 
-import jakarta.websocket.server.PathParam;
 
 @RequestMapping("/unauth")
 @RestController
@@ -36,10 +32,6 @@ public class UnAuthResource {
     private NewsletterService newsletterService;
     @Autowired
     private CommentaireService commentaireService;    
-    @Autowired
-    private EspaceService espaceService;
-    @Autowired
-    private ServiceService serviceService;
     @Autowired
     private ContactService contactService;
 
@@ -114,47 +106,5 @@ public class UnAuthResource {
         return ResponseEntity.ok(comment);  // 200 OK avec la première structure
     }
 
-   @GetMapping("/services")
-    public ResponseEntity<List<ServiceDto>> getAllservices() {
-        List<ServiceDto> services = serviceService.getAllservices();
-        return ResponseEntity.ok(services);
-    }
-    @GetMapping("/services/{id}")
-    public ResponseEntity<Optional<ServiceDto>> getService(@PathVariable Long id) {
-        Optional<ServiceDto> service = serviceService.getServiceById(id);
-            if (service==null) {
-                return ResponseEntity.noContent().build();  // 204 No Content si aucune structure n'existe
-            }
-        return ResponseEntity.ok(service);
-    }
-  
-    @GetMapping("/espaces")
-    public ResponseEntity<List<EspaceDto>> getAllEspaces() {
-        List<EspaceDto> espaces =  espaceService.findAll().stream()
-                                                .map(this::convertToDto)
-                                                .collect(Collectors.toList());;
-                                        
-        return ResponseEntity.ok(espaces);
-    }
-    @GetMapping("/espaces/{id}")
-    public ResponseEntity<List<EspaceDto>> getEspace(Long id) {
-        List<EspaceDto> espaces =  espaceService.findAll().stream()
-                                                .map(this::convertToDto)
-                                                .collect(Collectors.toList());;
-                                        
-        return ResponseEntity.ok(espaces);
-    }
-            // Convertir `Espace` en `EspaceDto`
-    private EspaceDto convertToDto(Espace espace) {
-        EspaceDto dto = new EspaceDto();
-        dto.setId(espace.getId());
-        dto.setNom(espace.getNom());
-        dto.setType(espace.getType());
-        dto.setDescription(espace.getDescription());
-        dto.setTarif(espace.getTarif());
-        dto.setStatut(espace.getStatut());
-        dto.setImg(espace.getImg());
-        return dto;
-    }
-
-}
+   
+  }

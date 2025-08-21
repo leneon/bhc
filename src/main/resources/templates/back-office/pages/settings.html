@@ -171,24 +171,25 @@
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
-                                    <div quill-editor ng-model="structureDto.bio" style="height: 100px;"></div>
+                                    <div quill-editor ng-model="structureDto.bio" style="height: 50px;"></div>
                                 </div>
                                 <!--end::Col-->
+
                             </div>
                             <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="row mb-6">
-                                <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label required fw-semibold fs-6">A propos</label>
-                                <!--end::Label-->
-                                <!--begin::Col-->
-                                <div class="col-lg-8 fv-row">
-                                    <!--begin::Options-->
-                                    <div quill-editor ng-model="structureDto.description" style="height: 150px;"></div>
-                                    <!--end::Options-->
-                                </div>       
-                            <!--end::Input group-->
-                            </div>
+                                <!--begin::Input group-->
+                                <div class="row mb-6">
+                                    <!--begin::Label-->
+                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">A propos</label>
+                                    <!--end::Label-->
+                                    <!--begin::Col-->
+                                    <div class="col-lg-8 fv-row">
+                                        <!--begin::Options-->
+                                        <div quill-editor ng-model="structureDto.description" style="height: 50px;"></div>
+                                        <!--end::Options-->
+                                    </div>       
+                                <!--end::Input group-->
+                                </div>
                         
                             <!-- <div class="row mb-0"> -->
                                 <!--begin::Label-->
@@ -207,49 +208,7 @@
                         </div>
                         <!--end::Card body-->
                         <div class="card mb-5 mb-xl-10">
-                            <!--begin::Card header-->
-                            <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
-                                <div class="card-title m-0">
-                                    <h3 class="fw-bold m-0">Pub</h3>
-                                </div>
-                            </div>
-                            <!--end::Card header-->
-                            <!--begin::Content-->
-                            <div id="kt_account_settings_signin_method" class="collapse show">
-                                <!--begin::Card body-->
-                                <div class="card-body border-top p-9">
-                                    <!--end::Separator-->
-                                    <div class="row mb-6">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Couverture </label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8 fv-row">
-                                            <input file-model="img" type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Image" />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-6">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Pub Image du haut </label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8 fv-row">
-                                            <input file-model="img1" type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Image" />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-6">
-                                        <!--begin::Label-->
-                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Pub Image du coté </label>
-                                        <!--end::Label-->
-                                        <!--begin::Col-->
-                                        <div class="col-lg-8 fv-row">
-                                            <input file-model="img2" type="file" name="company" class="form-control form-control-lg form-control-solid" placeholder="Image" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end::Card body-->
-                            </div>
-                            <!--end::Content-->
+                           
                             <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_signin_method">
                                 <div class="card-title m-0">
                                     <h3 class="fw-bold m-0">Réseaux Sociaux</h3>
@@ -270,7 +229,7 @@
                                     </div>
                                     <div class="fv-row mb-7 ">
                                         <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Linkedin</label>
+                                        <label class="required fw-semibold fs-6 mb-2">Youtube</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
                                         <input  ng-model="structureDto.youtube" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Youtube" />
@@ -316,7 +275,7 @@
         </div>
 
         
-    <script src="/assets/js/controllers/settingsController.js" layout:fragment="script"></script>
+    <script src="/js/controllers/settingsController.js" layout:fragment="script"></script>
    
     </body>
 </html>

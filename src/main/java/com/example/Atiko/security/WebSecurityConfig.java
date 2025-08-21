@@ -89,7 +89,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Use session when required
         )
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/bhc/**").authenticated()  // Require authentication for these URLs
+            .requestMatchers("/atiko/**").authenticated()  // Require authentication for these URLs
             .requestMatchers("/assets/**","/auth/**","/uploads/**","/unauth/**", "/api/test/**").permitAll()  // Allow public access to these APIs
             .requestMatchers("/api/**").authenticated()  // Require authentication for these URLs
             .anyRequest().permitAll()  // Allow all other requests

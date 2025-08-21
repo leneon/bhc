@@ -1,6 +1,7 @@
 package com.example.Atiko.entities;
 
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -12,10 +13,19 @@ import jakarta.persistence.*;
 })
 public class Categorie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
     @Column
     private String nom;
+    
+    @Column(columnDefinition = "TEXT", nullable = true)
+    private String description;
+    
     @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Article> articles;
     public List<Article> getArticles() {
@@ -57,6 +67,14 @@ public class Categorie {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     

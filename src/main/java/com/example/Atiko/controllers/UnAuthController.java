@@ -16,7 +16,7 @@ public class UnAuthController {
     public String index(Model model){
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Accueil");
-        return ("front-office/pages/index");
+        return ("back-office/pages/dashboard");
     }
 
     @GetMapping("/a-propos")

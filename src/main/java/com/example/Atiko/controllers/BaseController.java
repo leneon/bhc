@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.Atiko.security.services.UserDetailsImpl;
 
-@RequestMapping(path = "/bhc")
+@RequestMapping(path = "/atiko")
 @Controller
 public class BaseController {
 
@@ -20,7 +20,7 @@ public class BaseController {
 
     @GetMapping("/")
     public String redirectToDashboard() {
-        return "redirect:/bhc/dashboard";
+        return "redirect:/atiko/dashboard";
     }
     
     @GetMapping(value = "/dashboard", name = "dashboard")
@@ -69,36 +69,8 @@ public class BaseController {
 
         return "back-office/users/password";
     }
-    @GetMapping("/categories")
-    public String categories(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Catégories");
-        return "back-office/articles/categories";
-    }
-    @GetMapping("/articles")
-    public String articles(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Articles");
-        return "back-office/articles/articles";
-    }
-    @GetMapping("/services")
-    public String services(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Services");
-        return "back-office/services/services";
-    }
-    @GetMapping("/services/espaces")
-    public String espaces(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Espaces");
-        return "back-office/services/espaces";
-    }
-    @GetMapping("/services/contacts")
-    public String contacts(Model model) {
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Services");
-        return "back-office/services/contacts";
-    }
+
+ 
     @GetMapping("/newsletters")
     public String news(Model model) {
         model.addAttribute("appName", appName);
@@ -106,5 +78,10 @@ public class BaseController {
         return "back-office/pages/newsletters";
     }
    
-   
+    @GetMapping("/clients")
+    public String clients(Model model) {
+        model.addAttribute("appName", appName);
+        model.addAttribute("title", "Clients");
+        return "back-office/users/clients"; 
+    }
 }

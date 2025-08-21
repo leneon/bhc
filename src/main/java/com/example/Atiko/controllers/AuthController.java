@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Atiko.entities.ERole;
-import com.example.Atiko.entities.Profile;
 import com.example.Atiko.entities.Role;
 import com.example.Atiko.entities.User;
+import com.example.Atiko.entities.UserProfile;
 import com.example.Atiko.payload.request.LoginRequest;
 import com.example.Atiko.payload.request.SignupRequest;
 import com.example.Atiko.payload.response.JwtResponse;
 import com.example.Atiko.payload.response.MessageResponse;
-import com.example.Atiko.repositories.ProfileRepository;
+import com.example.Atiko.repositories.UserProfileRepository;
 import com.example.Atiko.repositories.RoleRepository;
 import com.example.Atiko.repositories.UserRepository;
 import com.example.Atiko.security.jwt.JwtUtils;
@@ -47,7 +47,7 @@ public class AuthController {
   UserRepository userRepository;
 
   @Autowired
-  ProfileRepository profileRepository;
+  UserProfileRepository profileRepository;
 
 
   @Autowired
@@ -138,7 +138,7 @@ public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRe
     userRepository.save(user);
 
     // Créer le profil après l'enregistrement de l'utilisateur
-    Profile profile = new Profile();
+    UserProfile profile = new UserProfile();
     profile.setUser(user); // L'utilisateur nouvellement créé
     // Vous pouvez définir d'autres attributs ici si nécessaire
 

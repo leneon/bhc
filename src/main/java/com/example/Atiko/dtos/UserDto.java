@@ -21,7 +21,19 @@ public class UserDto {
 
     private String password;
     
+    private String avatar;
 
+    // Champs du profil pour la liste client
+    private String nom;
+    private String adresse;
+    private String telephone;
+
+    public String getAvatar() {
+        return avatar;
+    }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getPassword() {
         return password;
@@ -57,6 +69,17 @@ public class UserDto {
         this.role = user.getFirstRoleAsString();
         this.createdAt = user.getCreatedAt();
         this.status = user.getStatus();
+        // Récupérer l'avatar du profil si il existe
+        if (user.getProfile() != null && user.getProfile().getAvatar() != null) {
+            this.avatar = user.getProfile().getAvatar();
+        }
+
+        // Mapper les infos du profil si présent
+        if (user.getProfile() != null) {
+            this.nom = user.getProfile().getNom();
+            this.adresse = user.getProfile().getAdresse();
+            this.telephone = user.getProfile().getTelephone();
+        }
     }
     public UserDto(Long id) {
         this.id  = id;
@@ -94,7 +117,26 @@ public class UserDto {
     @Override
     public String toString() {
         return "UserDto [id=" + id + ", email=" + email + ", username=" + username + ", role=" + role + ", createdAt="
-                + createdAt + ", status=" + status + ", password=" + password + "]";
+                + createdAt + ", status=" + status + ", password=" + password + ", nom=" + nom + ", adresse=" + adresse + ", telephone=" + telephone + "]";
+    }
+
+    public String getNom() {
+        return nom;
+    }
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+    public String getAdresse() {
+        return adresse;
+    }
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+    public String getTelephone() {
+        return telephone;
+    }
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
 

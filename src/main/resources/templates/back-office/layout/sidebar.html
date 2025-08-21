@@ -27,12 +27,11 @@
 					<!--end:Menu link-->
 					
 				</div>
-			
-				<!--begin:Menu item-->
+				
 				<div class="menu-item pt-5">
 					<!--begin:Menu content-->
 					<div class="menu-content">
-						<span class="menu-heading fw-bold text-uppercase fs-7">GESTIONS</span>
+						<span class="menu-heading fw-bold text-uppercase fs-7">Opération</span>
 					</div>
 					<!--end:Menu content-->
 				</div>
@@ -51,7 +50,7 @@
 							</span>
 							<!--end::Svg Icon-->
 						</span>
-						<span class="menu-title">Services</span>
+						<span class="menu-title">Tickets</span>
 						<span class="menu-arrow"></span>
 					</span>
 					<!--end:Menu link-->
@@ -60,64 +59,39 @@
 						<!--begin:Menu item-->
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/services}">
+							<a class="menu-link" th:href="@{atiko/tickets/reservation}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title"> Liste de services
+								<span class="menu-title"> Réservation
 								</span>
 							</a>
 							<!--end:Menu link-->
 						</div>
-						<div class="menu-item" >
-							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/services/1}">
+						<div class="menu-item">
+							<a class="menu-link" th:href="@{atiko/tickets/reservations}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Appui Technique et Financier</span>
+								<span class="menu-title">Liste Réservations</span>
 							</a>
-							<!--end:Menu link-->
 						</div>
-
-						<div class="menu-item" >
-							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/services/2}">
+						<!-- <div class="menu-item" >
+							<a class="menu-link" th:href="@{atiko/trajets}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Location d'Espaces de Coworking</span>
+								<span class="menu-title">Trajets</span>
 							</a>
-							<!--end:Menu link-->
-						</div>
-						<div class="menu-item" >
-							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{#}">
-								<span class="menu-bullet">
-									<span class="bullet bullet-dot"></span>
-								</span>
-								<span class="menu-title">Domiciliation d'Entreprise</span>
-							</a>
-							<!--end:Menu link-->
-						</div>
-						<div class="menu-item" >
-							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{#}">
-								<span class="menu-bullet">
-									<span class="bullet bullet-dot"></span>
-								</span>
-								<span class="menu-title">Conseils aux Entrepreneurs</span>
-							</a>
-							<!--end:Menu link-->
-						</div>
+						</div> -->
 
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/services/payements}">
+							<a class="menu-link" th:href="@{atiko/tickets/paiements}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Payements</span>
+								<span class="menu-title">Paiements</span>
 							</a>
 							<!--end:Menu link-->
 						</div>
@@ -144,43 +118,51 @@
 							</span>
 							<!--end::Svg Icon-->
 						</span>
-						<span class="menu-title">Articles</span>
+						<span class="menu-title">Locations</span>
 						<span class="menu-arrow"></span>
 					</span>
 					<!--end:Menu link-->
 					<!--begin:Menu sub-->
 					<div class="menu-sub menu-sub-accordion">
-						<!--begin:Menu item-->
 						<div class="menu-item">
-							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/categories}">
+							<a class="menu-link" th:href="@{atiko/locations/reservation}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Catégories</span>
+								<span class="menu-title">Réservation</span>
 							</a>
-							<!--end:Menu link-->
 						</div>
-						<!--end:Menu item-->
-						<!--begin:Menu item-->
+						
 						<div class="menu-item">
-							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/articles}">
+							<a class="menu-link" th:href="@{atiko/locations/reservations}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Articles</span>
+								<span class="menu-title">Liste Réservations</span>
 							</a>
-							<!--end:Menu link-->
 						</div>
-						<!--end:Menu item-->
-				
+						<div class="menu-item">
+							<a class="menu-link" th:href="@{atiko/locations}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Liste Locations</span>
+							</a>
+						</div>
+						<div class="menu-item">
+							<a class="menu-link" th:href="@{atiko/locations/paiements}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Paiements</span>
+							</a>
+						</div>
 					</div>
 					<!--end:Menu sub-->
 				</div>
 				<div class="menu-item">
 					<!--begin:Menu link-->
-					<a class="menu-link" ng-href="services/demandes">
+					<a class="menu-link" th:href="@{atiko/reservations}">
 						<span class="menu-icon">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M20 14H18V10H20C20.6 10 21 10.4 21 11V13C21 13.6 20.6 14 20 14ZM21 19V17C21 16.4 20.6 16 20 16H18V20H20C20.6 20 21 19.6 21 19ZM21 7V5C21 4.4 20.6 4 20 4H18V8H20C20.6 8 21 7.6 21 7Z" fill="currentColor" />
@@ -188,13 +170,13 @@
 							</svg>
 							
 						</span>
-						<span class="menu-title">Demande de services</span>
+						<span class="menu-title">Réservations</span>
 					</a>
 					<!--end:Menu link-->
 				</div>
 				<div class="menu-item">
 					<!--begin:Menu link-->
-					<a class="menu-link" ng-href="bhc/services/espaces">
+					<a class="menu-link" ng-href="atiko/payements">
 						<span class="menu-icon">
 							<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
 							<span class="svg-icon svg-icon-2">
@@ -205,15 +187,86 @@
 							</span>
 							<!--end::Svg Icon-->
 						</span>
-						<span class="menu-title">Espaces de locations</span>
+						<span class="menu-title">Payements</span>
 					</a>
 					<!--end:Menu link-->
 				</div>
 
+					<!--begin:Menu item-->
+					<div class="menu-item pt-5">
+						<!--begin:Menu content-->
+						<div class="menu-content">
+							<span class="menu-heading fw-bold text-uppercase fs-7">Gestion</span>
+						</div>
+						<!--end:Menu content-->
+					</div>
+					<!--end:Menu item-->
+	
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="atiko/categories">
+							<span class="menu-icon">
+								<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
+								<span class="svg-icon svg-icon-2">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path opacity="0.3" d="M11.8 5.2L17.7 8.6V15.4L11.8 18.8L5.90001 15.4V8.6L11.8 5.2ZM11.8 2C11.5 2 11.2 2.1 11 2.2L3.8 6.4C3.3 6.7 3 7.3 3 7.9V16.2C3 16.8 3.3 17.4 3.8 17.7L11 21.9C11.3 22 11.5 22.1 11.8 22.1C12.1 22.1 12.4 22 12.6 21.9L19.8 17.7C20.3 17.4 20.6 16.8 20.6 16.2V7.9C20.6 7.3 20.3 6.7 19.8 6.4L12.6 2.2C12.4 2.1 12.1 2 11.8 2Z" fill="currentColor" />
+										<path d="M11.8 8.69995L8.90001 10.3V13.7L11.8 15.3L14.7 13.7V10.3L11.8 8.69995Z" fill="currentColor" />
+									</svg>
+								</span>
+								<!--end::Svg Icon-->
+							</span>
+							<span class="menu-title">Catégories</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="atiko/voitures">
+							<span class="menu-icon">
+								<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
+								<span class="svg-icon svg-icon-2">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path opacity="0.3" d="M11.8 5.2L17.7 8.6V15.4L11.8 18.8L5.90001 15.4V8.6L11.8 5.2ZM11.8 2C11.5 2 11.2 2.1 11 2.2L3.8 6.4C3.3 6.7 3 7.3 3 7.9V16.2C3 16.8 3.3 17.4 3.8 17.7L11 21.9C11.3 22 11.5 22.1 11.8 22.1C12.1 22.1 12.4 22 12.6 21.9L19.8 17.7C20.3 17.4 20.6 16.8 20.6 16.2V7.9C20.6 7.3 20.3 6.7 19.8 6.4L12.6 2.2C12.4 2.1 12.1 2 11.8 2Z" fill="currentColor" />
+										<path d="M11.8 8.69995L8.90001 10.3V13.7L11.8 15.3L14.7 13.7V10.3L11.8 8.69995Z" fill="currentColor" />
+									</svg>
+								</span>
+								<!--end::Svg Icon-->
+							</span>
+							<span class="menu-title">Voitures</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="atiko/trajets">
+							<span class="menu-icon">
+								<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
+								<span class="svg-icon svg-icon-2">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path opacity="0.3" d="M11.8 5.2L17.7 8.6V15.4L11.8 18.8L5.90001 15.4V8.6L11.8 5.2ZM11.8 2C11.5 2 11.2 2.1 11 2.2L3.8 6.4C3.3 6.7 3 7.3 3 7.9V16.2C3 16.8 3.3 17.4 3.8 17.7L11 21.9C11.3 22 11.5 22.1 11.8 22.1C12.1 22.1 12.4 22 12.6 21.9L19.8 17.7C20.3 17.4 20.6 16.8 20.6 16.2V7.9C20.6 7.3 20.3 6.7 19.8 6.4L12.6 2.2C12.4 2.1 12.1 2 11.8 2Z" fill="currentColor" />
+										<path d="M11.8 8.69995L8.90001 10.3V13.7L11.8 15.3L14.7 13.7V10.3L11.8 8.69995Z" fill="currentColor" />
+									</svg>
+								</span>
+								<!--end::Svg Icon-->
+							</span>
+							<span class="menu-title">Trajets de bus</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+
+				<!--begin:Menu item-->
+				<div class="menu-item pt-5">
+					<!--begin:Menu content-->
+					<div class="menu-content">
+						<span class="menu-heading fw-bold text-uppercase fs-7">Autres</span>
+					</div>
+					<!--end:Menu content-->
+				</div>
+				<!--end:Menu item-->
 
 				<div class="menu-item">
 					<!--begin:Menu link-->
-					<a class="menu-link" href="bhc/services/contacts">
+					<a class="menu-link" href="atiko/services/contacts">
 						<span class="menu-icon">
 							<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
 							<span class="svg-icon svg-icon-2">
@@ -230,7 +283,7 @@
 				</div>
 				<div class="menu-item">
 					<!--begin:Menu link-->
-					<a class="menu-link" href="bhc/newsletters">
+					<a class="menu-link" href="atiko/newsletters">
 						<span class="menu-icon">
 							<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
 							<span class="svg-icon svg-icon-2">
@@ -245,25 +298,7 @@
 					</a>
 					<!--end:Menu link-->
 				</div>
-				<div class="menu-item">
-					<!--begin:Menu link-->
-					<a class="menu-link" href="bhc/galeries">
-						<span class="menu-icon">
-							<!--begin::Svg Icon | path: icons/duotune/abstract/abs014.svg-->
-							<span class="svg-icon svg-icon-2">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path opacity="0.3" d="M11.8 5.2L17.7 8.6V15.4L11.8 18.8L5.90001 15.4V8.6L11.8 5.2ZM11.8 2C11.5 2 11.2 2.1 11 2.2L3.8 6.4C3.3 6.7 3 7.3 3 7.9V16.2C3 16.8 3.3 17.4 3.8 17.7L11 21.9C11.3 22 11.5 22.1 11.8 22.1C12.1 22.1 12.4 22 12.6 21.9L19.8 17.7C20.3 17.4 20.6 16.8 20.6 16.2V7.9C20.6 7.3 20.3 6.7 19.8 6.4L12.6 2.2C12.4 2.1 12.1 2 11.8 2Z" fill="currentColor" />
-									<path d="M11.8 8.69995L8.90001 10.3V13.7L11.8 15.3L14.7 13.7V10.3L11.8 8.69995Z" fill="currentColor" />
-								</svg>
-							</span>
-							<!--end::Svg Icon-->
-						</span>
-						<span class="menu-title">Galerie</span>
-					</a>
-					<!--end:Menu link-->
-				</div>
-				<!--end:Menu item-->
-				<!--begin:Menu item-->
+
 				<div class="menu-item pt-10">
 					<!--begin:Menu content-->
 					<div class="menu-content">
@@ -294,22 +329,28 @@
 						<!--begin:Menu item-->
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/utilisateurs}">
+							<a class="menu-link" th:href="@{atiko/clients}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
-								<span class="menu-title">Utilisateurs</span>
+								<span class="menu-title">Clients</span>
 							</a>
 							<!--end:Menu link-->
 						</div>
-						<!--end:Menu item-->
-				
-					</div>
-					<div class="menu-sub menu-sub-accordion">
-						<!--begin:Menu item-->
 						<div class="menu-item">
 							<!--begin:Menu link-->
-							<a class="menu-link" th:href="@{bhc/roles}">
+							<a class="menu-link" th:href="@{atiko/utilisateurs}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Employés</span>
+							</a>
+							<!--end:Menu link-->
+						</div>
+						<br/>
+						<div class="menu-item">
+							<!--begin:Menu link-->
+							<a class="menu-link" th:href="@{atiko/roles}">
 								<span class="menu-bullet">
 									<span class="bullet bullet-dot"></span>
 								</span>
@@ -327,7 +368,7 @@
 				<!--begin:Menu item-->
 				<div class="menu-item">
 					<!--begin:Menu link-->
-					<a class="menu-link" th:href="@{bhc/parametres}">
+					<a class="menu-link" th:href="@{atiko/parametres}">
 						<span class="menu-icon">
 							<!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
 							<span class="svg-icon svg-icon-2">

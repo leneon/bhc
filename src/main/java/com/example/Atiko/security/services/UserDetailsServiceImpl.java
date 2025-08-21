@@ -14,6 +14,7 @@ import com.example.Atiko.entities.Role;
 import com.example.Atiko.entities.User;
 import com.example.Atiko.repositories.RoleRepository;
 import com.example.Atiko.repositories.UserRepository;
+import com.example.Atiko.repositories.UserProfileRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Autowired
   RoleRepository roleRepository;
+  
+  @Autowired
+  UserProfileRepository profileRepository;
   
   private final PasswordEncoder encoder;
 
@@ -53,13 +57,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
     
     public UserDto updateUser(UserDto userDto) {
+        System.out.println("UPDATE USER - Received data: " + userDto.toString());
         Optional<User> optionalUser = userRepository.findById(userDto.getId());
-        System.out.println(userDto);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             
             // Update email
             user.setEmail(userDto.getEmail());
+            user.setStatus(userDto.getStatus());
             
             // Update password only if a new password is provided
             if (userDto.getPassword() != null) {
@@ -79,12 +84,38 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             user.getRoles().add(role);    // Add the new role
             userRepository.save(user);
 
-            System.out.println("USER : "+user.toString());
+            System.out.println("USER UPDATED: "+user.toString());
 
             return new UserDto(user);
         } else {
             throw new RuntimeException("User not found");
         }
+    }
+
+    public boolean deleteUser(Long userId) {
+        System.out.println("DELETE USER - User ID: " + userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            System.out.println("Found user: " + user.getUsername());
+            
+            // Supprimer d'abord le profil associé s'il existe
+            if (user.getProfile() != null) {
+                System.out.println("Deleting associated profile");
+                profileRepository.delete(user.getProfile());
+            }
+            
+            // Supprimer les relations de rôles
+            user.getRoles().clear();
+            userRepository.save(user);
+            
+            // Maintenant supprimer l'utilisateur
+            userRepository.delete(user);
+            System.out.println("User deleted successfully");
+            return true;
+        }
+        System.out.println("User not found for deletion");
+        return false;
     }
     
 }
