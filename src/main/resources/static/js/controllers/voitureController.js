@@ -1,477 +1,505 @@
 "use strict";
 
-var App = angular.module('myApp', []);
+var App = angular.module("myApp", []);
 
 // Directive pour gérer les fichiers
-App.directive('fileModel', function () {
-    return {
-        scope: {
-            fileModel: '='
-        },
-        link: function (scope, element, attrs) {
-            element.bind('change', function () {
-                scope.$apply(function () {
-                    if (attrs.multiple) {
-                        scope.fileModel = element[0].files;
-                    } else {
-                        scope.fileModel = element[0].files[0];
-                    }
-                });
-            });
-        }
-    };
+App.directive("fileModel", function () {
+  return {
+    scope: {
+      fileModel: "=",
+    },
+    link: function (scope, element, attrs) {
+      element.bind("change", function () {
+        scope.$apply(function () {
+          if (attrs.multiple) {
+            scope.fileModel = element[0].files;
+          } else {
+            scope.fileModel = element[0].files[0];
+          }
+        });
+      });
+    },
+  };
 });
 
-App.controller('voitureController', ['$scope', '$http', function($scope, $http) {
-    console.log('voitureController initialisé');
-    const appUrl = '/api/voitures';
-    $scope.listeVoitures = [];
-    $scope.categories = [];
-    $scope.selected = {};
-    $scope.selectAll = false;
-    $scope.voitureForm = {};
-    $scope.searchVoiture = '';
-
-    $scope.loadVoitures = function() {
-        console.log('Chargement des voitures...');
-        $http.get(appUrl).then(function(res) {
-            $scope.listeVoitures = res.data;
-            $scope.selected = {};
-            $scope.selectAll = false;
-            console.log('Voitures chargées:', $scope.listeVoitures.length);
-        });
-    };
-
-    $scope.loadCategories = function() {
-        $http.get('/api/categories').then(function(res) {
-            $scope.categories = res.data;
-        });
-    };
-
-    $scope.loadVoitures();
-    $scope.loadCategories();
-
-    $scope.toggleAll = function() {
-        angular.forEach($scope.listeVoitures, function(voiture) {
-            $scope.selected[voiture.id] = $scope.selectAll;
-        });
-    };
-
-    $scope.updateSelectAll = function() {
-        var allSelected = true;
-        angular.forEach($scope.listeVoitures, function(voiture) {
-            if (!$scope.selected[voiture.id]) allSelected = false;
-        });
-        $scope.selectAll = allSelected;
-    };
-
-    $scope.openModal = function(voiture) {
-        console.log('openModal called with:', voiture);
-        if (voiture) {
-            $scope.voitureForm = angular.copy(voiture);
-            $scope.voitureForm.categorie = $scope.categories.find(cat => String(cat.id) === String(voiture.categorie && voiture.categorie.id));
-            console.log('voitureForm after edit:', $scope.voitureForm);
-        } else {
-            $scope.voitureForm = {
-                id: null,
-                nom: '',
-                immatriculation: '',
-                model: '',
-                automatique: false,
-                siege: '',
-                portiere: '',
-                coffre: '',
-                climatisation: false,
-                disponibilite: 'DISPONIBLE',
-                statut: true,
-                categorie: $scope.categories[0] || null,
-                imageFile: null,
-                imagesFiles: []
-            };
-        }
-        $('#kt_modal_add_voiture').modal('show');
-    };
-
-    $scope.closeModal = function() {
-        $('#kt_modal_add_voiture').modal('hide');
-    };
-
-    $scope.editVoiture = function(voiture) {
-        console.log('editVoiture called with:', voiture);
-        if ($scope.categories.length === 0) {
-            $scope.loadCategories();
-            setTimeout(function() {
-                $scope.editVoiture(voiture);
-            }, 100);
-            return;
-        }
-        $scope.openModal(voiture);
-    };
-
-    $scope.deleteVoiture = function(id) {
-        Swal.fire({
-            title: "Êtes-vous sûr?",
-            text: "Une fois supprimée, vous ne pourrez pas récupérer cette voiture!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Oui, supprimer!",
-            cancelButtonText: "Non, annuler",
-            customClass: {
-                confirmButton: "btn btn-danger",
-                cancelButton: "btn btn-active-light"
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $http.delete(appUrl + '/' + id).then(function() {
-                    $scope.loadVoitures();
-                    Swal.fire({
-                        text: "Voiture supprimée avec succès!",
-                        icon: "success",
-                        confirmButtonText: "D'accord, compris!",
-                        customClass: { confirmButton: "btn btn-primary" }
-                    });
-                });
-            }
-        });
-    };
-
-    $scope.toggleStatut = function(voiture) {
-        voiture.statut = !voiture.statut;
-        $http.put(appUrl + '/' + voiture.id, voiture).then(function() {
-            $scope.loadVoitures();
-        });
-    };
-
-    // Fonction pour soumettre le formulaire
-    $scope.submitVoitureForm = function() {
-        console.log('submitVoitureForm called');
-    };
-
-    // Pour que KTVoituresAddVoiture puisse recharger la liste après ajout/modif
-    window.reloadVoituresAngular = function() {
-        $scope.loadVoitures();
-        $scope.$applyAsync();
-    };
-}]);
-
 // Contrôleur pour la page détail d'une voiture
-App.controller('voitureDetailsController', ['$scope', '$http', function($scope, $http) {
+App.controller("voitureDetailsController", [
+  "$scope",
+  "$http",
+  function ($scope, $http) {
     $scope.voiture = {};
     $scope.images = [];
     $scope.reservations = [];
     $scope.locations = [];
     $scope.selectedImageIndex = 0;
     $scope.categories = [];
+    $scope.urlLoadmodeles = "/api/modeles";
+
     // Synchronise la catégorie de la voiture avec la liste des catégories
     function syncCategorie() {
-        if ($scope.categories.length && $scope.voiture.categorie) {
-            var cat = $scope.categories.find(function (c) { return String(c.id) === String($scope.voiture.categorie.id); });
-            if (cat) $scope.voiture.categorie = cat;
-        }
+      if ($scope.categories.length && $scope.voiture.categorie) {
+        var cat = $scope.categories.find(function (c) {
+          return String(c.id) === String($scope.voiture.categorie.id);
+        });
+        if (cat) $scope.voiture.categorie = cat;
+      }
     }
 
     // Récupérer l'id de la voiture depuis le DOM
-    var voitureId = document.getElementById('voitureId') ? document.getElementById('voitureId').value : null;
+    var voitureId = document.getElementById("voitureId")
+      ? document.getElementById("voitureId").value
+      : null;
 
     // Charger les détails de la voiture
-    $scope.loadVoiture = function() {
-        if (!voitureId) return;
-        $http.get('/api/voitures/' + voitureId).then(function(res) {
-            $scope.voiture = res.data;
-            $scope.images = res.data.images || [];
-            if ($scope.voiture.image) {
-                $scope.images.unshift({ url: $scope.voiture.image });
-            }
-            syncCategorie();
-        });
-    };
+    $scope.loadVoiture = function () {
+      if (!voitureId) return;
+      $http.get("/api/voitures/" + voitureId).then(function (res) {
+        $scope.voiture = res.data;
+        $scope.voiture.datePremiereMiseEnCirculation = new Date(
+          res.data.datePremiereMiseEnCirculation
+        );
+        $scope.voiture.dateDelivranceCarteGrise = new Date(
+          res.data.dateDelivranceCarteGrise
+        );
 
-    // Charger les infos de réservation/location
-    $scope.loadReservations = function() {
-        if (!voitureId) return;
-        $http.get('/api/voitures/' + voitureId + '/reservations').then(function(res) {
-            $scope.reservations = res.data;
-        });
-        $http.get('/api/voitures/' + voitureId + '/locations').then(function(res) {
-            $scope.locations = res.data;
-        });
-    };
-
-    $scope.nextImage = function() {
-        if ($scope.images.length > 0) {
-            $scope.selectedImageIndex = ($scope.selectedImageIndex + 1) % $scope.images.length;
+        $scope.images = res.data.images || [];
+        if ($scope.voiture.image) {
+          $scope.images.unshift({ url: $scope.voiture.image });
         }
-    };
-    $scope.prevImage = function() {
-        if ($scope.images.length > 0) {
-            $scope.selectedImageIndex = ($scope.selectedImageIndex - 1 + $scope.images.length) % $scope.images.length;
-        }
+        syncCategorie();
+      });
     };
 
-    $scope.setImage = function(idx) {
-        $scope.selectedImageIndex = idx;
-    };
-
-    // Pour la modification (partie settings)
-    $scope.updateVoiture = function() {
-        // On prend les valeurs du formulaire (voitureForm) pour la modification
-        var voitureData = {
-            id: $scope.voitureForm.id,
-            nom: $scope.voitureForm.nom,
-            immatriculation: $scope.voitureForm.immatriculation,
-            model: $scope.voitureForm.model,
-            automatique: $scope.voitureForm.automatique,
-            siege: $scope.voitureForm.siege,
-            portiere: $scope.voitureForm.portiere,
-            coffre: $scope.voitureForm.coffre,
-            climatisation: $scope.voitureForm.climatisation,
-            disponibilite: $scope.voitureForm.disponibilite,
-            statut: $scope.voitureForm.statut,
-            categorie: $scope.voitureForm.categorie,
-            prix: $scope.voitureForm.prix,
-            acompte: $scope.voitureForm.acompte
-        };
-        var fd = new FormData();
-        fd.append('voiture', new Blob([JSON.stringify(voitureData)], {type: 'application/json'}));
-        var imageFile = document.getElementById('voiture_image')?.files[0];
-        if (imageFile) fd.append('image', imageFile);
-        var imagesFiles = document.getElementById('voiture_images')?.files;
-        if (imagesFiles) {
-            for (let i = 0; i < imagesFiles.length; i++) {
-                fd.append('images', imagesFiles[i]);
-            }
-        }
-        $http({
-            method: 'PUT',
-            url: '/api/voitures/' + voitureId + '/with-files',
-            data: fd,
-            headers: { 'Content-Type': undefined },
-            transformRequest: angular.identity
-        }).then(function(res) {
-            Swal.fire({ text: 'Voiture modifiée avec succès!', icon: 'success' });
-            $scope.loadVoiture();
-        }, function(err) {
-            Swal.fire({ text: 'Erreur lors de la modification', icon: 'error' });
+    $scope.loadmodeles = function () {
+      $http
+        .get($scope.urlLoadmodeles)
+        .then(function (res) {
+          $scope.listemodeles = res.data;
+          console.log("LISTE DES MODELES : ", $scope.listemodeles);
+        })
+        .catch(function (error) {
+          console.error("ERREUR DE RECUPERATION DES MODELES : ", error);
         });
+    };
+
+    // Chargement des voitures au chargement de la page
+    $scope.loadmodeles();
+
+    $scope.nextImage = function () {
+      if ($scope.images.length > 0) {
+        $scope.selectedImageIndex =
+          ($scope.selectedImageIndex + 1) % $scope.images.length;
+      }
+    };
+    $scope.prevImage = function () {
+      if ($scope.images.length > 0) {
+        $scope.selectedImageIndex =
+          ($scope.selectedImageIndex - 1 + $scope.images.length) %
+          $scope.images.length;
+      }
+    };
+
+    $scope.setImage = function (idx) {
+      $scope.selectedImageIndex = idx;
+    };
+
+    $scope.updateVoiture = function () {
+      if (!voitureId) return;
+
+      // Construction du DTO depuis $scope.voiture
+      var voitureData = {
+        id: $scope.voiture.id,
+        nom: $scope.voiture.nom,
+        immatriculation: $scope.voiture.immatriculation,
+        modeleId: $scope.voiture.modeleId,
+        automatique: $scope.voiture.automatique,
+        siege: $scope.voiture.siege,
+        portiere: $scope.voiture.portiere,
+        coffre: $scope.voiture.coffre,
+        climatisation: $scope.voiture.climatisation,
+        disponibilite: $scope.voiture.disponibilite,
+        statut: $scope.voiture.statut,
+        prix: $scope.voiture.prix,
+        acompte: $scope.voiture.acompte,
+        numeroCarteGrise: $scope.voiture.numeroCarteGrise,
+        numeroSerieVin: $scope.voiture.numeroSerieVin,
+        datePremiereMiseEnCirculation:
+          $scope.voiture.datePremiereMiseEnCirculation,
+        dateDelivranceCarteGrise: $scope.voiture.dateDelivranceCarteGrise,
+        genreNational: $scope.voiture.genreNational,
+        couleur: $scope.voiture.couleur,
+        poidsVide: $scope.voiture.poidsVide,
+        poidsTotalAutorise: $scope.voiture.poidsTotalAutorise,
+        nombrePlaces: $scope.voiture.nombrePlaces,
+        proprietaire: $scope.voiture.proprietaire,
+        adresseProprietaire: $scope.voiture.adresseProprietaire,
+        centreImmatriculation: $scope.voiture.centreImmatriculation,
+      };
+
+      // Construction du FormData
+      var fd = new FormData();
+      fd.append(
+        "voiture",
+        new Blob([JSON.stringify(voitureData)], { type: "application/json" })
+      );
+
+      // Ajout de l'image principale
+      var imageFile = document.getElementById("voiture_image")?.files[0];
+      if (imageFile) fd.append("image", imageFile);
+
+      // Ajout des images supplémentaires
+      var imagesFiles = document.getElementById("voiture_images")?.files;
+      if (imagesFiles) {
+        for (let i = 0; i < imagesFiles.length; i++) {
+          fd.append("images", imagesFiles[i]);
+        }
+      }
+
+      // Envoi PUT vers le backend
+      $http({
+        method: "PUT",
+        url: "/api/voitures/" + voitureId,
+        data: fd,
+        headers: { "Content-Type": undefined },
+        transformRequest: angular.identity,
+      }).then(
+        function (res) {
+          Swal.fire({ text: "Voiture modifiée avec succès!", icon: "success" });
+          $scope.loadVoiture(); // recharge les données pour mettre à jour le formulaire
+        },
+        function (err) {
+          Swal.fire({ text: "Erreur lors de la modification", icon: "error" });
+        }
+      );
     };
 
     // Initialisation
     // Charge les catégories puis synchronise la catégorie de la voiture
-    $http.get('/api/categories').then(function(res) {
-        $scope.categories = res.data;
-        syncCategorie();
+    $http.get("/api/categories").then(function (res) {
+      $scope.categories = res.data;
+      syncCategorie();
     });
     $scope.loadVoiture();
-    $scope.loadReservations();
-}]);
 
-// --- Vanilla JS pour le modal, la validation et l'enregistrement ---
-var KTVoituresAddVoiture = function () {
-    const modalElement = document.getElementById("kt_modal_add_voiture"),
-        formElement = modalElement.querySelector("#kt_modal_add_voiture_form"),
-        modalInstance = new bootstrap.Modal(modalElement);
+    // --- Gestion des assurances ---
+    $scope.listeAssurances = [];
+    $scope.assuranceEncours = null;
+    $scope.assuranceDto = {
+      id: null,
+      compagnie: "",
+      numeroPolice: "",
+      type: "",
+      montant: null,
+      dateDebut: null,
+      dateFin: null,
+      document: "",
+      voitureId: voitureId,
+    };
+    $scope.selectedFile = null;
 
-    return {
-        init: function () {
-            (() => {
-                const validator = FormValidation.formValidation(formElement, {
-                    fields: {
-                        voiture_nom: {
-                            validators: {
-                                notEmpty: {
-                                    message: "Le nom de la voiture est requis"
-                                }
-                            }
-                        },
-                        voiture_immatriculation: {
-                            validators: {
-                                notEmpty: {
-                                    message: "L'immatriculation est requise"
-                                }
-                            }
-                        },
-                        voiture_siege: {
-                            validators: {
-                                notEmpty: {
-                                    message: "Le nombre de sièges est requis"
-                                }
-                            }
-                        },
-                        voiture_model: {
-                            validators: {
-                                notEmpty: {
-                                    message: "Le model est requis"
-                                }
-                            }
-                        },
-                        voiture_portiere: {
-                            validators: {
-                                notEmpty: {
-                                    message: "Le nombre de portières est requis"
-                                }
-                            }
-                        },
-                        voiture_categorie: {
-                            validators: {
-                                notEmpty: {
-                                    message: "La champ catégorie est requis"
-                                }
-                            }
-                        },
-                        voiture_type_coffre: {
-                            validators: {
-                                notEmpty: {
-                                    message: "Choisissez un type de coffre"
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        trigger: new FormValidation.plugins.Trigger(),
-                        bootstrap: new FormValidation.plugins.Bootstrap5({
-                            rowSelector: ".fv-row",
-                            eleInvalidClass: "",
-                            eleValidClass: ""
-                        })
-                    }
-                });
+    // --- Chargement de la liste ---
+    $scope.loadAssurances = function () {
+      $http
+        .get("/api/assurances/voiture/" + voitureId)
+        .then(function (res) {
+          $scope.listeAssurances = res.data;
+          $scope.assuranceEncours = res.data.sort(
+            (a, b) => new Date(b.dateDebut) - new Date(a.dateDebut)
+          )[0];
+        })
+        .catch(function () {
+          Swal.fire({
+            text: "Erreur de chargement des assurances",
+            icon: "error",
+          });
+        });
+    };
+    $scope.loadAssurances();
 
-                const submitButton = modalElement.querySelector('[data-kt-voiture-modal-action="submit"]');
-                submitButton.addEventListener("click", (event) => {
-                    event.preventDefault();
+    // // --- Ouvrir le modal en mode création ---
+    $scope.openAddModal = function () {
+      $scope.assuranceDto = {};
+      $scope.selectedFile = null;
+    };
 
-                    if (validator) {
-                        validator.validate().then(function (status) {
-                            if (status === 'Valid') {
-                                submitButton.setAttribute("data-kt-indicator", "on");
-                                submitButton.disabled = true;
+    // --- Ouvrir en mode édition ---
+    $scope.editAssurance = function (id) {
+      $http
+        .get("/api/assurances/" + id)
+        .then(function (res) {
+          $scope.assuranceDto = res.data;
+          $scope.assuranceDto.dateDebut = new Date(res.data.dateDebut);
+          $scope.assuranceDto.dateFin = new Date(res.data.dateFin);
+          $scope.selectedFile = null;
 
-                                // Construction de l'objet voitureData pour le backend
-                                const scope = angular.element(formElement).scope();
-                                const voitureForm = scope.voitureForm;
-                                const voitureData = {
-                                    nom: voitureForm.nom,
-                                    immatriculation: voitureForm.immatriculation,
-                                    model: voitureForm.model,
-                                    automatique: voitureForm.automatique === 'true' || voitureForm.automatique === true,
-                                    siege: voitureForm.siege,
-                                    portiere: voitureForm.portiere,
-                                    coffre: voitureForm.coffre,
-                                    climatisation: voitureForm.climatisation === 'true' || voitureForm.climatisation === true,
-                                    disponibilite: voitureForm.disponibilite || 'DISPONIBLE',
-                                    statut: voitureForm.statut !== undefined ? voitureForm.statut : true,
-                                    categorie: { id: voitureForm.categorie ? voitureForm.categorie.id : null },
-                                    prix: voitureForm.prix,
-                                    acompte: voitureForm.acompte
-                                };
+          $scope.modalShow();
+        })
+        .catch(function () {
+          Swal.fire({
+            text: "Impossible de charger l'assurance",
+            icon: "error",
+          });
+        });
+    };
 
-                                const id = formElement.querySelector("#voiture_id").value;
-                                if (id) voitureData.id = id;
+    // --- Ajouter ou modifier ---
+    $scope.saveAssurance = function () {
+      if ($scope.valider()) {
+        let formData = new FormData();
+        formData.append(
+          "assurance",
+          new Blob([JSON.stringify($scope.assuranceDto)], {
+            type: "application/json",
+          })
+        );
 
-                                // Construction du FormData
-                                var fd = new FormData();
-                                fd.append('voiture', new Blob([JSON.stringify(voitureData)], {type: 'application/json'}));
-                                const imageFile = formElement.querySelector("#voiture_image").files[0];
-                                if (imageFile) fd.append('image', imageFile);
-                                const imagesFiles = formElement.querySelector("#voiture_images").files;
-                                for (let i = 0; i < imagesFiles.length; i++) {
-                                    fd.append('images', imagesFiles[i]);
-                                }
+        if ($scope.selectedFile) {
+          formData.append("file", $scope.selectedFile);
+        }
 
+        let isEdit = !!$scope.assuranceDto.id;
+        let url = isEdit
+          ? "/api/assurances/" + $scope.assuranceDto.id
+          : "/api/assurances";
+        let method = isEdit ? "PUT" : "POST";
 
-                                const requestMethod = id ? 'PUT' : 'POST';
-                                const url = id ? "/api/voitures/" + id + "/with-files" : "/api/voitures/with-files";
-
-                                fetch(url, {
-                                    method: requestMethod,
-                                    body: fd
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        return response.json().then(error => {
-                                            throw new Error(error.message || "Une erreur est survenue.");
-                                        });
-                                    }
-                                    if (window.reloadVoituresAngular) window.reloadVoituresAngular();
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    setTimeout(() => {
-                                        submitButton.removeAttribute("data-kt-indicator");
-                                        submitButton.disabled = false;
-                                        Swal.fire({
-                                            text: "Voiture enregistrée avec succès",
-                                            icon: "success",
-                                            confirmButtonText: "Ok, compris!",
-                                            customClass: { confirmButton: "btn btn-primary" }
-                                        }).then(() => modalInstance.hide());
-                                    }, 1000);
-                                })
-                                .catch((error) => {
-                                    submitButton.removeAttribute("data-kt-indicator");
-                                    submitButton.disabled = false;
-                                    Swal.fire({
-                                        text: error.message || "Une erreur est survenue, veuillez réessayer.",
-                                        icon: "error",
-                                        confirmButtonText: "Ok, compris!",
-                                        customClass: { confirmButton: "btn btn-primary" }
-                                    });
-                                });
-                            } else {
-                                Swal.fire({
-                                    text: "Veuillez corriger les erreurs dans le formulaire.",
-                                    icon: "error",
-                                    confirmButtonText: "Ok, compris!",
-                                    customClass: { confirmButton: "btn btn-primary" }
-                                });
-                            }
-                        });
-                    }
-                });
-
-                modalElement.querySelector('[data-kt-voiture-modal-action="cancel"]').addEventListener("click", (event) => {
-                    event.preventDefault();
-                    this.showCancelConfirmation();
-                });
-
-                modalElement.querySelector('[data-kt-voiture-modal-action="close"]').addEventListener("click", (event) => {
-                    event.preventDefault();
-                    this.showCancelConfirmation();
-                });
-            })();
-        },
-        showCancelConfirmation: function () {
+        $http({
+          method: method,
+          url: url,
+          data: formData,
+          headers: { "Content-Type": undefined },
+          transformRequest: angular.identity,
+        })
+          .then(function () {
             Swal.fire({
-                text: "Êtes-vous sûr de vouloir annuler ?",
-                icon: "warning",
-                showCancelButton: true,
+              text: isEdit ? "Assurance modifiée" : "Assurance ajoutée",
+              icon: "success",
+            });
+
+            $scope.loadAssurances();
+            $scope.modalHide();
+          })
+          .catch(function () {
+            Swal.fire({
+              text: "Une erreur est survenue, veuillez réessayer",
+              icon: "error",
+            });
+          });
+      }
+    };
+    $scope.valider = function () {
+      if (
+        !$scope.assuranceDto.compagnie ||
+        !$scope.assuranceDto.numeroPolice ||
+        !$scope.assuranceDto.type ||
+        !$scope.assuranceDto.montant ||
+        !$scope.assuranceDto.dateDebut ||
+        !$scope.assuranceDto.dateFin
+      ) {
+        Swal.fire({
+          text: "Veuillez remplir tous les champs obligatoires",
+          icon: "error",
+        });
+        return false;
+      }
+      return true;
+    };
+    // --- Supprimer ---
+    $scope.deleteAssurance = function (id) {
+      Swal.fire({
+        text: "Voulez-vous supprimer cette assurance ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-active-light",
+        },
+      }).then((result) => {
+        if (result.value) {
+          $http
+            .delete("/api/assurances/" + id)
+            .then(() => {
+              Swal.fire({
+                text: "Assurance supprimée",
+                icon: "success",
                 buttonsStyling: false,
-                confirmButtonText: "Oui, annuler!",
-                cancelButtonText: "Non, retourner",
-                customClass: {
-                    confirmButton: "btn btn-primary",
-                    cancelButton: "btn btn-active-light"
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    formElement.reset();
-                    modalInstance.hide();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    Swal.fire({
-                        text: "Votre formulaire n'a pas été annulé!",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, compris!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
-                }
+                confirmButtonText: "Ok",
+                customClass: { confirmButton: "btn btn-primary" },
+              });
+
+              $scope.loadAssurances();
+            })
+            .catch(() => {
+              Swal.fire({
+                text: "Erreur lors de la suppression",
+                icon: "error",
+              });
             });
         }
+      });
     };
-}();
 
-KTUtil.onDOMContentLoaded(function () {
-    KTVoituresAddVoiture.init();
-});
+    // Afficher/masquer le modal
+    $scope.modalShow = function () {
+      $("#kt_modal_add_assurance").modal("show");
+    };
+    $scope.modalHide = function () {
+      $("#kt_modal_add_assurance").modal("hide");
+    };
+
+    // ----------------------- VISITES TECHNIQUES -----------------------
+    $scope.listeVisites = [];
+    $scope.visiteEncours = null;
+
+    $scope.visiteDto = {
+      id: null,
+      centre: "",
+    //   montant: null,
+      dateDebut: null,
+      dateFin: null,
+      document: "",
+      voitureId: voitureId,
+    };
+
+    $scope.visiteFile = null;
+
+    // ----- Load -----
+    $scope.loadVisites = function () {
+      $http
+        .get("/api/visites/voiture/" + voitureId)
+        .then(function (res) {
+          $scope.listeVisites = res.data;
+
+          $scope.visiteEncours =
+            res.data
+              ?.slice()
+              ?.sort(
+                (a, b) => new Date(b.dateDebut) - new Date(a.dateDebut)
+              )[0] || null;
+              console.log("VISITE EN COURS :", $scope.visiteEncours);
+                console.log("LISTE VISITES :", $scope.listeVisites);
+
+        })
+        .catch(() =>
+          Swal.fire({ text: "Erreur de chargement", icon: "error" })
+        );
+    };
+    $scope.loadVisites();
+
+    // ----- Set File -----
+    $scope.setVisiteFile = function (input) {
+      $scope.visiteFile = input.files[0];
+      $scope.$apply();
+    };
+
+    // ----- Open Add Modal -----
+    $scope.openAddVisiteModal = function () {
+      $scope.visiteDto = {
+        id: null,
+        centre: "",
+        montant: null,
+        dateDebut: null,
+        dateFin: null,
+        document: "",
+        voitureId: voitureId,
+      };
+    $scope.selectedFile = null;
+    };
+
+    // ----- Edit -----
+    $scope.editVisite = function (id) {
+      $http.get("/api/visites/" + id).then(function (res) {
+        $scope.visiteDto = res.data;
+        $scope.visiteDto.dateDebut = new Date(res.data.dateDebut);
+        $scope.visiteDto.dateFin = new Date(res.data.dateFin);
+        $scope.visiteFile = null;
+        console.log("VISITE DTO :", $scope.visiteDto);
+        $scope.modalShowVisite();
+      });
+    };
+
+    // ----- Validate -----
+    $scope.validerVisite = function () {
+      let v = $scope.visiteDto;
+
+      if (!v.centre || !v.dateDebut || !v.dateFin) {
+        Swal.fire({ text: "Champs obligatoires manquants", icon: "error" });
+        return false;
+      }
+      return true;
+    };
+
+    // ----- Save (Add/Update) -----
+    $scope.saveVisite = function () {
+      if (!$scope.validerVisite()) return;
+
+      let formData = new FormData();
+      formData.append(
+        "visite",
+        new Blob([JSON.stringify($scope.visiteDto)], {
+          type: "application/json",
+        })
+      );
+
+        if ($scope.selectedFile) {
+          formData.append("file", $scope.selectedFile);
+        }
+
+      let isEdit = !!$scope.visiteDto.id;
+      console.log("SAVING VISITE, isEdit =", isEdit, $scope.visiteFile);
+      $http({
+        method: isEdit ? "PUT" : "POST",
+        url: isEdit ? "/api/visites/" + $scope.visiteDto.id : "/api/visites",
+        data: formData,
+        headers: { "Content-Type": undefined },
+        transformRequest: angular.identity,
+      })
+        .then(function () {
+          Swal.fire({
+            text: isEdit ? "Visite modifiée" : "Visite ajoutée",
+            icon: "success",
+          });
+
+          $scope.loadVisites();
+          $scope.modalHideVisite();
+        })
+        .catch(() =>
+          Swal.fire({ text: "Erreur lors de la sauvegarde", icon: "error" })
+        );
+    };
+
+    // ----- Delete -----
+    $scope.deleteVisite = function (id) {
+      Swal.fire({
+        text: "Supprimer cette visite ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui",
+        cancelButtonText: "Annuler",
+      }).then((r) => {
+        if (!r.value) return;
+
+        $http
+          .delete("/api/visites/" + id)
+          .then(() => {
+            Swal.fire({ text: "Visite supprimée", icon: "success" });
+            $scope.loadVisites();
+          })
+          .catch(() =>
+            Swal.fire({ text: "Erreur lors de la suppression", icon: "error" })
+          );
+      });
+    };
+
+    // Afficher/masquer le modal
+    $scope.modalShowVisite = function () {
+      $("#kt_modal_add_visite").modal("show");
+    };
+    $scope.modalHideVisite = function () {
+      $("#kt_modal_add_visite").modal("hide");
+    };
+  },
+]);

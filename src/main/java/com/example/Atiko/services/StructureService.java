@@ -69,19 +69,19 @@ public class StructureService {
                     existingStructure.setInstagram(structureDto.getInstagram());
 
                     if (logo != null && !logo.isEmpty() && logo instanceof MultipartFile) {
-                        existingStructure.setLogo(fileStorageService.storeFile(logo));
+                        existingStructure.setLogo(fileStorageService.storeFile(logo,"logos"));
                     }
                     
                     if (img != null && !img.isEmpty() && img instanceof MultipartFile) {
-                        existingStructure.setImg(fileStorageService.storeFile(img));
+                        existingStructure.setImg(fileStorageService.storeFile(img,"images"));
                     }
                     
                     if (img1 != null && !img1.isEmpty() && img1 instanceof MultipartFile) {
-                        existingStructure.setImg1(fileStorageService.storeFile(img1));
+                        existingStructure.setImg1(fileStorageService.storeFile(img1,"images"));
                     }
                     
                     if (img2 != null && !img2.isEmpty() && img2 instanceof MultipartFile) {
-                        existingStructure.setImg2(fileStorageService.storeFile(img2));
+                        existingStructure.setImg2(fileStorageService.storeFile(img2,"images"));
                     }
                     
                     Structure updatedStructure = structureRepository.save(existingStructure);

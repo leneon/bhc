@@ -51,6 +51,16 @@ public class Reservation {
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
+    
+    @Column(name = "remise", precision = 5, scale = 2)
+    private BigDecimal remise;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "coupon_id")
+    private Coupon coupon;
+    
+    @Column(name = "nombre_jours")
+    private Integer nombreJours;
 
     // Getters et setters
     public Long getReservationId() { return reservationId; }
@@ -79,6 +89,15 @@ public class Reservation {
     public void setAcompte(BigDecimal acompte) { this.acompte = acompte; }
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+    
+    public BigDecimal getRemise() { return remise; }
+    public void setRemise(BigDecimal remise) { this.remise = remise; }
+    
+    public Coupon getCoupon() { return coupon; }
+    public void setCoupon(Coupon coupon) { this.coupon = coupon; }
+    
+    public Integer getNombreJours() { return nombreJours; }
+    public void setNombreJours(Integer nombreJours) { this.nombreJours = nombreJours; }
 
     // Enumérations internes
     public enum EtatReservation { en_attente, confirmee, annulee, expiree }

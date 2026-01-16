@@ -1,6 +1,6 @@
 package com.example.Atiko.dtos;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.example.Atiko.entities.UserProfile;
 
@@ -10,8 +10,8 @@ public class UserProfileDto {
     private String typePieceIdentite;
     private String numeroPieceIdentite;
     private String numeroPermisConduire;
-    private Date dateDelivrancePermis;
-    private Date dateExpirationPermis;
+    private LocalDate dateDelivrancePermis;
+    private LocalDate dateExpirationPermis;
     private String paysDelivrancePermis;
     public String getTypePieceIdentite() { return typePieceIdentite; }
     public void setTypePieceIdentite(String typePieceIdentite) { this.typePieceIdentite = typePieceIdentite; }
@@ -22,11 +22,11 @@ public class UserProfileDto {
     public String getNumeroPermisConduire() { return numeroPermisConduire; }
     public void setNumeroPermisConduire(String numeroPermisConduire) { this.numeroPermisConduire = numeroPermisConduire; }
 
-    public Date getDateDelivrancePermis() { return dateDelivrancePermis; }
-    public void setDateDelivrancePermis(Date dateDelivrancePermis) { this.dateDelivrancePermis = dateDelivrancePermis; }
+    public LocalDate getDateDelivrancePermis() { return dateDelivrancePermis; }
+    public void setDateDelivrancePermis(LocalDate dateDelivrancePermis) { this.dateDelivrancePermis = dateDelivrancePermis; }
 
-    public Date getDateExpirationPermis() { return dateExpirationPermis; }
-    public void setDateExpirationPermis(Date dateExpirationPermis) { this.dateExpirationPermis = dateExpirationPermis; }
+    public LocalDate getDateExpirationPermis() { return dateExpirationPermis; }
+    public void setDateExpirationPermis(LocalDate dateExpirationPermis) { this.dateExpirationPermis = dateExpirationPermis; }
 
     public String getPaysDelivrancePermis() { return paysDelivrancePermis; }
     public void setPaysDelivrancePermis(String paysDelivrancePermis) { this.paysDelivrancePermis = paysDelivrancePermis; }
@@ -34,7 +34,7 @@ public class UserProfileDto {
     private Long id;
     private String nom;
     private String prenoms;
-    private Date dateNaiss;
+    private LocalDate dateNaiss;
     private String telephone;
     private String pays;
     private String ville;
@@ -85,10 +85,10 @@ public class UserProfileDto {
     public void setPrenoms(String prenoms) {
         this.prenoms = prenoms;
     }
-    public Date getDateNaiss() {
+    public LocalDate getDateNaiss() {
         return dateNaiss;
     }
-    public void setDateNaiss(Date dateNaiss) {
+    public void setDateNaiss(LocalDate dateNaiss) {
         this.dateNaiss = dateNaiss;
     }
     public String getTelephone() {

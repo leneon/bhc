@@ -53,6 +53,10 @@ public class Categorie {
         this.statut = true;
     }
 
+    public Categorie(Long categorieId) {
+        this.id = categorieId;
+    }
+
     public Long getId() {
         return id;
     }

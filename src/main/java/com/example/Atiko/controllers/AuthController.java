@@ -110,21 +110,26 @@ public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRe
     } else {
         strRoles.forEach(role -> {
             switch (role) {
+                case "ROLE_SUPER_ADMIN":
                 case "SUPER_ADMIN":
                     Role superAdminRole = roleRepository.findByName(ERole.ROLE_SUPER_ADMIN)
                             .orElseThrow(() -> new RuntimeException("Erreur: Rôle non trouvé."));
                     roles.add(superAdminRole);
                     break;
+                case "ROLE_ADMIN":
                 case "ADMIN":
                     Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                             .orElseThrow(() -> new RuntimeException("Erreur: Rôle non trouvé."));
                     roles.add(adminRole);
                     break;
+                case "ROLE_MODERATOR":
                 case "MODERATOR":
                     Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                             .orElseThrow(() -> new RuntimeException("Erreur: Rôle non trouvé."));
                     roles.add(modRole);
                     break;
+                case "ROLE_USER":
+                case "USER":
                 default:
                     Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                             .orElseThrow(() -> new RuntimeException("Erreur: Rôle non trouvé."));

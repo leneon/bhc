@@ -17,6 +17,18 @@ public class ReservationDto {
     private BigDecimal montantTotal;
     private BigDecimal acompte;
     private String notes;
+    private BigDecimal remise;
+    private Long couponId;
+    private String couponCode;
+    private BigDecimal couponMontant;
+    private String couponTypeReduction;
+    private Integer nombreJours;
+    
+    // Champs supplémentaires pour l'affichage
+    private String clientNom;
+    private String clientEmail;
+    private String voitureNom;
+    private String voitureImmatriculation;
 
     // Getters et setters
     public Long getReservationId() { return reservationId; }
@@ -45,4 +57,35 @@ public class ReservationDto {
     public void setAcompte(BigDecimal acompte) { this.acompte = acompte; }
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+    
+    // Getters et setters pour les champs supplémentaires
+    public String getClientNom() { return clientNom; }
+    public void setClientNom(String clientNom) { this.clientNom = clientNom; }
+    
+    public String getClientEmail() { return clientEmail; }
+    public void setClientEmail(String clientEmail) { this.clientEmail = clientEmail; }
+    
+    public String getVoitureNom() { return voitureNom; }
+    public void setVoitureNom(String voitureNom) { this.voitureNom = voitureNom; }
+    
+    public String getVoitureImmatriculation() { return voitureImmatriculation; }
+    public void setVoitureImmatriculation(String voitureImmatriculation) { this.voitureImmatriculation = voitureImmatriculation; }
+    
+    public BigDecimal getRemise() { return remise; }
+    public void setRemise(BigDecimal remise) { this.remise = remise; }
+    
+    public Long getCouponId() { return couponId; }
+    public void setCouponId(Long couponId) { this.couponId = couponId; }
+    
+    public String getCouponCode() { return couponCode; }
+    public void setCouponCode(String couponCode) { this.couponCode = couponCode; }
+    
+    public BigDecimal getCouponMontant() { return couponMontant; }
+    public void setCouponMontant(BigDecimal couponMontant) { this.couponMontant = couponMontant; }
+    
+    public String getCouponTypeReduction() { return couponTypeReduction; }
+    public void setCouponTypeReduction(String couponTypeReduction) { this.couponTypeReduction = couponTypeReduction; }
+    
+    public Integer getNombreJours() { return nombreJours; }
+    public void setNombreJours(Integer nombreJours) { this.nombreJours = nombreJours; }
 }

@@ -4,6 +4,7 @@
 package com.example.Atiko.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,8 @@ import com.example.Atiko.dtos.UserDto;
 import com.example.Atiko.security.services.UserDetailsImpl;
 import com.example.Atiko.security.services.UserDetailsServiceImpl;
 import com.example.Atiko.services.UserProfileService;
+
+import jakarta.validation.Valid;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,14 +55,14 @@ public class UserResource {
     }
     
     // Récupérer tous les utilisateurs
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getUsers() {
-        List<UserDto> users = userService.getAllUser();
-        if (users.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204 No Content si aucun profil trouvé
-        }
-        return ResponseEntity.ok(users); // 200 OK avec la liste des profils
-    }
+    // @GetMapping
+    // public ResponseEntity<List<UserDto>> getUsers() {
+    //     List<UserDto> users = userService.getAllUser();
+    //     if (users.isEmpty()) {
+    //         return ResponseEntity.noContent().build(); // 204 No Content si aucun profil trouvé
+    //     }
+    //     return ResponseEntity.ok(users); // 200 OK avec la liste des profils
+    // }
 
      @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
@@ -84,7 +87,8 @@ public class UserResource {
 
   @PutMapping("/update")
   public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
-      try {
+      System.out.println("\n\n\n\nUpdating user: " + userDto+"\n\n\n\n");
+    try {
           UserDto updatedUser = userService.updateUser(userDto);
           return ResponseEntity.ok(updatedUser);
       } catch (Exception e) {
@@ -95,8 +99,8 @@ public class UserResource {
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<String> deleteUser(@PathVariable Long id) {
       try {
-          boolean deleted = userService.deleteUser(id);
-          if (deleted) {
+
+          if (userService.deleteUser(id)) {
               return ResponseEntity.ok("Utilisateur supprimé avec succès");
           } else {
               return ResponseEntity.notFound().build();
@@ -129,7 +133,18 @@ public class UserResource {
     }
 
         // Récupérer tous les clients (utilisateurs avec le rôle ROLE_USER)
-    @GetMapping("/clients")
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getUsers() {
+        List<UserDto> users = userService.getAllUser();
+        List<UserDto> clients = users.stream()
+            .filter(u -> u.getRole() != null && u.getRole() !="ROLE_USER")
+            .toList();
+        if (clients.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(clients);
+    }
+     @GetMapping("/clients")
     public ResponseEntity<List<UserDto>> getAllClients() {
         List<UserDto> users = userService.getAllUser();
         List<UserDto> clients = users.stream()
@@ -144,16 +159,31 @@ public class UserResource {
     @PostMapping("/clients")
     public ResponseEntity<?> createClient(@RequestBody ClientDto clientDto) {
         try {
-            ClientDto created = clientService.saveClient(clientDto);
+            ClientDto created = clientService.createClient(clientDto);
             return ResponseEntity.ok(created);
         } catch (RuntimeException e) {
-            // Erreur métier (ex: email déjà utilisé)
-            return ResponseEntity.status(400).body(new ErrorResponse(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
-            // Erreur technique
-            return ResponseEntity.status(500).body(new ErrorResponse("Erreur technique lors de la création du client."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Erreur technique lors de la création du client."));
         }
     }
+ 
+    // Mise à jour d'un client
+    @PutMapping("/clients/{id}")
+    public ResponseEntity<?> updateClient(@PathVariable Long id, @Valid @RequestBody ClientDto clientDto) {
+        try {
+            clientDto.setId(id); // On force l'id venant du path
+            ClientDto updated = clientService.updateClient(clientDto);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Erreur technique lors de la mise à jour du client."));
+        }
+    }
+
 
     // Classe de réponse d'erreur simple
     public static class ErrorResponse {

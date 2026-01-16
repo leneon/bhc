@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.Atiko.entities.ERole;
 import com.example.Atiko.entities.Role;
-import com.example.Atiko.entities.Structure;
 import com.example.Atiko.repositories.RoleRepository;
 
 @Component

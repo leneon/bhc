@@ -26,4 +26,9 @@ public class ImageVoiture {
     @ManyToOne
     @JoinColumn(name = "voiture_id")
     private Voiture voiture;
+
+    public ImageVoiture( Voiture voiture, String url) {
+        this.url = url;
+        this.voiture = voiture;
+    }
 } 

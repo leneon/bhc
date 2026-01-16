@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.Atiko.dtos.StructureDto;
-import com.example.Atiko.entities.Structure;
 import com.example.Atiko.services.StructureService;
 
 import java.io.IOException;

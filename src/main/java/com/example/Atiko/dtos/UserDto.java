@@ -23,10 +23,43 @@ public class UserDto {
     
     private String avatar;
 
-    // Champs du profil pour la liste client
+    // Champs du profil pour la liste client et création complète
     private String nom;
     private String adresse;
     private String telephone;
+    private String localisation;
+    private String fonction;
+    private String typePieceIdentite;
+    private String numeroPieceIdentite;
+    private String numeroPermisConduire;
+    private String paysDelivrancePermis;
+    private java.time.LocalDate dateDelivrancePermis;
+    private java.time.LocalDate dateExpirationPermis;
+
+    
+    public String getLocalisation() { return localisation; }
+    public void setLocalisation(String localisation) { this.localisation = localisation; }
+
+    public String getFonction() { return fonction; }
+    public void setFonction(String fonction) { this.fonction = fonction; }
+
+    public String getTypePieceIdentite() { return typePieceIdentite; }
+    public void setTypePieceIdentite(String typePieceIdentite) { this.typePieceIdentite = typePieceIdentite; }
+
+    public String getNumeroPieceIdentite() { return numeroPieceIdentite; }
+    public void setNumeroPieceIdentite(String numeroPieceIdentite) { this.numeroPieceIdentite = numeroPieceIdentite; }
+
+    public String getNumeroPermisConduire() { return numeroPermisConduire; }
+    public void setNumeroPermisConduire(String numeroPermisConduire) { this.numeroPermisConduire = numeroPermisConduire; }
+
+    public String getPaysDelivrancePermis() { return paysDelivrancePermis; }
+    public void setPaysDelivrancePermis(String paysDelivrancePermis) { this.paysDelivrancePermis = paysDelivrancePermis; }
+
+    public java.time.LocalDate getDateDelivrancePermis() { return dateDelivrancePermis; }
+    public void setDateDelivrancePermis(java.time.LocalDate dateDelivrancePermis) { this.dateDelivrancePermis = dateDelivrancePermis; }
+
+    public java.time.LocalDate getDateExpirationPermis() { return dateExpirationPermis; }
+    public void setDateExpirationPermis(java.time.LocalDate dateExpirationPermis) { this.dateExpirationPermis = dateExpirationPermis; }
 
     public String getAvatar() {
         return avatar;

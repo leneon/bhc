@@ -106,7 +106,7 @@ public class UserProfileService {
             UserProfile profile = convertToEntity(dto);
 
             if(file != null && !file.isEmpty())
-                profile.setAvatar(fileStorageService.storeFile(file));
+                profile.setAvatar(fileStorageService.storeFile(file,"users"));
             UserProfile updatedProfile = userProfileRepository.save(profile);
             System.out.println("\n\n\n Updated :"+updatedProfile.toString());
 

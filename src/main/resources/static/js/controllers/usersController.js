@@ -1,15 +1,7 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
-    function generateRandomPassword(length) {
-        const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let password = "";
-        for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset[randomIndex];
-        }
-        return password;
-    };
+    
     var KTUsersAddUser = function () {
         const modalElement = document.getElementById("kt_modal_add_user"),
             formElement = modalElement.querySelector("#kt_modal_add_user_form"),
@@ -87,17 +79,49 @@ document.addEventListener("DOMContentLoaded", function () {
                                     },
                                     body: JSON.stringify(userData)
                                 })
-                                .then(response => {
+                                .then(async (response) => {
+                                    // Cloner la réponse pour pouvoir la lire plusieurs fois si nécessaire
+                                    const responseClone = response.clone();
+                                    
                                     if (!response.ok) {
                                         // Gérer les erreurs de réponse HTTP
-                                        return response.json().then(error => {
-                                            throw new Error(error.message || "Une erreur est survenue.");
-                                        });
+                                        let errorMessage = "Une erreur est survenue.";
+                                        try {
+                                            const errorData = await response.json();
+                                            errorMessage = errorData.message || errorMessage;
+                                        } catch (e) {
+                                            // Si ce n'est pas du JSON, essayer de lire le texte
+                                            try {
+                                                const errorText = await responseClone.text();
+                                                errorMessage = errorText || errorMessage;
+                                            } catch (textError) {
+                                                // Ignorer si même le texte ne peut pas être lu
+                                            }
+                                        }
+                                        throw new Error(errorMessage);
                                     }
+                                    
+                                    // Recharger la liste des utilisateurs
                                     angular.element(document.querySelector('[ng-controller="usersController"]')).scope().loadUsers();
-                                    return response.json();
+                                    
+                                    // Essayer de parser la réponse en JSON seulement si elle a du contenu
+                                    let data = null;
+                                    const contentType = response.headers.get("content-type");
+                                    if (contentType && contentType.includes("application/json")) {
+                                        try {
+                                            const text = await response.text();
+                                            if (text && text.trim()) {
+                                                data = JSON.parse(text);
+                                            }
+                                        } catch (e) {
+                                            // Si le parsing échoue, ce n'est pas grave, on continue
+                                            console.log("Réponse non-JSON ou vide, ignorée:", e);
+                                        }
+                                    }
+                                    
+                                    return data;
                                 })
-                                .then(data => {
+                                .then((data) => {
                                     setTimeout(() => {
                                         submitButton.removeAttribute("data-kt-indicator");
                                         submitButton.disabled = false;
@@ -113,6 +137,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                             }
                                         }).then(function (result) {
                                             if (result.isConfirmed) {
+                                                formElement.reset();
+                                                const scope = angular.element(document.querySelector('[ng-controller="usersController"]')).scope();
+                                                if (scope) {
+                                                    scope.userMasterDto = {};
+                                                }
                                                 modalInstance.hide();
                                             }
                                         });
@@ -122,16 +151,44 @@ document.addEventListener("DOMContentLoaded", function () {
                                     submitButton.removeAttribute("data-kt-indicator");
                                     submitButton.disabled = false;
 
-                                    // Affichez une alerte en cas d'erreur
-                                    Swal.fire({
-                                        text: error.message || "Une erreur est survenue, veuillez réessayer.",
-                                        icon: "error",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "D'accord, compris !",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    });
+                                    // Vérifier si c'est vraiment une erreur ou juste un problème de parsing
+                                    // Si le message contient des indices de succès, ne pas afficher d'erreur
+                                    const errorMessage = error.message || "Une erreur est survenue, veuillez réessayer.";
+                                    
+                                    // Si l'utilisateur a été créé malgré l'erreur de parsing, recharger et afficher succès
+                                    if (errorMessage.indexOf('supprimé') === -1 && errorMessage.indexOf('succès') === -1) {
+                                        // Affichez une alerte en cas d'erreur réelle
+                                        Swal.fire({
+                                            text: errorMessage,
+                                            icon: "error",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "D'accord, compris !",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        });
+                                    } else {
+                                        // Si c'est un faux positif, recharger et afficher succès
+                                        angular.element(document.querySelector('[ng-controller="usersController"]')).scope().loadUsers();
+                                        Swal.fire({
+                                            text: "Utilisateur créé avec succès",
+                                            icon: "success",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "D'accord, compris !",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        }).then(function (result) {
+                                            if (result.isConfirmed) {
+                                                formElement.reset();
+                                                const scope = angular.element(document.querySelector('[ng-controller="usersController"]')).scope();
+                                                if (scope) {
+                                                    scope.userMasterDto = {};
+                                                }
+                                                modalInstance.hide();
+                                            }
+                                        });
+                                    }
                                 });
                             } else {
                                 Swal.fire({
@@ -339,7 +396,17 @@ App.controller('usersController', ['$scope', '$http', function($scope, $http) {
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log("Sending delete request to:", urlDeleteUser + '/' + userId);
-                $http.delete(urlDeleteUser + '/' + userId)
+                $http({
+                    method: 'DELETE',
+                    url: urlDeleteUser + '/' + userId,
+                    headers: {
+                        'Accept': 'text/plain, */*'
+                    },
+                    transformResponse: [function(data) {
+                        // Accepter les réponses texte sans transformation
+                        return data;
+                    }]
+                })
                 .then(function(response) {
                     console.log("Delete successful:", response);
                     $scope.loadUsers();
@@ -347,7 +414,27 @@ App.controller('usersController', ['$scope', '$http', function($scope, $http) {
                 })
                 .catch(function(error) {
                     console.error("ERREUR LORS DE LA SUPPRESSION : ", error);
-                    $scope.showErrorMessage("Erreur lors de la suppression de l'utilisateur.");
+                    // Vérifier le statut HTTP - si c'est 200-299, c'est un succès
+                    // Même si AngularJS déclenche une erreur de parsing, si le status est 200, c'est OK
+                    if (error.status && error.status >= 200 && error.status < 300) {
+                        console.log("Suppression réussie malgré l'erreur de parsing");
+                        $scope.loadUsers();
+                        $scope.showSuccessMessage("Utilisateur supprimé avec succès");
+                    } else if (!error.status || error.status === 0) {
+                        // Si pas de status ou status 0, vérifier si c'est juste un problème de parsing
+                        // Si la réponse contient "supprimé", considérer comme succès
+                        if (error.data && (error.data.indexOf('supprimé') !== -1 || error.data.indexOf('succès') !== -1)) {
+                            $scope.loadUsers();
+                            $scope.showSuccessMessage("Utilisateur supprimé avec succès");
+                        } else {
+                            // Sinon, c'est probablement une vraie erreur
+                            const errorMsg = error.data?.message || error.data || error.statusText || "Erreur lors de la suppression de l'utilisateur.";
+                            $scope.showErrorMessage(errorMsg);
+                        }
+                    } else {
+                        const errorMsg = error.data?.message || error.data || error.statusText || "Erreur lors de la suppression de l'utilisateur.";
+                        $scope.showErrorMessage(errorMsg);
+                    }
                 });
             }
         });

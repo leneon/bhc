@@ -5,60 +5,54 @@
 <head>
     <meta charset="UTF-8" />
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
+    <script src="/js/controllers/reservationController.js" layout:fragment="script"></script>
 </head>
 
 <body ng-app="myApp" ng-controller="reservationController">
-    <div layout:fragment="content">
-        <div class="card mt-5">
+    <div layout:fragment="content" >
+        <div class="card mt-5" >
             <div class="card-header">
                 <h3 class="card-title">Nouvelle réservation</h3>
             </div>
             <div class="card-body">
-                <form class="row g-3" ng-submit="valider()">
+                <form class="row g-3" id="kt_modal_add_client_form">
                     <!-- Section Informations Client & Voiture -->
                     <div class="separator separator-dashed my-8">
                         <span class="w-125px text-gray-500 fw-semibold fs-7">Informations client & voiture</span>
                     </div>
                     <div class="row mb-7 g-3">
-                        <!-- Client -->
-                        <div class="col-md-6">
-                            <!-- Label + bouton alignés -->
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <label class="form-label required mb-0">Client</label>
+                        <!-- Client et Voiture alignés -->
+                        <div class="col-md-6 d-flex flex-column justify-content-end">
+                            <div class="d-flex align-items-center mb-2">
+                                <label class="form-label required mb-0 me-2">Client</label>
                                 <button type="button"
                                     class="btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center"
                                     data-bs-toggle="modal" data-bs-target="#kt_modal_add_client"
-                                    title="Créer un nouveau client">+ 
+                                    title="Créer un nouveau client">+ Ajouter
                                     <i class="fa fa-user"></i>
                                 </button>
                             </div>
-
-                            <!-- Select -->
                             <select class="form-select" ng-model="reservationDto.clientId" id="reservation_client"
                                 name="reservation_client" data-control="select2"
                                 data-placeholder="Sélectionner un client..." required
-                                ng-options="client.id as (client.nom + ' (' + (client.telephone || client.phone || '') + ')') for client in clients">
+                                ng-options="client.id as (client.nom || client.username || 'Client #' + client.id) + ' (' + (client.telephone || client.email || '') + ')' for client in clients">
                                 <option value="">Sélectionner un client...</option>
                             </select>
                         </div>
-
-
-                        <!-- Voiture -->
-                        <div class="col-md-6">
-                            <label class="form-label required">Voiture</label>
-                            <select class="form-select" ng-model="reservationDto.voiture" id="reservation_voiture"
+                        <div class="col-md-6 d-flex flex-column justify-content-end">
+                            <label class="form-label required mb-2">Voiture</label>
+                            <select class="form-select" ng-model="reservationDto.vehiculeId" id="reservation_voiture"
                                 name="reservation_voiture" data-control="select2"
                                 data-placeholder="Sélectionner une voiture..." required
-                                ng-options="voiture.id as (voiture.nom + ' (' + (voiture.immatriculation || voiture.matricule || '') + ')') for voiture in voitures">
+                                ng-options="voiture.id as (voiture.nom + ' (' + (voiture.immatriculation || '') + ') - ' + (voiture.prix || 0) + ' FCFA/jour') for voiture in voitures">
                                 <option value="">Sélectionner une voiture...</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Modal Ajouter Client -->
-                    <div class="modal fade" id="kt_modal_add_client" tabindex="-1"
-                        aria-labelledby="kt_modal_add_client_label" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered mw-650px">
+                    <!-- Modal AjouteQr Client -->
+                    <div class="modal fade" id="kt_modal_add_client" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered mw-750px">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title fw-bold" id="kt_modal_add_client_label">Nouveau client</h5>
@@ -66,37 +60,120 @@
                                         aria-label="Fermer"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="form_add_client" class="form">
-                                        <div class="mb-3">
-                                            <label class="form-label required">Nom complet</label>
-                                            <input type="text" class="form-control" placeholder="Nom complet"
-                                                ng-model="clientForm.nomComplet" required>
+                                    <form id="form_add_client"  class="form" >
+                                        <div class="row g-3">
+                                            <div class="separator separator-dashed my-8">
+                                                <span class="w-125px text-gray-500 fw-semibold fs-7">Informations
+                                                    personnelles</span>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="nomComplet" class="form-label required">Nom complet</label>
+                                                <input type="text" id="nomComplet" name="nomComplet"
+                                                    class="form-control" placeholder="Nom complet"
+                                                    ng-model="clientForm.nomComplet" required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="email" class="form-label required">Email</label>
+                                                <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="example@domain.com" ng-model="clientForm.email"
+                                                    required>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="telephone" class="form-label">Téléphone</label>
+                                                <input type="text" id="telephone" name="telephone" class="form-control"
+                                                    placeholder="Téléphone du client" ng-model="clientForm.telephone">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="adresse" class="form-label">Adresse</label>
+                                                <input type="text" id="adresse" name="adresse" class="form-control"
+                                                    placeholder="Adresse du client" ng-model="clientForm.adresse">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="localisation" class="form-label">Localisation</label>
+                                                <input type="text" id="localisation" name="localisation"
+                                                    class="form-control" placeholder="Ville, Quartier"
+                                                    ng-model="clientForm.localisation">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="fonction" class="form-label">Fonction</label>
+                                                <input type="text" id="fonction" name="fonction" class="form-control"
+                                                    placeholder="Fonction" ng-model="clientForm.fonction">
+                                            </div>
+
+                                            <div class="separator separator-dashed my-8">
+                                                <span class="w-125px text-gray-500 fw-semibold fs-7">Pièce d'identité &
+                                                    Permis</span>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label for="typePieceIdentite" class="form-label">Type de pièce
+                                                        d'identité</label>
+                                                    <select id="typePieceIdentite" name="typePieceIdentite"
+                                                        class="form-control" ng-model="clientForm.typePieceIdentite">
+                                                        <option value="">Sélectionner...</option>
+                                                        <option value="CNI">CNI</option>
+                                                        <option value="Passeport">Passeport</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label for="numeroPieceIdentite" class="form-label">Numéro de pièce
+                                                        d'identité</label>
+                                                    <input type="text" id="numeroPieceIdentite"
+                                                        name="numeroPieceIdentite" class="form-control"
+                                                        placeholder="Numéro de pièce"
+                                                        ng-model="clientForm.numeroPieceIdentite">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="paysDelivrancePermis" class="form-label">Pays délivrance
+                                                    permis</label>
+                                                <input type="text" id="paysDelivrancePermis" name="paysDelivrancePermis"
+                                                    class="form-control" placeholder="Pays délivrance"
+                                                    ng-model="clientForm.paysDelivrancePermis">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="numeroPermisConduire" class="form-label">Numéro de permis de
+                                                    conduire</label>
+                                                <input type="text" id="numeroPermisConduire" name="numeroPermisConduire"
+                                                    class="form-control" placeholder="Numéro de permis"
+                                                    ng-model="clientForm.numeroPermisConduire">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="dateDelivrancePermis" class="form-label">Date délivrance
+                                                    permis</label>
+                                                <input type="date" id="dateDelivrancePermis" name="dateDelivrancePermis"
+                                                    class="form-control" ng-model="clientForm.dateDelivrancePermis">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="dateExpirationPermis" class="form-label">Date expiration
+                                                    permis</label>
+                                                <input type="date" id="dateExpirationPermis" name="dateExpirationPermis"
+                                                    class="form-control" ng-model="clientForm.dateExpirationPermis">
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label required">Email</label>
-                                            <input type="email" class="form-control" placeholder="example@domain.com"
-                                                ng-model="clientForm.email" required>
-                                        </div>
-                                          <div class="mb-3">
-                                            <label class="form-label">Téléphone</label>
-                                            <input type="text" class="form-control" placeholder="Téléphone du client"
-                                                ng-model="clientForm.telephone">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Adresse</label>
-                                            <input type="text" class="form-control" placeholder="Adresse du client"
-                                                ng-model="clientForm.adresse">
-                                        </div>
-                                      
-                                    </form> 
+                                    </form>
+
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"
-                                        ng-click="clientForm = {nomComplet: '', email: '', adresse: '', telephone: ''}">
-                                        Annuler
-                                    </button>
-                                    <button type="button" class="btn btn-primary" ng-click="addClient()">
-                                        Ajouter
+                                    <button type="button" class="btn btn-light me-3" data-kt-client-modal-action="cancel"
+                                        data-bs-dismiss="modal">Annuler</button>
+                                    <button type="button" class="btn btn-primary" data-kt-client-modal-action="submit">
+                                        <span class="indicator-label">Valider</span>
+                                        <span class="indicator-progress">Veuillez patienter...
+                                            <span
+                                                class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                                     </button>
                                 </div>
                             </div>
@@ -143,60 +220,127 @@
                             <label class="form-label required">Mode paiement</label>
                             <select class="form-select" ng-model="reservationDto.modePaiement" required>
                                 <option value="">Sélectionner...</option>
-                                <option value="ESPECES">Espèces</option>
-                                <option value="CARTE">Carte</option>
-                                <option value="MOBILE_MONEY">Mobile Money</option>
+                                <option value="cash">Espèces</option>
+                                <option value="carte">Carte</option>
+                                <option value="mobile_money">Mobile Money</option>
+                                <option value="virement">Virement</option>
                             </select>
                         </div>
                         <!-- Paiement par carte -->
-                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'CARTE'">
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'carte'">
                             <label class="form-label">Numéro de carte</label>
                             <input type="text" class="form-control" ng-model="reservationDto.numeroCarte" maxlength="16"
                                 pattern="\d{16}" placeholder="Numéro (16 chiffres)" />
                         </div>
-                        <div class="col-md-3" ng-if="reservationDto.modePaiement === 'CARTE'">
+                        <div class="col-md-3" ng-if="reservationDto.modePaiement === 'carte'">
                             <label class="form-label">Expiration (MM/AA)</label>
                             <input type="text" class="form-control" ng-model="reservationDto.expirationCarte"
                                 maxlength="5" pattern="(0[1-9]|1[0-2])\/\d{2}" placeholder="MM/AA" />
                         </div>
-                        <div class="col-md-3" ng-if="reservationDto.modePaiement === 'CARTE'">
+                        <div class="col-md-3" ng-if="reservationDto.modePaiement === 'carte'">
                             <label class="form-label">CVV/CVC</label>
                             <input type="text" class="form-control" ng-model="reservationDto.cvvCarte" maxlength="4"
                                 pattern="\d{3,4}" placeholder="CVV/CVC" />
                         </div>
-                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'CARTE'">
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'carte'">
                             <label class="form-label">Nom du titulaire</label>
                             <input type="text" class="form-control" ng-model="reservationDto.nomTitulaireCarte"
                                 placeholder="Nom sur la carte" />
                         </div>
-                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'CARTE'">
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'carte'">
                             <label class="form-label">Montant à débiter</label>
                             <input type="number" class="form-control" ng-model="reservationDto.montantTotal"
                                 placeholder="Montant à débiter">
                         </div>
                         <!-- Paiement par mobile money -->
-                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'MOBILE_MONEY'">
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'mobile_money'">
                             <label class="form-label">Téléphone Mobile Money</label>
                             <input type="text" class="form-control" ng-model="reservationDto.telephoneMobileMoney"
                                 placeholder="Numéro de téléphone" />
                         </div>
-                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'MOBILE_MONEY'">
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'mobile_money'">
                             <label class="form-label">Montant à débiter</label>
                             <input type="number" class="form-control" ng-model="reservationDto.montantTotal"
                                 placeholder="Montant à débiter">
                         </div>
                         <!-- Paiement espèces ou acompte -->
-                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'ESPECES'">
+                        <div class="col-md-6" ng-if="reservationDto.modePaiement === 'cash'">
                             <label class="form-label">Montant total</label>
                             <input type="number" class="form-control" ng-model="reservationDto.montantTotal"
                                 placeholder="Montant total">
                         </div>
                         <div class="col-md-6" ng-if="reservationDto.modePaiement">
                             <label class="form-label">Acompte</label>
-                            <input type="number" class="form-control" ng-model="reservationDto.acompte"
-                                placeholder="Acompte">
+                            <input type="number" class="form-control" ng-model="reservationDto.voiture.acompte"
+                                placeholder="Acompte" readonly>
+                            <small class="text-muted" ng-if="selectedVoiture && selectedVoiture.acompte">Acompte de la voiture sélectionnée</small>
                         </div>
                     </div>
+                    
+                    <!-- Section Calcul et réduction -->
+                    <div class="separator separator-dashed my-8">
+                        <span class="w-125px text-gray-500 fw-semibold fs-7">Calcul et réduction</span>
+                    </div>
+                    <div class="row mb-7 g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Nombre de jours</label>
+                            <input type="number" class="form-control" ng-model="reservationDto.nombreJours"
+                                placeholder="0" readonly>
+                            <small class="text-muted">Calculé automatiquement</small>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Remise (%)</label>
+                            <input type="number" class="form-control" ng-model="reservationDto.remise"
+                                placeholder="0" min="0" max="100" step="0.01">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Code coupon</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="couponCode"
+                                    placeholder="Entrez le code coupon" ng-keyup="$event.keyCode === 13 && validateCoupon()">
+                                <button type="button" class="btn btn-primary" ng-click="validateCoupon()">
+                                    <i class="fas fa-check"></i> Valider
+                                </button>
+                            </div>
+                            <small class="text-muted" ng-if="selectedCoupon">
+                                <span class="text-success">{{ selectedCoupon.description }}</span>
+                                <span ng-if="selectedCoupon.typeReduction === 'FIXE'">
+                                    - {{ selectedCoupon.montant | number:0 }} FCFA
+                                </span>
+                                <span ng-if="selectedCoupon.typeReduction === 'POURCENTAGE'">
+                                    - {{ selectedCoupon.montant }}%
+                                </span>
+                                <button type="button" class="btn btn-sm btn-link text-danger" ng-click="couponCode = null; selectedCoupon = null; reservationDto.couponId = null;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </small>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="alert alert-info d-flex align-items-center p-5">
+                                <span class="svg-icon svg-icon-2hx svg-icon-info me-4">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="10" fill="currentColor"/>
+                                        <rect x="11" y="17" width="2" height="2" rx="1" fill="currentColor"/>
+                                        <rect x="11" y="9" width="2" height="6" rx="1" fill="currentColor"/>
+                                    </svg>
+                                </span>
+                                <div class="d-flex flex-column">
+                                    <h4 class="mb-1 text-dark">Montant total calculé</h4>
+                                    <span class="fs-3 fw-bold text-primary">{{ reservationDto.montantTotal | number:0 }} FCFA</span>
+                                    <small class="text-muted" ng-if="selectedVoiture">
+                                        Prix/jour: {{ selectedVoiture.prix | number:0 }} FCFA × {{ reservationDto.nombreJours }} jour(s)
+                                        <span ng-if="reservationDto.remise > 0"> - Remise: {{ reservationDto.remise }}%</span>
+                                        <span ng-if="selectedCoupon">
+                                            - Coupon: {{ selectedCoupon.code }}
+                                            <span ng-if="selectedCoupon.typeReduction === 'FIXE'">(-{{ selectedCoupon.montant | number:0 }} FCFA)</span>
+                                            <span ng-if="selectedCoupon.typeReduction === 'POURCENTAGE'">(-{{ selectedCoupon.montant }}%)</span>
+                                        </span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Section Statut -->
                     <div class="separator separator-dashed my-8">
                         <span class="w-125px text-gray-500 fw-semibold fs-7">Statut de la réservation</span>
@@ -206,10 +350,10 @@
                             <label class="form-label required">État</label>
                             <select class="form-select" ng-model="reservationDto.etatReservation" required>
                                 <option value="">Sélectionner...</option>
-                                <option value="EN_ATTENTE">En attente</option>
-                                <option value="CONFIRMEE">Confirmée</option>
-                                <option value="ANNULEE">Annulée</option>
-                                <option value="TERMINEE">Terminée</option>
+                                <option value="en_attente">En attente</option>
+                                <option value="confirmee">Confirmée</option>
+                                <option value="annulee">Annulée</option>
+                                <option value="expiree">Expirée</option>
                             </select>
                         </div>
                     </div>
@@ -225,7 +369,7 @@
                         </div>
                     </div>
                     <div class="col-12 text-center pt-4">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="button" ng-click="submitReservation()" class="btn btn-primary">
                             <span class="indicator-label">Enregistrer la réservation</span>
                         </button>
                     </div>
@@ -233,9 +377,6 @@
             </div>
         </div>
     </div>
-
-
-    <script src="/js/controllers/reservationController.js" layout:fragment="script"></script>
 </body>
 
 </html>

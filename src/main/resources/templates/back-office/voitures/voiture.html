@@ -14,7 +14,7 @@
         <div class="card mb-5 mb-xl-10">
             <div class="card-body pt-9 pb-0">
                 <!--begin::Details-->
-                <div class="d-flex flex-wrap flex-sm-nowrap mb-3 justify-content-center">
+                <!-- <div class="d-flex flex-wrap flex-sm-nowrap mb-3 justify-content-center">
                     <div class="w-100 d-flex flex-column align-items-center justify-content-center"
                         style="min-height:220px;">
                         <div
@@ -28,9 +28,197 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--end::Details-->
                 <!--begin::Navs-->
+                <!--begin::Details-->
+                <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
+                    <!--begin: Pic-->
+                    <div class="me-7 mb-4">
+                        <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+                            <img ng-src="{{voiture.image ? voiture.image: 'assets/media/avatars/blank.png'}}"
+                                alt="image" />
+                            <div
+                                class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px">
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Pic-->
+                    <!--begin::Info-->
+                    <div class="flex-grow-1">
+                        <!--begin::Title-->
+                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                            <!--begin::User-->
+                            <div class="d-flex flex-column">
+                                <!--begin::Name-->
+                                <div class="d-flex align-items-center mb-2">
+                                    <a href="#"
+                                        class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{voiture.nom}}</a>
+                                    <a href="#">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen026.svg-->
+                                        <span class="svg-icon svg-icon-1"
+                                            ng-class="{'svg-icon-primary': voiture.statut, 'svg-icon-danger': !voiture.statut}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M10.0813 3.7242C10.8849 2.16438 13.1151 2.16438 13.9187 3.7242V3.7242C14.4016 4.66147 15.4909 5.1127 16.4951 4.79139V4.79139C18.1663 4.25668 19.7433 5.83365 19.2086 7.50485V7.50485C18.8873 8.50905 19.3385 9.59842 20.2758 10.0813V10.0813C21.8356 10.8849 21.8356 13.1151 20.2758 13.9187V13.9187C19.3385 14.4016 18.8873 15.491 19.2086 16.4951V16.4951C19.7433 18.1663 18.1663 19.7433 16.4951 19.2086V19.2086C15.491 18.8873 14.4016 19.3385 13.9187 20.2758V20.2758C13.1151 21.8356 10.8849 21.8356 10.0813 20.2758V20.2758C9.59842 19.3385 8.50905 18.8873 7.50485 19.2086V19.2086C5.83365 19.7433 4.25668 18.1663 4.79139 16.4951V16.4951C5.1127 15.491 4.66147 14.4016 3.7242 13.9187V13.9187C2.16438 13.1151 2.16438 10.8849 3.7242 10.0813V10.0813C4.66147 9.59842 5.1127 8.50905 4.79139 7.50485V7.50485C4.25668 5.83365 5.83365 4.25668 7.50485 4.79139V4.79139C8.50905 5.1127 9.59842 4.66147 10.0813 3.7242V3.7242Z"
+                                                    fill="currentColor" />
+                                                <path
+                                                    d="M14.8563 9.1903C15.0606 8.94984 15.3771 8.9385 15.6175 9.14289C15.858 9.34728 15.8229 9.66433 15.6185 9.9048L11.863 14.6558C11.6554 14.9001 11.2876 14.9258 11.048 14.7128L8.47656 12.4271C8.24068 12.2174 8.21944 11.8563 8.42911 11.6204C8.63877 11.3845 8.99996 11.3633 9.23583 11.5729L11.3706 13.4705L14.8563 9.1903Z"
+                                                    fill="white" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                        <a href="#" class="btn btn-sm  fw-bold ms-2 fs-8 py-1 px-3" ng-class="{'btn-light-success' :voiture.disponibilite==='DISPONIBLE', 'btn-light-wirning' : voiture.disponibilite==='LOUE', 'btn-light-danger' : voiture.disponibilite==='MAINTENANCE'}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_upgrade_plan">{{voiture.disponibilite}}</a>
+
+                                    </a>
+                                </div>
+                                <!--end::Name-->
+                                <!-- Info Voiture : Marque et Catégorie -->
+                                <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+
+                                    <!-- Marque -->
+                                    <a href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                        <span class="svg-icon svg-icon-4 me-1">
+                                            <!-- SVG Marque -->
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        {{voiture.modele.marqueName}}
+                                    </a>
+
+                                    <!-- Catégorie -->
+                                    <a href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                        <span class="svg-icon svg-icon-4 me-1">
+                                            <!-- SVG Catégorie -->
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="3" y="7" width="18" height="10" rx="2" stroke="currentColor"
+                                                    stroke-width="2" />
+                                                <circle cx="7.5" cy="17.5" r="1.5" fill="currentColor" />
+                                                <circle cx="16.5" cy="17.5" r="1.5" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        {{voiture.modele.categorieName}}
+                                    </a>
+
+                                </div>
+
+
+                                <!--begin::Info-->
+                                <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+
+                                </div>
+                                <!--end::Info-->
+                                <!--begin::Info-->
+                                <div class="d-flex flex-wrap fw-semibold fs-6 mb-4 pe-2">
+
+                                    <!-- Assurance -->
+                                    <a href="#"   onclick="showTab('kt_voiture_view_assurance', event)" 
+                                            class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 text-danger"
+                                            >
+                                            <span class="svg-icon svg-icon-4 me-1" 
+                                            ng-class="{'svg-icon-success': assuranceEncours.statut==='ACTIVE', 'svg-icon-warning': assuranceEncours.statut==='ALERTE', 'svg-icon-danger': assuranceEncours.statut==='EXPIREE'}">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M12 2L2 7V12C2 16.4183 5.58172 20 10 20H14C18.4183 20 22 16.4183 22 12V7L12 2Z"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M12 12V14" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <circle cx="12" cy="17" r="1" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        Assurance [ {{assuranceEncours.compagnie}} ]
+                                    </a>
+
+
+                                    <!-- Visite Technique -->
+                                    <a href="#"
+                                        class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                        <span class="svg-icon svg-icon-4 me-1" 
+                                            ng-class="{'svg-icon-success': visiteEncours.statut==='ACTIVE', 'svg-icon-warning': visiteEncours.statut==='ALERTE', 'svg-icon-danger': visiteEncours.statut==='EXPIREE'}">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor"
+                                                    stroke-width="2" />
+                                                <path d="M8 12H16" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                                <path d="M12 8V16" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                        </span>
+                                        Visite Technique
+                                    </a>
+
+                                    <!-- ORT (Reliquat) -->
+                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
+                                        <span class="svg-icon svg-icon-4 me-1">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
+                                                    stroke="currentColor" stroke-width="2" />
+                                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                        ORT
+                                    </a>
+
+                                </div>
+                                <!--end::Info-->
+
+                            </div>
+                            <!--end::User-->
+                            <!--begin::Actions-->
+                            <div class="d-flex my-4">
+                                <a href="#"  class="btn btn-sm btn-light me-2" id="kt_user_follow_button">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr012.svg-->
+                                    <span class="svg-icon svg-icon-3 d-none">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path opacity="0.3"
+                                                d="M10 18C9.7 18 9.5 17.9 9.3 17.7L2.3 10.7C1.9 10.3 1.9 9.7 2.3 9.3C2.7 8.9 3.29999 8.9 3.69999 9.3L10.7 16.3C11.1 16.7 11.1 17.3 10.7 17.7C10.5 17.9 10.3 18 10 18Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M10 18C9.7 18 9.5 17.9 9.3 17.7C8.9 17.3 8.9 16.7 9.3 16.3L20.3 5.3C20.7 4.9 21.3 4.9 21.7 5.3C22.1 5.7 22.1 6.30002 21.7 6.70002L10.7 17.7C10.5 17.9 10.3 18 10 18Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                    <!--begin::Indicator label-->
+                                    <span class="indicator-label"  onclick=" showTab('kt_voiture_view_seting', event);">Modifier</span>
+                                    <!--end::Indicator label-->
+                                    <!--begin::Indicator progress-->
+                                    <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    <!--end::Indicator progress-->
+                                </a>
+
+                                <!--end::Menu-->
+                            </div>
+                            <!--end::Actions-->
+                        </div>
+                        <!--end::Title-->
+                        <!--begin::Stats-->
+                        <div class="d-flex flex-wrap flex-stack fw-semibold text-muted">
+                            {{profileDto.bio}}
+                        </div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Info-->
+                </div>
+                <!--end::Details-->
 
                 <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold"
                     role="tablist">
@@ -43,13 +231,32 @@
                     <!--begin::Nav item-->
                     <li class="nav-item mt-2">
                         <a class="nav-link text-active-primary ms-0 me-10 py-5 " href="#"
-                            onclick="angular.element(this).scope().prefillFormFromDetails(); showTab('kt_voiture_view_seting', event);">Paramètres</a>
+                            onclick=" showTab('kt_voiture_view_seting', event);">Paramètres</a>
                     </li>
                     <!--end::Nav item-->
                     <!--begin::Nav item-->
                     <li class="nav-item mt-2">
                         <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#"
-                            onclick="showTab('kt_voiture_view_security', event)">Sécurité</a>
+                            onclick="showTab('kt_voiture_view_historiques', event)">Historique de Locations</a>
+                    </li>
+                    <!--end::Nav item-->
+                    <!--begin::Nav item-->
+                    <li class="nav-item mt-2">
+                        <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#"
+                            onclick="showTab('kt_voiture_view_assurance', event)">Assurance</a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#"
+                            onclick="showTab('kt_voiture_viste_techniques', event)">Visite Technique</a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#"
+                            onclick="showTab('kt_voiture_view_otr', event)">ORT</a>
+                    </li>
+                    <li class="nav-item mt-2">
+                        <a class="nav-link text-active-primary ms-0 me-10 py-5" href="#"
+                            onclick="showTab('kt_voiture_view_security', event)">Historique des accidents /
+                            sinistres</a>
                     </li>
                     <!--end::Nav item-->
                     <!-- Additional nav items can go here -->
@@ -60,93 +267,83 @@
 
 
         <!-- Content Sections -->
+        <!--begin::Aperçu Voiture-->
         <div class="card mb-5 mb-xl-10" id="kt_profile_overview" style="display:block;">
             <div class="card-header cursor-pointer">
                 <div class="card-title m-0">
                     <h3 class="fw-bold m-0">Aperçu de la voiture</h3>
                 </div>
-                <a href="#"
-                    onclick="angular.element(this).scope().prefillFormFromDetails(); showTab('kt_voiture_view_seting', event)"
+                <a href="#" onclick=" showTab('kt_voiture_view_seting', event)"
                     class="btn btn-sm btn-primary align-self-center">Modifier</a>
-                <script>
-                    // Fonction AngularJS pour pré-remplir le formulaire avec les données de la voiture en détails
-                    angular.element(document).ready(function () {
-                        var scope = angular.element(document.querySelector('[ng-controller=voitureDetailsController]')).scope();
-                        scope.prefillFormFromDetails = function () {
-                            // Copier les champs principaux
-                            scope.voitureForm = angular.copy(scope.voiture);
-                            // Pour la catégorie, il faut retrouver l'objet dans la liste
-                            if (scope.categories && scope.voiture.categorie) {
-                                var cat = scope.categories.find(function (c) { return String(c.id) === String(scope.voiture.categorie.id); });
-                                scope.voitureForm.categorie = cat || null;
-                            }
-                            // Forcer l'affichage du statut booléen
-                            scope.voitureForm.statut = !!scope.voiture.statut;
-                            // Si pas d'id, on le met
-                            if (scope.voiture.id) scope.voitureForm.id = scope.voiture.id;
-                            scope.$applyAsync();
-                        };
-                    });
-                </script>
             </div>
             <div class="card-body p-9">
                 <div class="row">
                     <div class="col-md-7">
+                        <!-- Nom -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Nom</label>
                             <div class="col-lg-7">
                                 <span class="fw-bold fs-6 text-gray-800">{{voiture.nom}}</span>
                             </div>
                         </div>
+                        <!-- Modèle -->
                         <div class="row mb-7">
-                            <label class="col-lg-5 fw-semibold text-muted">Modèle</label>
+                            <label class="col-lg-5 fw-semibold text-muted">Modèle, Marque</label>
                             <div class="col-lg-7">
-                                <span class="fw-bold fs-6 text-gray-800">{{voiture.model}}</span>
+                                <span class="fw-bold fs-6 text-gray-800">{{voiture.modele.nom}},
+                                    {{voiture.modele.marqueName}}</span>
                             </div>
                         </div>
+                        <!-- Immatriculation -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Immatriculation</label>
                             <div class="col-lg-7">
                                 <span class="fw-bold fs-6 text-gray-800">{{voiture.immatriculation}}</span>
                             </div>
                         </div>
+                        <!-- Catégorie -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Catégorie</label>
                             <div class="col-lg-7">
-                                <span class="fw-bold fs-6 text-gray-800">{{voiture.categorie &&
-                                    voiture.categorie.nom}}</span>
+                                <span class="fw-bold fs-6 text-gray-800">{{voiture.modele.categorieName}}</span>
                             </div>
                         </div>
+                        <!-- Prix -->
+                        <!-- Nombre de sièges -->
                         <div class="row mb-7">
-                            <label class="col-lg-5 fw-semibold text-muted">Prix de Location </label>
+                            <label class="col-lg-5 fw-semibold text-muted">Sièges, Portières</label>
                             <div class="col-lg-7">
-                                <span class="fw-bold fs-6 text-gray-800 badge badge-warning">{{voiture.prix.toLocaleString()}} F CFA</span>
+                                <span class="fw-bold fs-6 text-gray-800">{{voiture.siege}} Sièges, {{voiture.portiere}}
+                                    Portières</span>
                             </div>
                         </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Prix de Location</label>
+                            <div class="col-lg-7">
+                                <span
+                                    class="fw-bold fs-6 text-gray-800 badge badge-warning">{{voiture.prix.toLocaleString()}}
+                                    F CFA</span>
+                            </div>
+                        </div>
+                        <!-- Acompte -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Acompte</label>
                             <div class="col-lg-7">
-                                <span class="fw-bold fs-6 text-gray-800 badge badge-warning" >{{voiture.acompte.toLocaleString()}} F CFA</span>
+                                <span
+                                    class="fw-bold fs-6 text-gray-800 badge badge-warning">{{voiture.acompte.toLocaleString()}}
+                                    F CFA</span>
                             </div>
                         </div>
-                        <div class="row mb-7">
-                            <label class="col-lg-5 fw-semibold text-muted">Nombre de sièges</label>
-                            <div class="col-lg-7">
-                                <span class="fw-bold fs-6 text-gray-800">{{voiture.siege}}</span>
-                            </div>
-                        </div>
-                        <div class="row mb-7">
-                            <label class="col-lg-5 fw-semibold text-muted">Nombre de portières</label>
-                            <div class="col-lg-7">
-                                <span class="fw-bold fs-6 text-gray-800">{{voiture.portiere}}</span>
-                            </div>
-                        </div>
+
+                        <!-- Type de coffre -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Type de coffre</label>
                             <div class="col-lg-7">
                                 <span class="fw-bold fs-6 text-gray-800">{{voiture.coffre}}</span>
                             </div>
                         </div>
+                        <!-- Transmission -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Transmission</label>
                             <div class="col-lg-7">
@@ -154,6 +351,7 @@
                                     'Manuelle'}}</span>
                             </div>
                         </div>
+                        <!-- Climatisation -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Climatisation</label>
                             <div class="col-lg-7">
@@ -161,6 +359,7 @@
                                     'Non'}}</span>
                             </div>
                         </div>
+                        <!-- Disponibilité -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Disponibilité</label>
                             <div class="col-lg-7">
@@ -171,10 +370,10 @@
                                         class="badge badge-warning">Loué</span>
                                     <span ng-if="voiture.disponibilite === 'REPARATION'" class="badge badge-danger">En
                                         réparation</span>
-                                    <span ng-if="!voiture.disponibilite" class="badge badge-secondary">Non défini</span>
                                 </span>
                             </div>
                         </div>
+                        <!-- Statut -->
                         <div class="row mb-7">
                             <label class="col-lg-5 fw-semibold text-muted">Statut</label>
                             <div class="col-lg-7">
@@ -185,6 +384,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Images de la voiture -->
                     <div class="col-md-5 d-flex flex-column align-items-center justify-content-center">
                         <div class="mb-3 w-100">
                             <h5 class="fw-bold text-center">Autres images</h5>
@@ -213,7 +414,134 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card-header cursor-pointer">
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Informations sur la carte grise</h3>
+                </div>
+
+            </div>
+            <!-- Informations Carte Grise -->
+
+            <div class="card-body p-9">
+                <div class="row">
+                    <div class="col-md-7">
+                        <!-- Nom -->
+                        <!-- Colonne gauche -->
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Numéro Carte Grise</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{ voiture.numeroCarteGrise || '—' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Numéro de Série (VIN)</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{ voiture.numeroSerieVin || '—' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Première Mise en Circulation</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{
+                                    voiture.datePremiereMiseEnCirculation.toLocaleDateString() || '—'
+                                    }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Genre National</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{ voiture.genreNational || '—' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Énergie</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{ voiture.energie || '—' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Couleur</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{ voiture.couleur || '—' }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-7">
+                            <label class="col-lg-5 fw-semibold text-muted">Poids à Vide</label>
+                            <div class="col-lg-7">
+                                <span class="fw-bold fs-6 text-gray-800">{{ voiture.poidsVide || '—' }}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Images de la voiture -->
+                    <div class="col-md-5 d-flex flex-column align-items-center justify-content-center">
+                        <div class="mb-3 w-100">
+                            <!-- Colonne droite -->
+
+                            <div class="row mb-7">
+                                <label class="col-lg-5 fw-semibold text-muted">Poids Total Autorisé</label>
+                                <div class="col-lg-7">
+                                    <span class="fw-bold fs-6 text-gray-800">{{ voiture.poidsTotalAutorise || '—'
+                                        }}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-7">
+                                <label class="col-lg-5 fw-semibold text-muted">Nombre de Places</label>
+                                <div class="col-lg-7">
+                                    <span class="fw-bold fs-6 text-gray-800">{{ voiture.nombrePlaces || '—' }}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-7">
+                                <label class="col-lg-5 fw-semibold text-muted">Propriétaire</label>
+                                <div class="col-lg-7">
+                                    <span class="fw-bold fs-6 text-gray-800">{{ voiture.proprietaire || '—' }}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-7">
+                                <label class="col-lg-5 fw-semibold text-muted">Adresse Propriétaire</label>
+                                <div class="col-lg-7">
+                                    <span class="fw-bold fs-6 text-gray-800">{{ voiture.adresseProprietaire || '—'
+                                        }}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-7">
+                                <label class="col-lg-5 fw-semibold text-muted">Date de Délivrance</label>
+                                <div class="col-lg-7">
+                                    <span class="fw-bold fs-6 text-gray-800">{{
+                                        voiture.dateDelivranceCarteGrise.toLocaleDateString() || '—'
+                                        }}</span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-7">
+                                <label class="col-lg-5 fw-semibold text-muted">Centre d’Immatriculation</label>
+                                <div class="col-lg-7">
+                                    <span class="fw-bold fs-6 text-gray-800">{{ voiture.centreImmatriculation || '—'
+                                        }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+        <!--end::Aperçu Voiture-->
+
 
         <div class="card mb-5 mb-xl-10" id="kt_voiture_view_seting" style="display:none;">
             <!--begin::Card header-->
@@ -230,160 +558,264 @@
             <!--begin::Content-->
             <div id="kt_account_settings_profile_details" class="collapse show p-9">
                 <!--begin::Form-->
-                <form id="kt_modal_add_voiture_form" class="form " enctype="multipart/form-data">
-                    <!--begin::Input group-->
-                    <input type="hidden" id="voiture_id" name="voiture_id" />
-                    <!--begin::Informations de base-->
-                    <div class="separator separator-dashed my-8">
-                        <span class="w-125px text-gray-500 fw-semibold fs-7">Informations de base</span>
-                    </div>
-                    <div class="row mb-7 g-3">
-                        <div class="col-md-6">
-                            <label class="required fw-semibold fs-6 mb-2">Nom de la voiture</label>
-                            <input ng-model="voitureForm.nom" type="text" id="voiture_nom" name="voiture_nom"
-                                class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ex: Toyota Corolla"
-                                required />
-                        </div>
-                        <div class="col-md-6">
-                            <label class="required fw-semibold fs-6 mb-2">Immatriculation</label>
-                            <input ng-model="voitureForm.immatriculation" type="text" id="voiture_immatriculation"
-                                name="voiture_immatriculation" class="form-control form-control-solid mb-3 mb-lg-0"
-                                placeholder="Ex: AB-123-CD" required />
-                        </div>
-                    </div>
-                    <div class="row mb-7 g-3">
-                        <div class="col-md-6">
-                            <label class="required fw-semibold fs-6 mb-2">Modèle</label>
-                            <input ng-model="voitureForm.model" type="text" id="voiture_model" name="voiture_model"
-                                class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ex: Corolla 2023"
-                                required />
-                        </div>
-                        <div class="col-md-6">
-                            <label class="required fw-semibold fs-6 mb-2">Catégorie</label>
-                            <select ng-model="voitureForm.categorie" id="voiture_categorie" name="voiture_categorie"
-                                class="form-select form-select-solid" data-control="select2"
-                                data-placeholder="Sélectionner une catégorie" required
-                                ng-options="cat as cat.nom for cat in categories track by cat.id">
-                                <option value="">Sélectionner une catégorie</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!--begin::Caractéristiques techniques-->
-                    <div class="separator separator-dashed my-8">
-                        <span class="w-125px text-gray-500 fw-semibold fs-7">Caractéristiques techniques</span>
-                    </div>
-                    <div class="row mb-7 g-3">
-                        <div class="col-md-4">
-                            <label class="required fw-semibold fs-6 mb-2">Nombre de sièges</label>
-                            <input ng-model="voitureForm.siege" type="number" id="voiture_siege" name="voiture_siege"
-                                class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ex: 5" min="1"
-                                max="20" required />
-                        </div>
-                        <div class="col-md-4">
-                            <label class="required fw-semibold fs-6 mb-2">Nombre de portières</label>
-                            <input ng-model="voitureForm.portiere" type="number" id="voiture_portiere"
-                                name="voiture_portiere" class="form-control form-control-solid mb-3 mb-lg-0"
-                                placeholder="Ex: 4" min="2" max="8" required />
-                        </div>
-                        <div class="col-md-4">
-                            <label class="required fw-semibold fs-6 mb-2">Type de coffre</label>
-                            <select ng-model="voitureForm.coffre" id="voiture_type_coffre" name="voiture_type_coffre"
-                                class="form-select form-select-solid" required>
-                                <option value="">Sélectionner un type</option>
-                                <option value="PETIT">Petit</option>
-                                <option value="MOYEN">Moyen</option>
-                                <option value="GRAND">Grand</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!--begin::Équipements-->
-                    <div class="separator separator-dashed my-8">
-                        <span class="w-125px text-gray-500 fw-semibold fs-7">Équipements</span>
-                    </div>
-                    <div class="row mb-7 g-3">
-                        <div class="col-md-4">
-                            <label class="fw-semibold fs-6 mb-2">Transmission</label>
-                            <div class="form-check form-switch">
-                                <input ng-model="voitureForm.automatique" class="form-check-input" type="checkbox"
-                                    id="voiture_automatique" name="voiture_automatique" />
-                                <label class="form-check-label" for="voiture_automatique">Automatique</label>
+                <form id="kt_modal_add_voiture_form" class="form" enctype="multipart/form-data">
+                    <div class="row">
+                        <!-- Informations générales -->
+                        <div class="col-md-12">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Nom</label>
+                                <input ng-model="voiture.id" class="d-none" id="voiture_id" />
+                                <input ng-model="voiture.nom" type="text" name="voiture_nom" id="voiture_nom"
+                                    class="form-control form-control-solid" placeholder="Ex : Toyota Corolla" />
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <label class="fw-semibold fs-6 mb-2">Climatisation</label>
-                            <div class="form-check form-switch">
-                                <input ng-model="voitureForm.climatisation" class="form-check-input" type="checkbox"
-                                    id="voiture_climatisation" name="voiture_climatisation" />
-                                <label class="form-check-label" for="voiture_climatisation">Climatisation</label>
+                        <div class="col-md-6">
+                            <label class="required fw-semibold">Modèle</label>
+                            <select ng-model="voiture.modeleId" class="form-select form-select-solid"
+                                id="voiture_modeleId"
+                                ng-options="m.id as (m.nom + ' - ' + m.marqueName + ' (' + m.anneeSortie + ')') for m in listemodeles track by m.id">
+                                <option value="">Sélectionner un modèle…</option>
+                            </select>
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Immatriculation</label>
+                                <input ng-model="voiture.immatriculation" type="text" id="voiture_immatriculation"
+                                    name="voiture_immatriculation" class="form-control form-control-solid"
+                                    placeholder="Ex : AB-123-CD" />
                             </div>
                         </div>
-                        <div class="col-md-4" ng-if="voitureForm.id">
-                            <label class="required fw-semibold fs-6 mb-2">Disponibilité</label>
-                            <select ng-model="voitureForm.disponibilite" id="voiture_disponibilite"
-                                name="voiture_disponibilite" class="form-select form-select-solid" required>
-                                <option value="DISPONIBLE">Disponible</option>
-                                <option value="LOUE">Loué</option>
-                                <option value="REPARATION">En réparation</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4" ng-if="!voitureForm.id">
-                            <label class="fw-semibold fs-6 mb-2">Disponibilité</label>
-                            <input type="text" class="form-control form-control-solid" value="Disponible" readonly />
-                        </div>
+
                     </div>
-                    <!--begin::Images-->
-                    <div class="separator separator-dashed my-8">
-                        <span class="w-125px text-gray-500 fw-semibold fs-7">Images</span>
-                    </div>
-                    <div class="row mb-7 g-3">
-                        <div class="col-md-6">
-                            <label class="fw-semibold fs-6 mb-2">Image principale</label>
-                            <input type="file" id="voiture_image" name="voiture_image"
-                                class="form-control form-control-solid" accept="image/*" />
-                            <div class="form-text">Formats acceptés : JPG, PNG, GIF. Taille max : 5MB</div>
+
+
+
+                    <!-- Caractéristiques -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class=" required fw-semibold fs-6 mb-2">Sièges</label>
+                                <input ng-model="voiture.siege" type="number" id="voiture_siege" name="voiture_siege"
+                                    class="form-control form-control-solid" placeholder="Ex : 5" />
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="fw-semibold fs-6 mb-2">Images supplémentaires</label>
-                            <input type="file" id="voiture_images" name="voiture_images"
-                                class="form-control form-control-solid" accept="image/*" multiple />
-                            <div class="form-text">Vous pouvez sélectionner plusieurs images</div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Portières</label>
+                                <input ng-model="voiture.portiere" type="number" id="voiture_portiere"
+                                    name="voiture_portiere" class="form-control form-control-solid"
+                                    placeholder="Ex : 4" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-7">
-                        <div class="col-md-6">
-                            <label class="fw-semibold fs-6 mb-2">Prix de location (F CFA)</label>
-                            <input ng-model="voitureForm.prix" type="number" id="voiture_prix" name="voiture_prix"
-                                class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ex: 25000" min="0" />
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Places</label>
+                                <input ng-model="voiture.nombrePlaces" type="number" id="voiture_nombrePlaces"
+                                    name="voiture_nombrePlaces" class="form-control form-control-solid"
+                                    placeholder="Ex : 5" />
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="fw-semibold fs-6 mb-2">Acompte (F CFA)</label>
-                            <input ng-model="voitureForm.acompte" type="number" id="voiture_acompte"
-                                name="voiture_acompte" class="form-control form-control-solid mb-3 mb-lg-0"
-                                placeholder="Ex: 5000" min="0" />
-                        </div>
-                    </div>
-                    <!-- Statut (modification uniquement) -->
-                    <div class="row mb-7">
-                        <div class="col-md-4">
-                            <label class="fw-semibold fs-6 mb-2">Statut</label>
-                            <div class="form-check form-switch">
-                                <input ng-model="voitureForm.statut" class="form-check-input" type="checkbox"
-                                    id="voiture_statut" name="voiture_statut" ng-true-value="true"
-                                    ng-false-value="false" ng-disabled="!voitureForm.id" />
-                                <label class="form-check-label" for="voiture_statut">{{ voitureForm.statut ? 'Actif' :
-                                    'Inactif' }}</label>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Coffre</label>
+                                <select ng-model="voiture.coffre" id="voiture_coffre" name="voiture_coffre"
+                                    class="form-select form-select-solid">
+                                    <option value="">Type de coffre…</option>
+                                    <option value="GRAND">Grand</option>
+                                    <option value="MOYEN">Moyen</option>
+                                    <option value="PETIT">Petit</option>
+                                </select>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Image</label>
+                                <input ng-model="voiture.image" type="file" id="voiture_image" name="voiture_image"
+                                    class="form-control form-control-solid" placeholder="Ex : voiture1.jpg" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Images</label>
+                                <input ng-model="voiture.images" type="file" id="voiture_images" multiple
+                                    class="form-control form-control-solid" placeholder="Ex : voiture2.jpg" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Équipements -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <div class="form-check form-check-custom">
+                                    <input ng-model="voiture.statut" type="checkbox" id="voiture_statut"
+                                        class="form-check-input" />
+                                    <label class="form-check-label fw-semibold fs-6" for="voiture_statut">Statut</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <div class="form-check form-check-custom">
+                                    <input ng-model="voiture.automatique" type="checkbox" id="voiture_automatique"
+                                        class="form-check-input" />
+                                    <label class="form-check-label fw-semibold fs-6"
+                                        for="voiture_automatique">Automatique</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <div class="form-check form-check-custom">
+                                    <input ng-model="voiture.climatisation" type="checkbox" id="voiture_climatisation"
+                                        class="form-check-input" />
+                                    <label class="form-check-label fw-semibold fs-6"
+                                        for="voiture_climatisation">Climatisation</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- Tarification -->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="required fw-semibold fs-6 mb-2">Prix</label>
+                                <input ng-model="voiture.prix" type="number" id="voiture_prix" name="voiture_prix"
+                                    class="form-control form-control-solid" placeholder="Ex : 25000" step="0.01" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Acompte</label>
+                                <input ng-model="voiture.acompte" type="number" id="voiture_acompte"
+                                    class="form-control form-control-solid" placeholder="Ex : 500" step="0.01" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Disponibilité</label>
+                                <select ng-model="voiture.disponibilite" id="voiture_disponibilite"
+                                    class="form-select form-select-solid">
+                                    <option value="DISPONIBLE">Disponible</option>
+                                    <option value="RESERVER">Réservée</option>
+                                    <option value="MAINTENANCE">Maintenance</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Informations carte grise -->
+                    <h3 class="fw-bold mb-4">Informations Carte Grise</h3>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Numéro Carte Grise</label>
+                                <input ng-model="voiture.numeroCarteGrise" type="text" id="voiture_numeroCarteGrise"
+                                    class="form-control form-control-solid" placeholder="Ex : CG-001245" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Numéro VIN</label>
+                                <input ng-model="voiture.numeroSerieVin" type="text" id="voiture_numeroSerieVin"
+                                    class="form-control form-control-solid" placeholder="Ex : VF3ABCD1234567890" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Centre Immatriculation</label>
+                                <input ng-model="voiture.centreImmatriculation" type="text"
+                                    id="voiture_centreImmatriculation" class="form-control form-control-solid"
+                                    placeholder="Ex : Paris 15" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Date 1ère mise en circulation</label>
+                                <input ng-model="voiture.datePremiereMiseEnCirculation" type="date"
+                                    id="voiture_datePremiereMiseEnCirculation"
+                                    class="form-control form-control-solid" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Date délivrance Carte Grise</label>
+                                <input ng-model="voiture.dateDelivranceCarteGrise" type="date"
+                                    id="voiture_dateDelivranceCarteGrise" class="form-control form-control-solid" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Genre National</label>
+                                <input ng-model="voiture.genreNational" type="text" id="voiture_genreNational"
+                                    class="form-control form-control-solid" placeholder="Ex : VP" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Couleur</label>
+                                <input ng-model="voiture.couleur" type="text" id="voiture_couleur"
+                                    class="form-control form-control-solid" placeholder="Ex : Noir métallisé" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Poids à vide (kg)</label>
+                                <input ng-model="voiture.poidsVide" type="text" id="voiture_poidsVide"
+                                    class="form-control form-control-solid" placeholder="Ex : 1250 kg" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Poids total autorisé (kg)</label>
+                                <input ng-model="voiture.poidsTotalAutorise" type="text" id="voiture_poidsTotalAutorise"
+                                    class="form-control form-control-solid" placeholder="Ex : 1800 kg" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Propriétaire</label>
+                                <input ng-model="voiture.proprietaire" type="text" id="voiture_proprietaire"
+                                    class="form-control form-control-solid" placeholder="Ex : Jean Dupont" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fv-row mb-7">
+                                <label class="fw-semibold fs-6 mb-2">Adresse Propriétaire</label>
+                                <input ng-model="voiture.adresseProprietaire" type="text"
+                                    id="voiture_adresseProprietaire" class="form-control form-control-solid"
+                                    placeholder="Ex : 12 rue de Paris, 75001 Paris" />
+                            </div>
+                        </div>
+                    </div>
+
+
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
                         <button type="reset" class="btn btn-light me-3">Annuler</button>
-                        <!-- Ajout d'un bouton de fermeture (croix) dans le header du modal -->
-                        <button type="button" class="btn-close position-absolute top-0 end-0 m-4" aria-label="Close"
-                            data-kt-voitures-modal-action="close"></button>
-                        <!-- Le bouton 'Créer' est supprimé, seul le bouton principal reste -->
-                        <button type="button" class="btn btn-primary" ng-click="updateVoiture()">
-                            <span class="indicator-label">{{ voitureForm.id ? 'Mettre à jour' : 'Enregistrer' }}</span>
+                        <button type="button" class="btn btn-primary">
+                            <span class="indicator-label" ng-click="updateVoiture()">Enregistrer</span>
                             <span class="indicator-progress">Veuillez patienter...
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
@@ -393,9 +825,466 @@
                 <!--end::Form-->
             </div>
             <!--end::Content-->
+
         </div>
 
-        <div class="card mb-5 mb-xl-10" id="kt_voiture_view_security" style="display:none;">
+        <div class="card mb-5 mb-xl-10" id="kt_voiture_view_historiques" style="display:none;">
+            <div class="card pt-4 mb-6 mb-xl-9">
+                <div class="card-header border-0">
+                    <div class="card-title">
+                        <h2>Compte utilisateur</h2>
+                    </div>
+                </div>
+                <div class="card-body pt-0 pb-5">
+                    <!--begin::Form-->
+
+                    <!--end::Form-->
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card mb-5 mb-xl-10" id="kt_voiture_view_assurance" style="display:none;">
+            <div class="card pt-4 mb-6 mb-xl-9">
+               <div class="card">
+
+                <!-- HEADER -->
+                <div class="card-header border-0 pt-6">
+
+                    <!-- 🔍 Barre de recherche -->
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect opacity="0.5" x="17" y="15" width="8" height="2" rx="1"
+                                        transform="rotate(45 17 15)" fill="currentColor" />
+                                    <path d="M11 19C6.6 19 3 15.4 3 11S6.6 3 11 3s8 3.6 8 8-3.6 8-8 8zm0-14c-3.3 0-6 2.7-6 6s2.7 6 6 6
+                                            6-2.7 6-6-2.7-6-6-6z"
+                                        fill="currentColor" />
+                                </svg>
+                            </span>
+
+                            <input type="text"
+                                class="form-control form-control-solid w-250px ps-14"
+                                placeholder="Rechercher assurance"
+                                ng-model="searchAssurance" />
+                        </div>
+                    </div>
+
+                    <!-- ➕ Bouton ajouter -->
+                    <div class="card-toolbar">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#kt_modal_add_assurance">
+                                <span class="svg-icon svg-icon-2 me-2">
+                                    <svg width="24" height="24" fill="none">
+                                        <rect opacity="0.5" x="11" y="20" width="16" height="2" rx="1"
+                                            transform="rotate(-90 11 20)" fill="currentColor" />
+                                        <rect x="4" y="11" width="16" height="2" rx="1"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                                Nouvelle assurance
+                            </button>
+                        </div>
+
+                        <!-- 🔵 MODAL -->
+                        <div class="modal fade" id="kt_modal_add_assurance" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered mw-750px">
+                                <div class="modal-content">
+
+                                    <!-- HEADER -->
+                                    <div class="modal-header">
+                                        <h2 class="fw-bold">Gestion Assurance</h2>
+                                        <button class="btn btn-icon btn-sm"
+                                                data-bs-dismiss="modal">
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg width="24" height="24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="17" width="16" height="2"
+                                                        transform="rotate(-45 6 17)" fill="currentColor" />
+                                                    <rect x="7" y="6" width="16" height="2"
+                                                        transform="rotate(45 7 6)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <!-- BODY -->
+                                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                                        <form id="kt_modal_add_assurance_form"
+                                            class="form"
+                                            enctype="multipart/form-data">
+
+                                            <input type="hidden" ng-model="assuranceDto.id" />
+
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Compagnie</label>
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="assuranceDto.compagnie"
+                                                        placeholder="NSIA, GTA..." />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">N° Police</label>
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="assuranceDto.numeroPolice"
+                                                        placeholder="POL-2025-8893" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Type d’assurance</label>
+                                                    <select class="form-control form-control-solid"
+                                                            ng-model="assuranceDto.type">
+                                                        <option value="">-- Choisir --</option>
+                                                        <option value="Tierce">Tierce</option>
+                                                        <option value="Tous risques">Tous risques</option>
+                                                        <option value="Responsabilité civile">
+                                                            Responsabilité civile
+                                                        </option>
+                                                        <option value="Flotte">Transport / Flotte</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Montant</label>
+                                                    <input type="number" class="form-control form-control-solid"
+                                                        ng-model="assuranceDto.montant"
+                                                        placeholder="150000" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Date début</label>
+                                                    <input type="date"
+                                                        class="form-control form-control-solid"
+                                                        ng-model="assuranceDto.dateDebut" />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Date fin</label>
+                                                    <input type="date"
+                                                        class="form-control form-control-solid"
+                                                        ng-model="assuranceDto.dateFin" />
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-5">
+                                                <label class="fw-semibold mb-2">Document (PDF / Image)</label>
+                                                <input type="file" class="form-control"
+                                                    file-model="selectedFile" />
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="reset"
+                                                        class="btn btn-light me-3"
+                                                        data-bs-dismiss="modal">Annuler</button>
+
+                                                <button type="button"
+                                                        class="btn btn-primary"
+                                                        ng-click="saveAssurance()">
+                                                    <span class="indicator-label">Enregistrer</span>
+                                                    <span class="indicator-progress">
+                                                        Veuillez patienter...
+                                                        <span class="spinner-border spinner-border-sm ms-2"></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TABLEAU -->
+                <div class="card-body py-4 table-responsive">
+                    <table class="table table-row-dashed align-middle fs-6 gy-5">
+
+                        <thead>
+                            <tr class="text-start text-uppercase text-muted fw-bold fs-7">
+                                <th>Compagnie</th>
+                                <th>N° Police</th>
+                                <th>Type</th>
+                                <th>Validité</th>
+                                <th>Statut</th>
+                                <th>Montant</th>
+                                <th>Document</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="fw-semibold text-gray-600">
+                            <tr ng-repeat="a in listeAssurances | filter:searchAssurance">
+
+                                <td>{{a.compagnie}}</td>
+                                <td>{{a.numeroPolice}}</td>
+                                <td>{{a.type}}</td>
+                                <td>{{a.dateDebut}} → {{a.dateFin}}</td>
+
+                                <td>
+                                    <span class="badge badge-success"  ng-if="a.statut == 'ACTIVE'">ACTIVE</span>
+                                    <span class="badge badge-warning" ng-if="a.statut == 'ALERTE'">ALERTE (-3 mois)</span>
+                                    <span class="badge badge-danger"  ng-if="a.statut == 'EXPIREE'">EXPIRÉE</span>
+                                </td>
+
+                                <td>{{a.montant | currency:'FCFA '}}</td>
+
+                                <td>
+                                    <a ng-if="a.document"
+                                    href="{{a.document}}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-light-primary">
+                                    🧾 Voir
+                                    </a>
+                                </td>
+
+                                <td class="text-end">
+                                    <a ng-click="editAssurance(a.id)"
+                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                        ✏️
+                                    </a>
+
+                                    <a ng-click="deleteAssurance(a.id)"
+                                    class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                                        🗑️
+                                    </a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+        <div class="card mb-5 mb-xl-10" id="kt_voiture_viste_techniques" style="display:none;">
+            <div class="card pt-4 mb-6 mb-xl-9">
+              <div class="card">
+
+                <!-- HEADER -->
+                <div class="card-header border-0 pt-6">
+
+                    <!-- 🔍 Barre de recherche -->
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect opacity="0.5" x="17" y="15" width="8" height="2" rx="1"
+                                        transform="rotate(45 17 15)" fill="currentColor" />
+                                    <path d="M11 19C6.6 19 3 15.4 3 11S6.6 3 11 3s8 3.6 8 8-3.6 8-8 8zm0-14c-3.3 0-6 2.7-6 6s2.7 6 6 6
+                                            6-2.7 6-6-2.7-6-6-6z"
+                                        fill="currentColor" />
+                                </svg>
+                            </span>
+
+                            <input type="text"
+                                class="form-control form-control-solid w-250px ps-14"
+                                placeholder="Rechercher Visite Technique"
+                                ng-model="searchVisite" />
+                        </div>
+                    </div>
+
+                    <!-- ➕ Bouton ajouter -->
+                    <div class="card-toolbar">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#kt_modal_add_visite"
+                                    ng-click="openAddVisiteModal()">
+                                <span class="svg-icon svg-icon-2 me-2">
+                                    <svg width="24" height="24" fill="none">
+                                        <rect opacity="0.5" x="11" y="20" width="16" height="2" rx="1"
+                                            transform="rotate(-90 11 20)" fill="currentColor" />
+                                        <rect x="4" y="11" width="16" height="2" rx="1"
+                                            fill="currentColor" />
+                                    </svg>
+                                </span>
+                                Ajouter une Visite
+                            </button>
+                        </div>
+
+                        <!-- 🔵 MODAL -->
+                        <div class="modal fade" id="kt_modal_add_visite" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered mw-750px">
+                                <div class="modal-content">
+
+                                    <!-- HEADER -->
+                                    <div class="modal-header">
+                                        <h2 class="fw-bold">Gestion des vistes Technique</h2>
+                                        <button class="btn btn-icon btn-sm"
+                                                data-bs-dismiss="modal">
+                                            <span class="svg-icon svg-icon-1">
+                                                <svg width="24" height="24" fill="none">
+                                                    <rect opacity="0.5" x="6" y="17" width="16" height="2"
+                                                        transform="rotate(-45 6 17)" fill="currentColor" />
+                                                    <rect x="7" y="6" width="16" height="2"
+                                                        transform="rotate(45 7 6)" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+
+                                    <!-- BODY -->
+                                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                                        <form id="kt_modal_add_visite_form"
+                                            class="form"
+                                            enctype="multipart/form-data">
+
+                                            <input type="hidden" ng-model="visiteDto.id" />
+
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Centre</label>
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="visiteDto.centre"
+                                                        placeholder="Centre d'enregistrement" />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Numéreo</label>
+                                                    <input type="text" class="form-control form-control-solid"
+                                                        ng-model="visiteDto.numero"
+                                                        placeholder="Entrer le numéro" />
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-5">
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Date début</label>
+                                                    <input type="date"
+                                                        class="form-control form-control-solid"
+                                                        ng-model="visiteDto.dateDebut" />
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label class="required fw-semibold mb-2">Date fin</label>
+                                                    <input type="date"
+                                                        class="form-control form-control-solid"
+                                                        ng-model="visiteDto.dateFin" />
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-5">
+                                                <label class="fw-semibold mb-2">Document (PDF / Image)</label>
+                                                <input type="file" class="form-control"
+                                                    file-model="selectedFile" />
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="reset"
+                                                        class="btn btn-light me-3"
+                                                        data-bs-dismiss="modal">Annuler</button>
+
+                                                <button type="button"
+                                                        class="btn btn-primary"
+                                                        ng-click="saveVisite()">
+                                                    <span class="indicator-label">Enregistrer</span>
+                                                    <span class="indicator-progress">
+                                                        Veuillez patienter...
+                                                        <span class="spinner-border spinner-border-sm ms-2"></span>
+                                                    </span>
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TABLEAU -->
+                <div class="card-body py-4 table-responsive">
+                    <table class="table table-row-dashed align-middle fs-6 gy-5">
+
+                        <thead>
+                            <tr class="text-start text-uppercase text-muted fw-bold fs-7">
+                                <th>Centre</th>
+                                <th>Numéro</th>
+                                <th>Validité</th>
+                                <th>Statut</th>
+                                <th>Document</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="fw-semibold text-gray-600">
+                            <tr ng-repeat="a in listeVisites | filter:searchVisite">
+
+                                <td>{{a.centre}}</td>
+                                <td>{{a.numero}}</td>
+                                <td>{{a.dateDebut}} → {{a.dateFin}}</td>
+
+                                <td>
+                                    <span class="badge badge-success"  ng-if="a.statut == 'ACTIVE'">ACTIVE</span>
+                                    <span class="badge badge-warning" ng-if="a.statut == 'ALERTE'">ALERTE (-3 mois)</span>
+                                    <span class="badge badge-danger"  ng-if="a.statut == 'EXPIREE'">EXPIRÉE</span>
+                                </td>
+
+
+                                <td>
+                                    <a ng-if="a.document"
+                                    href="{{a.document}}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-light-primary">
+                                    🧾 Voir
+                                    </a>
+                                </td>
+
+                                <td class="text-end">
+                                    <a ng-click="editVisite(a.id)"
+                                    class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                        ✏️
+                                    </a>
+
+                                    <a ng-click="deleteVisite(a.id)"
+                                    class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                                        🗑️
+                                    </a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+        <div class="card mb-5 mb-xl-10" id="kt_voiture_view_otr" style="display:none;">
+            <div class="card pt-4 mb-6 mb-xl-9">
+                <div class="card-header border-0">
+                    <div class="card-title">
+                        <h2>Compte utilisateur</h2>
+                    </div>
+                </div>
+                <div class="card-body pt-0 pb-5">
+                    <!--begin::Form-->
+
+                    <!--end::Form-->
+                </div>
+
+
+            </div>
+        </div>
+        <div class="card mb-5 mb-xl-10" id="kt_voiture_view_accidents_sinistres" style="display:none;">
             <div class="card pt-4 mb-6 mb-xl-9">
                 <div class="card-header border-0">
                     <div class="card-title">
@@ -422,7 +1311,11 @@
                 // Masquer toutes les sections de contenu
                 document.getElementById('kt_profile_overview').style.display = 'none';
                 document.getElementById('kt_voiture_view_seting').style.display = 'none';
-                document.getElementById('kt_voiture_view_security').style.display = 'none';
+                document.getElementById('kt_voiture_view_historiques').style.display = 'none';
+                document.getElementById('kt_voiture_view_assurance').style.display = 'none';
+                document.getElementById('kt_voiture_viste_techniques').style.display = 'none';
+                document.getElementById('kt_voiture_view_otr').style.display = 'none';
+                document.getElementById('kt_voiture_view_accidents_sinistres').style.display = 'none';
 
                 // Afficher le contenu de l'onglet sélectionné
                 document.getElementById(tabId).style.display = 'block';

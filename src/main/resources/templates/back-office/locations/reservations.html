@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title th:text="${appName} + ' - ' + ${title}">BHC</title>
-
+    <script src="/js/controllers/reservationsController.js" layout:fragment="script"></script>
 </head>
 <body ng-app="myApp" ng-controller="reservationsController">
     <div layout:fragment="content">
@@ -36,7 +36,7 @@
                       
                         <!--begin::Export-->
                         
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_reservation">
+                        <a href="/atiko/locations/reservation" class="btn btn-primary">
                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                         <span class="svg-icon svg-icon-2">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,8 +44,20 @@
                                 <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
                             </svg>
                         </span>
-                        <!--end::Svg Icon-->Ajouter</button>
+                        <!--end::Svg Icon-->Nouvelle réservation</a>
                         <!--end::Add reservation-->
+                        
+                        <!--begin::Refresh button-->
+                        <button type="button" class="btn btn-light-primary ms-2" ng-click="refreshData()" title="Rafraîchir">
+                            <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                            <span class="svg-icon svg-icon-2">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.2657 11.4343L15.45 7.25C15.8642 6.83579 15.8642 6.16421 15.45 5.75C15.0358 5.33579 14.3642 5.33579 13.95 5.75L9.40712 10.2929C9.01659 10.6834 9.01659 11.3166 9.40712 11.7071L13.95 16.25C14.3642 16.6642 15.0358 16.6642 15.45 16.25C15.8642 17.8358 15.8642 17.1642 15.45 16.75L11.2657 12.5657C10.9533 12.2533 10.9533 11.7467 11.2657 11.4343Z" fill="currentColor"/>
+                                </svg>
+                            </span>
+                            <!--end::Svg Icon-->
+                        </button>
+                        <!--end::Refresh button-->
                     </div>
                     <!--end::Toolbar-->
                     <!--begin::Group actions-->
@@ -54,88 +66,6 @@
                         <span class="me-2" data-kt-reservation-table-select="selected_count"></span>Selected</div>
                         <button type="button" class="btn btn-danger" data-kt-reservation-table-select="delete_selected">Delete Selected</button>
                     </div>
-                    <!--begin::Modal - Add reservation-->
-                        <div class="modal fade" id="kt_modal_add_reservation" tabindex="-1" aria-hidden="true">
-                            <!--begin::Modal dialog-->
-                            <div class="modal-dialog modal-dialog-centered mw-650px">
-                                <!--begin::Modal content-->
-                                <div class="modal-content">
-                                    <!--begin::Modal header-->
-                                    <div class="modal-header" id="kt_modal_add_reservation_header">
-                                        <!--begin::Modal title-->
-                                        <h2 class="fw-bold">Nouvel Utilisateur</h2>
-                                        <!--end::Modal title-->
-                                        <!--begin::Close-->
-                                        <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-reservations-modal-action="close">
-                                            <span class="svg-icon svg-icon-1">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                                                    <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <!--end::Close-->
-                                    </div>
-                                    <!--end::Modal header-->
-                                    <!--begin::Modal body-->
-                                    <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                                        <!--begin::Form-->
-                                        <form id="kt_modal_add_reservation_form" class="form" >
-                                            <!--begin::Input group-->
-                                            <div class="fv-row mb-7">
-                                                <!--begin::Label-->
-                                                <label class="required fw-semibold fs-6 mb-2">Full Name</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input  ng-model="reservationMasterDTO.reservationName" type="text" id="reservation_name" name="reservation_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name" />
-                                                <!--end::Input-->
-                                            </div>
-                                            <!--end::Input group-->
-                                            
-                                            <!--begin::Input group-->
-                                            <div class="fv-row mb-7">
-                                                <!--begin::Label-->
-                                                <label class="required fw-semibold fs-6 mb-2">Email</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input  ng-model="reservationMasterDTO.email" id="reservation_email" type="email" name="reservation_email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" />
-                                                <!--end::Input-->
-                                            </div>
-                                            <!--end::Input group-->
-
-                                            <div class="col-lg-12 fv-row">
-                                                <label class="required fw-semibold fs-6 mb-2">Rôle</label>
-
-                                                <select ng-model="reservationMasterDTO.role" id="reservation_role" name="reservation_role" aria-label="Select a Role" data-control="select2" data-placeholder="Select a role..." class="form-select form-select-solid form-select-lg fw-semibold">
-                                                    <option value="">Select a Role...</option>
-                                                    <option value="ROLE_reservation">ROLE_reservation</option>
-                                                    <option value="ROLE_MODERATOR">ROLE_MODERATOR</option>
-                                                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-                                                    <option value="ROLE_SUPER_ADMIN">ROLE_SUPER_ADMIN</option>
-                                                </select>
-                                            </div>
-                                            
-                                            
-                                            <!--begin::Actions-->
-                                            <div class="text-center pt-15">
-                                                <button type="reset" class="btn btn-light me-3" data-kt-reservations-modal-action="cancel">Discard</button>
-                                                <button type="submit" class="btn btn-primary" data-kt-reservations-modal-action="submit">
-                                                    <span class="indicator-label">Submit</span>
-                                                    <span class="indicator-progress">Please wait...
-                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                                </button>
-                                            </div>
-                                            <!--end::Actions-->
-                                        </form>
-                                        <!--end::Form-->
-                                    </div>
-                                    <!--end::Modal body-->
-                                </div>
-                                <!--end::Modal content-->
-                            </div>
-                            <!--end::Modal dialog-->
-                        </div>
-                    <!--end::Modal - Add reservation-->
 
                 </div>
                 <!--end::Card toolbar-->
@@ -167,59 +97,95 @@
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody class="text-gray-600 fw-semibold">
+                        <!--begin::Loading-->
+                        <tr ng-if="loading">
+                            <td colspan="8" class="text-center py-10">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--end::Loading-->
+                        <!--begin::No data-->
+                        <tr ng-if="!loading && (!listereservations || listereservations.length === 0)">
+                            <td colspan="8" class="text-center py-10">
+                                <div class="text-muted">
+                                    <i class="fas fa-inbox fs-3x mb-3"></i>
+                                    <p class="fs-5">Aucune réservation trouvée</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--end::No data-->
                         <!--begin::Table row-->
-                        <tr ng-repeat="reservation in listereservations track by $index">
+                        <tr ng-repeat="reservation in listereservations track by reservation.reservationId" ng-if="!loading && listereservations.length > 0">
                             <!--begin::Checkbox-->
                             <td>
                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="{{$index}}" />
+                                    <input class="form-check-input" type="checkbox" value="{{reservation.reservationId}}" />
                                 </div>
                             </td>
                             <!--end::Checkbox-->
-                            <!--begin::reservation=-->
-                            <td class="d-flex align-items-center">
-                                <!--begin:: Avatar -->
-                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                    <a th:href="@{atiko/utilisateurs/details/{{reservation.id}}}">
-                                            <div class="symbol-label fs-3 bg-light-danger text-danger d-flex align-items-center justify-content-center">
-                                                <img ng-if="reservation.avatar" ng-src="/{{reservation.avatar}}" alt="{{reservation.reservationname}}" class="w-100 h-100 object-fit-cover rounded-circle">
-                                                <span ng-if="!reservation.avatar" class="fw-bold">{{ reservation.reservationname.charAt(0).toUpperCase() }}</span>
-                                            </div>
-                                    </a>
-                                </div>
-                                <!--end::Avatar-->
-                                <!--begin::reservation details-->
-                                <div class="d-flex flex-column">
-                                    <a th:href="@{atiko/utilisateurs/details/{{reservation.id}}}" class="text-gray-800 text-hover-primary mb-1">{{ reservation.reservationname }}</a>
-                                    <span>{{ reservation.email }}</span>
-                                </div>
-                                <!--begin::reservation details-->
-                            </td>
-                            <!--end::reservation=-->
-                            <!--begin::Role=-->
-                            <td>{{ reservation.role }}</td>
-                            <!--end::Role=-->
-                     
+                            <!--begin::Client-->
                             <td>
-                                <span ng-if="reservation.status" class="badge badge-success">Activé</span>
-                                <span ng-if="!reservation.status" class="badge badge-danger">Désactivé</span>
+                                <div class="d-flex flex-column">
+                                    <span class="text-gray-800 fw-bold mb-1">{{ reservation.clientNom || 'N/A' }}</span>
+                                    <span class="text-gray-500 fs-7">{{ reservation.clientEmail || '' }}</span>
+                                </div>
                             </td>
-
-                            <td>{{ reservation.createdAt | date:'dd/MM/yyyy' }}</td>
+                            <!--end::Client-->
+                            <!--begin::Voiture-->
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="text-gray-800 fw-bold mb-1">{{ reservation.voitureNom || 'N/A' }}</span>
+                                    <span class="text-gray-500 fs-7">{{ reservation.voitureImmatriculation || '' }}</span>
+                                </div>
+                            </td>
+                            <!--end::Voiture-->
+                            <!--begin::Date réservation-->
+                            <td>
+                                <span ng-if="reservation.dateReservation">{{ reservation.dateReservation | date:'dd/MM/yyyy HH:mm' }}</span>
+                                <span ng-if="!reservation.dateReservation" class="text-muted">-</span>
+                            </td>
+                            <!--end::Date réservation-->
+                            <!--begin::Début prévue-->
+                            <td>
+                                <span ng-if="reservation.dateDebutPrevue">{{ reservation.dateDebutPrevue | date:'dd/MM/yyyy HH:mm' }}</span>
+                                <span ng-if="!reservation.dateDebutPrevue" class="text-muted">-</span>
+                            </td>
+                            <!--end::Début prévue-->
+                            <!--begin::Fin prévue-->
+                            <td>
+                                <span ng-if="reservation.dateFinPrevue">{{ reservation.dateFinPrevue | date:'dd/MM/yyyy HH:mm' }}</span>
+                                <span ng-if="!reservation.dateFinPrevue" class="text-muted">-</span>
+                            </td>
+                            <!--end::Fin prévue-->
+                            <!--begin::État-->
+                            <td>
+                                <span ng-if="reservation.etatReservation === 'en_attente'" class="badge badge-warning">En attente</span>
+                                <span ng-if="reservation.etatReservation === 'confirmee'" class="badge badge-success">Confirmée</span>
+                                <span ng-if="reservation.etatReservation === 'annulee'" class="badge badge-danger">Annulée</span>
+                                <span ng-if="reservation.etatReservation === 'expiree'" class="badge badge-secondary">Expirée</span>
+                                <span ng-if="!reservation.etatReservation" class="badge badge-light">-</span>
+                            </td>
+                            <!--end::État-->
                             <!--begin::Joined-->
                             <!--begin::Action=-->
                             <td>
                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                    <a ng-click="viewreservation(reservation.id)" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" title="Voir">
+                                    <a ng-click="viewReservation(reservation.reservationId)" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" title="Voir">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M21.25 18.525L14.05 11.325C15.2 9.125 14.8 6.325 12.9 4.425C10.55 2.075 7.1 2.075 4.75 4.425C2.4 6.775 2.4 10.225 4.75 12.575C6.65 14.475 9.45 14.875 11.65 13.725L18.85 20.925C19.05 21.125 19.35 21.125 19.55 20.925L21.25 18.525ZM5.15 11.925C3.55 10.325 3.55 7.675 5.15 6.075C6.75 4.475 9.4 4.475 11 6.075C12.6 7.675 12.6 10.325 11 11.925C9.4 13.525 6.75 13.525 5.15 11.925Z" fill="currentColor"/>
+                                                <path d="M14.0183 10.3162L11.7056 7.99651C11.3887 7.67859 11.3887 7.163 11.7056 6.84509C12.0225 6.52717 12.5364 6.52717 12.8533 6.84509L15.166 9.16479C15.483 9.4827 15.483 9.99829 15.166 10.3162C14.8491 10.6341 14.3352 10.6341 14.0183 10.3162Z" fill="currentColor"/>
+                                                <path d="M11.2955 10.3162L8.98281 7.99651C8.6659 7.67859 8.6659 7.163 8.98281 6.84509C9.29972 6.52717 9.8136 6.52717 10.1305 6.84509L12.4432 9.16479C12.7601 9.4827 12.7601 9.99829 12.4432 10.3162C12.1263 10.6341 11.6124 10.6341 11.2955 10.3162Z" fill="currentColor"/>
+                                                <path d="M8.01831 10.3162L5.70562 7.99651C5.38871 7.67859 5.38871 7.163 5.70562 6.84509C6.02253 6.52717 6.53641 6.52717 6.85332 6.84509L9.16601 9.16479C9.48292 9.4827 9.48292 9.99829 9.16601 10.3162C8.8491 10.6341 8.33522 10.6341 8.01831 10.3162Z" fill="currentColor"/>
+                                                <path d="M12 21.9541C17.5685 21.9541 22 17.5226 22 11.9541C22 6.3856 17.5685 1.9541 12 1.9541C6.43146 1.9541 2 6.3856 2 11.9541C2 17.5226 6.43146 21.9541 12 21.9541Z" fill="currentColor" opacity="0.1"/>
+                                                <path d="M12 20.9541C16.464 20.9541 20 17.4181 20 12.9541C20 8.4901 16.464 4.9541 12 4.9541C7.536 4.9541 4 8.4901 4 12.9541C4 17.4181 7.536 20.9541 12 20.9541Z" fill="currentColor" opacity="0.3"/>
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
                                     </a>
-                                    <a ng-click="editreservation(reservation)" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" title="Modifier">
+                                    <a ng-click="editReservation(reservation)" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" title="Modifier">
                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -229,17 +195,7 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </a>
-                                    <a ng-click="togglereservationStatus(reservation.id, reservation.status)" class="btn btn-icon btn-bg-light btn-active-color-info btn-sm me-1" title="{{reservation.status ? 'Désactiver' : 'Activer'}}">
-                                        <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
-                                        <span class="svg-icon svg-icon-3">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
-                                                <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
-                                            </svg>
-                                        </span>
-                                        <!--end::Svg Icon-->
-                                    </a>
-                                    <a ng-click="deletereservation(reservation.id, reservation.reservationname)" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" title="Supprimer">
+                                    <a ng-click="deleteReservation(reservation.reservationId, reservation.clientNom)" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" title="Supprimer">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -263,19 +219,5 @@
         </div>
 <!--end::Card-->
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const actionButton = document.querySelector('[data-kt-menu-trigger="click"]');
-            
-            actionButton.addEventListener('click', function (event) {
-                event.preventDefault(); // Empêche le comportement par défaut
-                const menu = document.querySelector('[data-kt-menu="true"]');
-                menu.classList.toggle('show'); // Affiche ou masque le menu
-            });
-        });
-
-    </script>
-
-    <script src="/js/controllers/reservationsController.js" layout:fragment="script"></script>
 </body>
 </html>

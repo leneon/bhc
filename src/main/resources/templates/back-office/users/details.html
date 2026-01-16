@@ -152,79 +152,88 @@
 <!--begin::Card header-->
 <!--begin::Card body-->
 <div class="card-body p-9">
-    <!--begin::Row-->
-    <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Nom complet</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-            <span class="fw-bold fs-6 text-gray-800"> {{profileDto.nom}} - {{profileDto.prenoms}} </span>
-        </div>
-        <!--end::Col-->
-    </div>
-    <!--end::Row-->
-    <!--begin::Input group-->
-    <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Date de Naissance</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 fv-row">
-            <span class="fw-semibold text-gray-800 fs-6">{{ profileDto.dateNaiss | date:'dd/MM/yyyy' }}</span>
-        </div>
-        <!--end::Col-->
-    </div>
-    <!--end::Input group-->
-    <!--begin::Input group-->
-    <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Contacts
-        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Phone number must be active"></i></label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8 d-flex align-items-center">
-            <span class="fw-bold fs-6 text-gray-800 me-2">{{profileDto.user.email}}, {{profileDto.telephone}}</span>
-            <span class="badge badge-success">Verified</span>
-        </div>
-        <!--end::Col-->
-    </div>
-    <!--end::Input group-->
-    <!--begin::Input group-->
-    <!--begin::Row-->
-    <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Fonction</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-            <span class="fw-bold fs-6 text-gray-800"> {{profileDto.fonction}} </span>
-        </div>
-        <!--end::Col-->
-    </div>
-    <!--end::Input group-->
-    <!--begin::Input group-->
-    <div class="row mb-7">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Pays</label>
-        <!--end::Label-->
-        <!--begin::Col-->
-        <div class="col-lg-8">
-            <span class="fw-bold fs-6 text-gray-800"> {{profileDto.pays}} </span>
-        </div>
-        <!--end::Col-->
-    </div>
-    <div class="row mb-10">
-        <!--begin::Label-->
-        <label class="col-lg-4 fw-semibold text-muted">Localisation</label>
-        <!--begin::Label-->
-        <!--begin::Label-->
-        <div class="col-lg-8">
-            <span class="fw-semibold fs-6 text-gray-800">{{profileDto.ville}} - {{profileDto.localisation}}</span>
-        </div>
-        <!--begin::Label-->
-    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Nom complet</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.nom}} - {{profileDto.prenoms}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Date de Naissance</label>
+                <div>
+                    <span class="fw-semibold text-gray-800 fs-6">{{ profileDto.dateNaiss | date:'dd/MM/yyyy' }}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Contacts</label>
+                <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Phone number must be active"></i></label>
 
+                <div class="d-flex align-items-center">
+                    <span class="fw-bold fs-6 text-gray-800 me-2">{{profileDto.user.email}}, {{profileDto.telephone}}</span>
+                    <span class="badge badge-success">Verified</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Fonction</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.fonction}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Pays</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.pays}}</span>
+                </div>
+            </div>
+            <div class="mb-10">
+                <label class="fw-semibold text-muted">Localisation</label>
+                <div>
+                    <span class="fw-semibold fs-6 text-gray-800">{{profileDto.ville}} - {{profileDto.localisation}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Type de pièce d'identité</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.typePieceIdentite}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Numéro de pièce d'identité</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.numeroPieceIdentite}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Numéro de permis de conduire</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.numeroPermisConduire}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Date délivrance permis</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.dateDelivrancePermis | date:'dd/MM/yyyy'}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Date expiration permis</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.dateExpirationPermis | date:'dd/MM/yyyy'}}</span>
+                </div>
+            </div>
+            <div class="mb-7">
+                <label class="fw-semibold text-muted">Pays délivrance permis</label>
+                <div>
+                    <span class="fw-bold fs-6 text-gray-800">{{profileDto.paysDelivrancePermis}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+   
     <div class="notice d-flex bg-light-warning rounded border-warning border border-dashed p-6">
         <!--begin::Icon-->
         <!--begin::Svg Icon | path: icons/duotune/general/gen044.svg-->
@@ -270,160 +279,113 @@
     <form id="kt_account_profile_details_form" class="form">
         <!--begin::Card body-->
         <div class="card-body border-top p-9">
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label fw-semibold fs-6">Avatar</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-8">
-                    <!--begin::Image input-->
+            <div class="mb-8 text-center">
+                <label class="fw-semibold fs-6 mb-2">Avatar</label>
+                <div class="d-flex justify-content-center">
                     <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('assets/media/svg/avatars/blank.svg')">
-                        <!--begin::Preview existing avatar-->
                         <div class="image-input-wrapper w-125px h-125px" style="background-image: url('/{{profileDto.avatar? profileDto.avatar : assets/media/avatars/blank.png }}')"></div>
-                        <!--end::Preview existing avatar-->
-                        <!--begin::Label-->
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                             <i class="bi bi-pencil-fill fs-7"></i>
-                            <!--begin::Inputs-->
                             <input type="file" name="avatar" file-model="avatar" accept=".png, .jpg, .jpeg" />
                             <input type="hidden" name="avatar_remove" />
-                            <!--end::Inputs-->
                         </label>
-                        <!--end::Label-->
-                        <!--begin::Cancel-->
                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
                             <i class="bi bi-x fs-2"></i>
                         </span>
-                        <!--end::Cancel-->
-                        <!--begin::Remove-->
                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
                             <i class="bi bi-x fs-2"></i>
                         </span>
-                        <!--end::Remove-->
                     </div>
-                    <!--end::Image input-->
-                    <!--begin::Hint-->
-                    <div class="form-text">Types de fichiers autorisés : png, jpg, jpeg.</div>
-                    <!--end::Hint-->
                 </div>
-                <!--end::Col-->
+                <div class="form-text">Types de fichiers autorisés : png, jpg, jpeg.</div>
             </div>
-            <!--begin::Input group-->
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label required fw-semibold fs-6">Nom complet</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-8">
-                    <!--begin::Row-->
-                    <div class="row">
-                        <!--begin::Col-->
-                        <div class="col-lg-6 fv-row">
-                            <input type="text"  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Nom" ng-model="profileDto.nom" />
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="fw-bold mb-4">Informations personnelles</h5>
+                    <div class="d-flex flex-column gap-4">
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Nom complet</label>
+                            <div class="row">
+                                <div class="col-lg-6 fv-row">
+                                    <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Nom" ng-model="profileDto.nom" />
+                                </div>
+                                <div class="col-lg-6 fv-row">
+                                    <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Prénoms" ng-model="profileDto.prenoms" />
+                                </div>
+                            </div>
                         </div>
-                        <!--end::Col-->
-                        <!--begin::Col-->
-                        <div class="col-lg-6 fv-row">
-                            <input type="text"  class="form-control form-control-lg form-control-solid" placeholder="Prénoms"  ng-model="profileDto.prenoms" />
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Date de Naissance</label>
+                            <input type="date" class="form-control form-control-lg form-control-solid" placeholder="Date de Naissance" ng-model="profileDto.dateNaiss" />
                         </div>
-                        <!--end::Col-->
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Téléphone</label>
+                            <input type="tel" class="form-control form-control-lg form-control-solid" placeholder="Téléphone" ng-model="profileDto.telephone" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Fonction</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Fonction" ng-model="profileDto.fonction" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Pays</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Pays de résidence" ng-model="profileDto.pays" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Localisation</label>
+                            <div class="row">
+                                <div class="col-lg-6 fv-row">
+                                    <input type="text" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Ville" ng-model="profileDto.ville" />
+                                </div>
+                                <div class="col-lg-6 fv-row">
+                                    <input type="text" class="form-control form-control-lg form-control-solid" placeholder="Quartier" ng-model="profileDto.localisation" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Bio</label>
+                            <textarea ng-model="profileDto.bio" class="form-control form-control-lg form-control-solid" rows="2" placeholder="Enter description here"></textarea>
+                        </div>
                     </div>
-                    <!--end::Row-->
                 </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label required fw-semibold fs-6">Date de Naissance</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-8 fv-row">
-                    <input type="date" name="company" class="form-control form-control-lg form-control-solid" placeholder="Date de Naissance"  ng-model="profileDto.dateNaiss" />
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label fw-semibold fs-6">
-                    <span class="required">Téléphone</span>
-                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Phone number must be active"></i>
-                </label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-8 fv-row">
-                    <input type="tel" name="phone" class="form-control form-control-lg form-control-solid" placeholder="Téléphone"  ng-model="profileDto.telephone" />
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label fw-semibold fs-6">Fonction</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-8 fv-row">
-                    <input type="text" name="website" class="form-control form-control-lg form-control-solid" placeholder="Fonction"  ng-model="profileDto.fonction" />
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Input group-->
-          
-            <!--begin::Input group-->
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label fw-semibold fs-6">Pays</label>
-                <!--end::Label-->
-                <div class="col-lg-8 fv-row">
-                    <input type="text" name="pays" class="form-control form-control-lg form-control-solid" placeholder="Pays de residence"  ng-model="profileDto.pays" />
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Input group-->
-           <!--begin::Input group-->
-            <div class="row mb-6">
-            <!--begin::Label-->
-            <label class="col-lg-4 col-form-label required fw-semibold fs-6">Localisation</label>
-            <!--end::Label-->
-            <!--begin::Col-->
-            <div class="col-lg-8">
-                <!--begin::Row-->
-                <div class="row">
-                    <!--begin::Col-->
-                    <div class="col-lg-6 fv-row">
-                        <input type="text" name="ville" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Ville" ng-model="profileDto.ville" />
+                <div class="col-lg-6">
+                    <h5 class="fw-bold mb-4">Informations administratives</h5>
+                    <div class="d-flex flex-column gap-4">
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6 mb-2">Type de pièce d'identité</label>
+                            <select class="form-control form-control-lg form-control-solid" ng-model="profileDto.typePieceIdentite">
+                                <option value="">Sélectionner...</option>
+                                <option value="CNI">CNI</option>
+                                <option value="Passeport">Passeport</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Numéro de pièce d'identité</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" ng-model="profileDto.numeroPieceIdentite" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Numéro de permis de conduire</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" ng-model="profileDto.numeroPermisConduire" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Date délivrance permis</label>
+                            <input type="date" class="form-control form-control-lg form-control-solid" ng-model="profileDto.dateDelivrancePermis" ng-value="profileDto.dateDelivrancePermis | date:'yyyy-MM-dd'" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Date expiration permis</label>
+                            <input type="date" class="form-control form-control-lg form-control-solid" ng-model="profileDto.dateExpirationPermis" ng-value="profileDto.dateExpirationPermis | date:'yyyy-MM-dd'" />
+                        </div>
+                        <div class="mb-4">
+                            <label class="fw-semibold fs-6">Pays délivrance permis</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid" ng-model="profileDto.paysDelivrancePermis" />
+                        </div>
+                        
                     </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
-                    <div class="col-lg-6 fv-row">
-                        <input type="text" name="localisation" class="form-control form-control-lg form-control-solid" placeholder="Quartier"  ng-model="profileDto.localisation" />
-                    </div>
-                    <!--end::Col-->
                 </div>
-                <!--end::Row-->
             </div>
-            <!--end::Col-->
-            </div>
-            <div class="row mb-6">
-                <!--begin::Label-->
-                <label class="col-lg-4 col-form-label fw-semibold fs-6">Bio</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-8 fv-row">
-                    <textarea ng-model="profileDto.bio" name="bio" id="description" class="form-control form-control-lg form-control-solid" rows="2" placeholder="Enter description here"></textarea>
-                </div>
-                <!--end::Col-->
-            </div>
-        
         </div>
         <!--end::Card body-->
         <!--begin::Actions-->
         <div class="card-footer d-flex justify-content-end py-6 px-9">
-            <!-- <button type="reset" class="btn btn-light btn-active-light-primary me-2">Discard</button> -->
             <button type="button" class="btn btn-primary" ng-click="updateProfile()">
                 <span id="submitLabel">Appliquer les modifications</span>
                 <span id="submitProgress" class="d-none">
@@ -451,6 +413,14 @@
                 <div class="row g-2 mb-2">
                     <div class="col-md">
                         <div class="form-floating">
+                            <input ng-model="userDto.username" type="text" 
+                               class="form-control form-control-lg form-control-solid" 
+                               id="user_name" placeholder="Entrer le nom d'utilisatieur" required />
+                            <label for="nature">Nom d'utilisateur</label>
+                        </div>
+                    </div>
+                      <div class="col-md">
+                        <div class="form-floating">
                             <input ng-model="userDto.email" type="email" 
                                class="form-control form-control-lg form-control-solid" 
                                id="email" placeholder="Entrer le mail" required />
@@ -466,7 +436,7 @@
                             <option value="ROLE_ADMIN">ROLE_ADMIN</option>
                             <option value="ROLE_SUPER_ADMIN">ROLE_SUPER_ADMIN</option>
                             </select>
-                            <label for="genre">Rôle</label>
+                            <label for="genre">Role</label>
                         </div>
                     </div>
                 </div>
@@ -488,21 +458,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row g-2 mb-2">
-                    <div class="col-md">
-                        <label class=" col-form-label fw-semibold fs-6">Statut du compte</label>
-                        <!--begin::Label-->
-                        <!--begin::Label-->
-                        <div class=" d-flex align-items-center">
-                            <div class="form-check form-check-solid form-switch form-check-custom fv-row">
-                                <input  ng-model="userDto.status"
-                                class="form-check-input w-45px h-30px" type="checkbox" id="allowmarketing" />
-                                <label class="form-check-label" for="allowmarketing"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <!--end::Input group-->
                 <div class="text-center pt-15">
                     <button type="button" class="btn btn-primary" ng-click="updateUser()" 
                             ng-disabled="isLoading" data-kt-users-modal-action="submit">
@@ -518,7 +473,6 @@
         
     </div>
 </div>
-
 
 
 

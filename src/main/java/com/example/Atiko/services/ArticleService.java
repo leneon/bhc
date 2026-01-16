@@ -42,7 +42,7 @@ public class ArticleService {
 
         // Save image file if present
         if (imageFile != null && !imageFile.isEmpty()) {
-            String filePath = fileStorageService.storeFile(imageFile);
+            String filePath = fileStorageService.storeFile(imageFile,"images");
             article.setCouverture(filePath); // Set image file path to `couverture`
         }
         // Set Categorie
@@ -105,7 +105,7 @@ public class ArticleService {
             //article.setStatut(articleDto.getStatut());
             // Save image file if present
             if (imageFile != null && !imageFile.isEmpty() && imageFile instanceof MultipartFile ) {
-                article.setCouverture(fileStorageService.storeFile(imageFile)); // Set image file path to `couverture`
+                article.setCouverture(fileStorageService.storeFile(imageFile,"images")); // Set image file path to `couverture`
             }
             // Update Categorie
             Categorie categorie = categorieRepository.findById(articleDto.getCategorieId())

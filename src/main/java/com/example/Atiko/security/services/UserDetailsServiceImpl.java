@@ -64,6 +64,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             
             // Update email
             user.setEmail(userDto.getEmail());
+            user.setUsername(userDto.getUsername());
             user.setStatus(userDto.getStatus());
             
             // Update password only if a new password is provided

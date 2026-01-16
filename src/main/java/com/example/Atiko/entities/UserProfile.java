@@ -1,7 +1,7 @@
     
 package com.example.Atiko.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Random;
 
 import jakarta.persistence.Column;
@@ -25,10 +25,10 @@ public class UserProfile {
     private String numeroPermisConduire;
 
     @Column(name = "date_delivrance_permis", nullable = true)
-    private Date dateDelivrancePermis;
+    private LocalDate dateDelivrancePermis;
 
     @Column(name = "date_expiration_permis", nullable = true)
-    private Date dateExpirationPermis;
+    private LocalDate dateExpirationPermis;
 
     @Column(name = "pays_delivrance_permis", nullable = true)
     private String paysDelivrancePermis;
@@ -50,7 +50,7 @@ public class UserProfile {
     private String prenoms;
 
     @Column(name = "date_naiss", nullable = true)
-    private Date dateNaiss;
+    private LocalDate dateNaiss;
 
     @Column(nullable = true)
     private String telephone;
@@ -96,11 +96,11 @@ public class UserProfile {
     public String getNumeroPermisConduire() { return numeroPermisConduire; }
     public void setNumeroPermisConduire(String numeroPermisConduire) { this.numeroPermisConduire = numeroPermisConduire; }
 
-    public Date getDateDelivrancePermis() { return dateDelivrancePermis; }
-    public void setDateDelivrancePermis(Date dateDelivrancePermis) { this.dateDelivrancePermis = dateDelivrancePermis; }
+    public LocalDate getDateDelivrancePermis() { return dateDelivrancePermis; }
+    public void setDateDelivrancePermis(LocalDate dateDelivrancePermis) { this.dateDelivrancePermis = dateDelivrancePermis; }
 
-    public Date getDateExpirationPermis() { return dateExpirationPermis; }
-    public void setDateExpirationPermis(Date dateExpirationPermis) { this.dateExpirationPermis = dateExpirationPermis; }
+    public LocalDate getDateExpirationPermis() { return dateExpirationPermis; }
+    public void setDateExpirationPermis(LocalDate dateExpirationPermis) { this.dateExpirationPermis = dateExpirationPermis; }
 
     public String getPaysDelivrancePermis() { return paysDelivrancePermis; }
     public void setPaysDelivrancePermis(String paysDelivrancePermis) { this.paysDelivrancePermis = paysDelivrancePermis; }
@@ -122,10 +122,10 @@ public class UserProfile {
     public void setPrenoms(String prenoms) {
         this.prenoms = prenoms;
     }
-    public Date getDateNaiss() {
+    public LocalDate getDateNaiss() {
         return dateNaiss;
     }
-    public void setDateNaiss(Date dateNaiss) {
+    public void setDateNaiss(LocalDate dateNaiss) {
         this.dateNaiss = dateNaiss;
     }
     public String getTelephone() {

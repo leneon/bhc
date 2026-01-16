@@ -1,422 +1,266 @@
 "use strict";
 
-document.addEventListener("DOMContentLoaded", function () {
-    function generateRandomPassword(length) {
-        const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let password = "";
-        for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * charset.length);
-            password += charset[randomIndex];
-        }
-        return password;
-    };
-    var KTreservationsAddreservation = function () {
-        const modalElement = document.getElementById("kt_modal_add_reservation"),
-            formElement = modalElement.querySelector("#kt_modal_add_reservation_form"),
-            modalInstance = new bootstrap.Modal(modalElement);
-        var createreservationUrl = "auth/signup"
-        return {
-            init: function () {
-                (() => {
-                    const validator = FormValidation.formValidation(formElement, {
-                        fields: {
-                            reservation_name: {
-                                validators: {
-                                    notEmpty: {
-                                        message: "Le nom d'utilisateur est requis"
-                                    },
-                                    stringLength: {
-                                        min: 3,
-                                        message: "Le nom d'utilisateur doit contenir au moins 3 caractères"
-                                    }
-                                }
-                            },
-                            reservation_email: {
-                                validators: {
-                                    notEmpty: {
-                                        message: "Une adresse e-mail valide est requise"
-                                    },
-                                    emailAddress: {
-                                        message: "L'entrée n'est pas une adresse e-mail valide"
-                                    }
-                                }
-                            },
-                            reservation_role: {
-                                validators: {
-                                    notEmpty: {
-                                        message: "Le rôle est requis"
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            trigger: new FormValidation.plugins.Trigger(),
-                            bootstrap: new FormValidation.plugins.Bootstrap5({
-                                rowSelector: ".fv-row",
-                                eleInvalidClass: "",
-                                eleValidClass: ""
-                            })
-                        }
-                    });
-            
-                    const submitButton = modalElement.querySelector('[data-kt-reservations-modal-action="submit"]');
-                    submitButton.addEventListener("click", (event) => {
-                        event.preventDefault();
-            
-                        // Assurez-vous que l'URL de création d'utilisateur est correcte
+var myApp = angular.module('myApp', []);
 
-                    if (validator) {
-                        validator.validate().then(function (status) {
-                            if (status === 'Valid') {
-                                submitButton.setAttribute("data-kt-indicator", "on");
-                                submitButton.disabled = true;
-
-                                // Préparez les données à envoyer
-                                const reservationData = {
-                                    reservationname: formElement.querySelector("#reservation_name").value,
-                                    email: formElement.querySelector("#reservation_email").value,
-                                    role: [formElement.querySelector("#reservation_role").value],
-                                    password: "Rootkit1010."
-                                };
-
-                                // Envoi de la requête HTTP via Fetch
-                                fetch(createreservationUrl, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(reservationData)
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        // Gérer les erreurs de réponse HTTP
-                                        return response.json().then(error => {
-                                            throw new Error(error.message || "Une erreur est survenue.");
-                                        });
-                                    }
-                                    angular.element(document.querySelector('[ng-controller="reservationsController"]')).scope().loadReservation();
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    setTimeout(() => {
-                                        submitButton.removeAttribute("data-kt-indicator");
-                                        submitButton.disabled = false;
-
-                                        // Affichez une alerte de succès après la création
-                                        Swal.fire({
-                                            text: "Utilisateur créé avec succès",
-                                            icon: "success",
-                                            buttonsStyling: false,
-                                            confirmButtonText: "D'accord, compris !",
-                                            customClass: {
-                                                confirmButton: "btn btn-primary"
-                                            }
-                                        }).then(function (result) {
-                                            if (result.isConfirmed) {
-                                                modalInstance.hide();
-                                            }
-                                        });
-                                    }, 2000);
-                                })
-                                .catch((error) => {
-                                    submitButton.removeAttribute("data-kt-indicator");
-                                    submitButton.disabled = false;
-
-                                    // Affichez une alerte en cas d'erreur
-                                    Swal.fire({
-                                        text: error.message || "Une erreur est survenue, veuillez réessayer.",
-                                        icon: "error",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "D'accord, compris !",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    });
-                                });
-                            } else {
-                                Swal.fire({
-                                    text: "Désolé, il semble qu'il y ait des erreurs détectées, veuillez réessayer.",
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "D'accord, compris !",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                    });
-            
-                    modalElement.querySelector('[data-kt-reservations-modal-action="cancel"]').addEventListener("click", (event) => {
-                        event.preventDefault();
-                        this.showCancelConfirmation();
-                    });
-            
-                    modalElement.querySelector('[data-kt-reservations-modal-action="close"]').addEventListener("click", (event) => {
-                        event.preventDefault();
-                        this.showCancelConfirmation();
-                    });
-                })();
-            },
-            
-            showCancelConfirmation: function () {
-                Swal.fire({
-                    text: "Are you sure you would like to cancel?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, cancel it!",
-                    cancelButtonText: "No, return",
-                    customClass: {
-                        confirmButton: "btn btn-primary",
-                        cancelButton: "btn btn-active-light"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        formElement.reset();
-                        modalInstance.hide();
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire({
-                            text: "Your form has not been cancelled!",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "D'accord, compris !",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        });
-                    }
-                });
-            }
-        };
-    }();
-
-    // Initialiser le module
-    KTreservationsAddreservation.init();
-});
-
-
-// KTUtil.onDOMContentLoaded(function () {
-//     KTreservationsAddreservation.init();
-// });
-
-var App = angular.module('myApp', []);
-App.controller('reservationController', ['$scope', '$http', function($scope, $http) {
-    // URLs pour les opérations CRUD sur les utilisateurs
-    const appUrl = 'api/locations/reservations';
-    const voituresUrl = 'api/voitures';
-    const clientsUrl = 'api/users/all';
-    const urlloadReservation = appUrl;
-    const urlSignup = "auth/signup";
-    const urlUpdatereservation = appUrl + "/update";
-    const urlDeletereservation = appUrl + "/delete";
-    const urlFindreservation = appUrl + "/find";
-    const idReservation = null;
+myApp.controller('reservationController', ['$scope', '$http', function($scope, $http) {
+    // URLs pour les opérations
+    const urlClients = '/api/users/clients';
+    const urlVoitures = '/api/voitures';
+    const urlCreateClient = '/api/users/clients';
+    const urlCreateReservation = '/api/reservations';
+    const urlCoupons = '/api/coupons';
+    const urlValidateCoupon = '/api/coupons/validate';
+    
     // Initialisation des variables
-    $scope.reservations = [];
-    $scope.voitures = [];
     $scope.clients = [];
+    $scope.voitures = [];
+    $scope.selectedVoiture = null;
+    $scope.selectedCoupon = null;
+    $scope.couponCode = null;
     $scope.reservationDto = {
-        id: null,
-        reservationname: null,
-        email: null,
-        voiture: null,
-        client: null,
+        clientId: null,
+        vehiculeId: null,
+        dateReservation: new Date().toISOString().slice(0, 16),
+        dateDebutPrevue: null,
+        dateFinPrevue: null,
+        lieuDepart: null,
+        lieuRetour: null,
+        etatReservation: 'en_attente',
+        modePaiement: null,
+        montantTotal: null,
+        acompte: null,
+        remise: 0,
+        couponId: null,
+        nombreJours: 0,
+        notes: null
     };
-    $scope.reservationMasterDto = {
-        id: null,
-        reservationname: null,
-        email: null, 
-        voiture: null,
-        client: null,
-    };
-    $scope.listereservations = null;
-    $scope.clientForm = {
-        nomComplet: '',
-        email: '',
-        adresse: '',
-        telephone: ''
-    };
-    //$scope.reservationMasterDto= angular.copy($scope.reservationDTO); // Copie pour éviter la référence
-
-    $scope.addClient = function() {
-        const data = {
-            nomComplet: $scope.clientForm.nomComplet,
-            email: $scope.clientForm.email,
-            adresse: $scope.clientForm.adresse,
-            telephone: $scope.clientForm.telephone
-        };
-        $http.post('/api/users/clients', data)
+    
+    $scope.clientForm = {};
+    
+    // Charger les clients
+    $scope.loadClients = function() {
+        $http.get(urlClients)
             .then(function(res) {
-                $scope.loadClients();
-                
-                $scope.clientForm = { nomComplet: '', email: '', adresse: '', telephone: '' };
-                Swal.fire({
-                    text: 'Client ajouté avec succès',
-                    icon: 'success',
-                    confirmButtonText: "D'accord",
-                    customClass: { confirmButton: "btn btn-primary" }
-                });
-                $('#kt_modal_add_client').modal('hide');
+                $scope.clients = res.data;
+                console.log("CLIENTS CHARGÉS : ", $scope.clients);
             })
             .catch(function(error) {
-                Swal.fire({
-                    text: error.data && error.data.message ? error.data.message : "Erreur lors de l'ajout du client.",
-                    icon: 'error',
-                    confirmButtonText: "D'accord",
-                    customClass: { confirmButton: "btn btn-primary" }
-                });
+                console.error("ERREUR CHARGEMENT CLIENTS : ", error);
+                $scope.showErrorMessage("Erreur lors du chargement des clients.");
             });
     };
-    // Fonction pour charger la liste des utilisateurs
-    $scope.loadVoitures = function () {
-        $http.get(voituresUrl)
-            .then(function (res) {
+    
+    // Charger les voitures
+    $scope.loadVoitures = function() {
+        $http.get(urlVoitures)
+            .then(function(res) {
+                // Filtrer les voitures actives et disponibles
+                console.log("TOUTES LES VOITURES : ", res.data);
+                // $scope.voitures = res.data.filter(function(v) {
+                //     return v.statut === true && 
+                //            (v.disponibilite.toUpperCase === 'DISPONIBLE');
                 $scope.voitures = res.data;
-                console.log("LISTE DES VOITURES : ", $scope.voitures);
+                console.log("VOITURES CHARGÉES : ", $scope.voitures);
             })
-            .catch(function (error) {
-                console.error("ERREUR DE RECUPERATION DES VOITURES : ", error);
+            .catch(function(error) {
+                console.error("ERREUR CHARGEMENT VOITURES : ", error);
+                $scope.showErrorMessage("Erreur lors du chargement des voitures.");
             });
     };
+    
+    // Charger les données au démarrage
+    $scope.loadClients();
     $scope.loadVoitures();
-
-    $scope.loadReservation = function () {
-        $http.get(urlloadReservation +"/"+ idReservation)
-            .then(function (res) {
-                $scope.voitures = res.data;
-                console.log("LISTE DES VOITURES : ", $scope.voitures);
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE RECUPERATION DES VOITURES : ", error);
-            });
-    };
-    // Fonction pour charger la liste des réservations  
-    idReservation ? $scope.loadReservation():null;
-
-$scope.loadclients = function () {
-        $http.get(clientsUrl)
-            .then(function (res) {
-                $scope.clients = res.data;
-                console.log("LISTE DES UTILISATEURS : ", $scope.clients);
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE RECUPERATION DES UTILISATEURS : ", error);
-            });
-    };
-    $scope.loadclients();
-
-    $scope.createreservation = function (data) {
-        const reservationJson = angular.toJson(data);
-        console.log(reservationJson);
-        $http.post(urlSignup, reservationJson)
-            .then(function (res) {
-                console.log("UTILISATEUR CREE : ");
-                $scope.loadReservation();
-                $scope.reservationDto= angular.copy($scope.reservationMasterDto); // Copie pour éviter la référence
-                $scope.showSuccessMessage("Utilisateur créé avec succès");
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE CREATION DE L'UTILISATEUR : ", error);
-                $scope.showErrorMessage("Erreur lors de la création de l'utilisateur.");
-                return false;
-            });
-    };
-
-    // Fonction pour voir les détails d'un utilisateur
-    $scope.viewreservation = function(reservationId) {
-        window.location.href = '/atiko/utilisateurs/details/' + reservationId;
-    };
-
-    // Fonction pour modifier un utilisateur
-    $scope.editreservation = function(reservation) {
-        $scope.reservationMasterDto = angular.copy(reservation);
-        $('#kt_modal_add_reservation').modal('show');
-    };
-
-    // Fonction pour activer/désactiver un utilisateur
-    $scope.togglereservationStatus = function(reservationId, currentStatus) {
-        console.log("TOGGLE STATUS - reservation ID:", reservationId, "Current status:", currentStatus);
-        const newStatus = !currentStatus;
-        const action = newStatus ? 'activer' : 'désactiver';
-        
-        Swal.fire({
-            title: 'Confirmation',
-            text: `Êtes-vous sûr de vouloir ${action} cet utilisateur ?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Oui, confirmer',
-            cancelButtonText: 'Annuler',
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-light'
+    
+    // Surveiller la sélection de la voiture pour calculer l'acompte
+    $scope.$watch('reservationDto.vehiculeId', function(newVal) {
+        if (newVal) {
+            $scope.selectedVoiture = $scope.voitures.find(v => v.id === newVal);
+            if ($scope.selectedVoiture && $scope.selectedVoiture.acompte) {
+                $scope.reservationDto.acompte = $scope.selectedVoiture.acompte;
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Trouver l'utilisateur dans la liste
-                const reservation = $scope.listereservations.find(u => u.id === reservationId);
-                console.log("Found reservation for status update:", reservation);
-                if (reservation) {
-                    const updateData = {
-                        id: reservationId,
-                        reservationname: reservation.reservationname,
-                        email: reservation.email,
-                        role: reservation.role,
-                        status: newStatus
-                    };
-                    console.log("Sending update data:", updateData);
+        } else {
+            $scope.selectedVoiture = null;
+            $scope.reservationDto.acompte = null;
+        }
+    });
+    
+    // Calculer le nombre de jours et le montant total
+    $scope.$watchGroup(['reservationDto.dateDebutPrevue', 'reservationDto.dateFinPrevue', 'reservationDto.remise', 'selectedCoupon'], function() {
+        if ($scope.reservationDto.dateDebutPrevue && $scope.reservationDto.dateFinPrevue) {
+            const debut = new Date($scope.reservationDto.dateDebutPrevue);
+            const fin = new Date($scope.reservationDto.dateFinPrevue);
+            
+            if (fin > debut) {
+                const diffTime = fin - debut;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                $scope.reservationDto.nombreJours = diffDays;
+                
+                // Calculer le montant total
+                if ($scope.selectedVoiture && $scope.selectedVoiture.prix) {
+                    let montantBase = $scope.selectedVoiture.prix * diffDays;
                     
-                    $http.put(urlUpdatereservation, updateData)
-                    .then(function(response) {
-                        console.log("Status update successful:", response);
-                        $scope.loadReservation();
-                        $scope.showSuccessMessage(`Utilisateur ${action === 'activer' ? 'activé' : 'désactivé'} avec succès`);
-                    })
-                    .catch(function(error) {
-                        console.error("ERREUR LORS DE LA MODIFICATION DU STATUT : ", error);
-                        $scope.showErrorMessage("Erreur lors de la modification du statut de l'utilisateur.");
-                    });
+                    // Appliquer la remise
+                    if ($scope.reservationDto.remise && $scope.reservationDto.remise > 0) {
+                        montantBase = montantBase * (1 - $scope.reservationDto.remise / 100);
+                    }
+                    
+                    // Appliquer le coupon
+                    if ($scope.selectedCoupon) {
+                        if ($scope.selectedCoupon.typeReduction === 'POURCENTAGE') {
+                            montantBase = montantBase * (1 - $scope.selectedCoupon.montant / 100);
+                        } else if ($scope.selectedCoupon.typeReduction === 'FIXE') {
+                            montantBase = montantBase - $scope.selectedCoupon.montant;
+                        }
+                    }
+                    
+                    $scope.reservationDto.montantTotal = Math.max(0, montantBase);
                 }
+            } else {
+                $scope.reservationDto.nombreJours = 0;
+                $scope.reservationDto.montantTotal = null;
             }
+        } else {
+            $scope.reservationDto.nombreJours = 0;
+        }
+    });
+    
+    // Valider un code coupon
+    $scope.validateCoupon = function() {
+        if (!$scope.couponCode || !$scope.couponCode.trim()) {
+            $scope.selectedCoupon = null;
+            $scope.reservationDto.couponId = null;
+            return;
+        }
+        
+        const montantTotal = $scope.reservationDto.montantTotal || 0;
+        const code = $scope.couponCode.trim().toUpperCase();
+        
+        $http({
+            method: 'POST',
+            url: urlValidateCoupon,
+            params: {
+                code: code,
+                montantTotal: montantTotal
+            }
+        })
+        .then(function(res) {
+            $scope.selectedCoupon = res.data;
+            $scope.reservationDto.couponId = res.data.id;
+            $scope.showSuccessMessage("Coupon valide : " + res.data.description);
+            // Recalculer le montant avec le coupon
+            $scope.$apply();
+        })
+        .catch(function(error) {
+            $scope.selectedCoupon = null;
+            $scope.reservationDto.couponId = null;
+            let errorMsg = "Code coupon invalide ou expiré";
+            if (error.headers && error.headers('X-Error-Message')) {
+                errorMsg = error.headers('X-Error-Message');
+            } else if (error.data && error.data.message) {
+                errorMsg = error.data.message;
+            } else if (error.status === 400) {
+                errorMsg = "Code coupon invalide";
+            }
+            $scope.showErrorMessage(errorMsg);
         });
     };
-
-    // Fonction pour supprimer un utilisateur
-    $scope.deletereservation = function(reservationId, reservationname) {
-        console.log("DELETE reservation - reservation ID:", reservationId, "reservationname:", reservationname);
-        Swal.fire({
-            title: 'Confirmation de suppression',
-            text: `Êtes-vous sûr de vouloir supprimer l'utilisateur "${reservationname}" ?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Oui, supprimer',
-            cancelButtonText: 'Annuler',
-            buttonsStyling: false,
-            customClass: {
-                confirmButton: 'btn btn-danger',
-                cancelButton: 'btn btn-light'
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log("Sending delete request to:", urlDeletereservation + '/' + reservationId);
-                $http.delete(urlDeletereservation + '/' + reservationId)
-                .then(function(response) {
-                    console.log("Delete successful:", response);
-                    $scope.loadReservation();
-                    $scope.showSuccessMessage("Utilisateur supprimé avec succès");
-                })
-                .catch(function(error) {
-                    console.error("ERREUR LORS DE LA SUPPRESSION : ", error);
-                    $scope.showErrorMessage("Erreur lors de la suppression de l'utilisateur.");
-                });
-            }
-        });
+    
+    // Créer un nouveau client
+    $scope.createClient = function() {
+        const clientData = {
+            nom: $scope.clientForm.nomComplet,
+            email: $scope.clientForm.email,
+            telephone: $scope.clientForm.telephone,
+            localisation: $scope.clientForm.localisation,
+            fonction: $scope.clientForm.fonction,
+            typePieceIdentite: $scope.clientForm.typePieceIdentite,
+            numeroPieceIdentite: $scope.clientForm.numeroPieceIdentite,
+            numeroPermisConduire: $scope.clientForm.numeroPermisConduire,
+            paysDelivrancePermis: $scope.clientForm.paysDelivrancePermis,
+            dateDelivrancePermis: $scope.clientForm.dateDelivrancePermis,
+            dateExpirationPermis: $scope.clientForm.dateExpirationPermis,
+            username: $scope.clientForm.email,
+            role: ['ROLE_USER'],
+            password: 'password123'
+        };
+        
+        $http.post(urlCreateClient, clientData)
+            .then(function(res) {
+                console.log("CLIENT CRÉÉ : ", res.data);
+                $scope.showSuccessMessage("Client créé avec succès");
+                $scope.clientForm = {};
+                // Fermer le modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('kt_modal_add_client'));
+                if (modal) modal.hide();
+                // Recharger la liste des clients
+                $scope.loadClients();
+                // Sélectionner le nouveau client
+                if (res.data && res.data.id) {
+                    $scope.reservationDto.clientId = res.data.id;
+                }
+            })
+            .catch(function(error) {
+                console.error("ERREUR CRÉATION CLIENT : ", error);
+                $scope.showErrorMessage(error.data?.message || "Erreur lors de la création du client.");
+            });
     };
-
-    // Fonction pour afficher un message de succès
+    
+    // Soumettre la réservation
+    $scope.submitReservation = function() {
+        // Validation
+        if (!$scope.reservationDto.clientId) {
+            $scope.showErrorMessage("Veuillez sélectionner un client.");
+            return;
+        }
+        if (!$scope.reservationDto.vehiculeId) {
+            $scope.showErrorMessage("Veuillez sélectionner une voiture.");
+            return;
+        }
+        if (!$scope.reservationDto.dateDebutPrevue || !$scope.reservationDto.dateFinPrevue) {
+            $scope.showErrorMessage("Veuillez renseigner les dates de début et de fin.");
+            return;
+        }
+        if (!$scope.reservationDto.modePaiement) {
+            $scope.showErrorMessage("Veuillez sélectionner un mode de paiement.");
+            return;
+        }
+        
+        // Préparer les données
+        const reservationData = {
+            clientId: $scope.reservationDto.clientId,
+            vehiculeId: $scope.reservationDto.vehiculeId,
+            dateReservation: $scope.reservationDto.dateReservation ? new Date($scope.reservationDto.dateReservation).toISOString() : new Date().toISOString(),
+            dateDebutPrevue: new Date($scope.reservationDto.dateDebutPrevue).toISOString(),
+            dateFinPrevue: new Date($scope.reservationDto.dateFinPrevue).toISOString(),
+            lieuDepart: $scope.reservationDto.lieuDepart,
+            lieuRetour: $scope.reservationDto.lieuRetour,
+            etatReservation: $scope.reservationDto.etatReservation,
+            modePaiement: $scope.reservationDto.modePaiement,
+            montantTotal: $scope.reservationDto.montantTotal,
+            acompte: $scope.reservationDto.acompte,
+            remise: $scope.reservationDto.remise || 0,
+            couponId: $scope.reservationDto.couponId,
+            nombreJours: $scope.reservationDto.nombreJours || 0,
+            notes: $scope.reservationDto.notes
+        };
+        
+        $http.post(urlCreateReservation, reservationData)
+            .then(function(res) {
+                console.log("RÉSERVATION CRÉÉE : ", res.data);
+                $scope.showSuccessMessage("Réservation créée avec succès");
+                // Rediriger vers la liste des réservations
+                setTimeout(function() {
+                    window.location.href = '/atiko/locations/reservations';
+                }, 1500);
+            })
+            .catch(function(error) {
+                console.error("ERREUR CRÉATION RÉSERVATION : ", error);
+                $scope.showErrorMessage(error.data?.message || "Erreur lors de la création de la réservation.");
+            });
+    };
+    
+    // Messages
     $scope.showSuccessMessage = function(message) {
         Swal.fire({
             text: message,
@@ -428,8 +272,7 @@ $scope.loadclients = function () {
             }
         });
     };
-
-    // Fonction pour afficher un message d'erreur
+    
     $scope.showErrorMessage = function(message) {
         Swal.fire({
             text: message,
@@ -441,39 +284,84 @@ $scope.loadclients = function () {
             }
         });
     };
-
-    // Validation des données avant enregistrement
-    $scope.valider = function () {
-        if ($scope.reservationMasterDto.id) {
-            $scope.updatereservation();
-        } else {
-            $scope.createreservation();
-        }
-    };
-
-    // Fonction pour mettre à jour un utilisateur
-    $scope.updatereservation = function() {
-        $http.put(urlUpdatereservation, $scope.reservationMasterDto)
-            .then(function(response) {
-                $scope.loadReservation();
-                $('#kt_modal_add_reservation').modal('hide');
-                $scope.showSuccessMessage("Utilisateur modifié avec succès");
-                $scope.reservationMasterDto = {};
-            })
-            .catch(function(error) {
-                console.error("ERREUR LORS DE LA MODIFICATION : ", error);
-                $scope.showErrorMessage("Erreur lors de la modification de l'utilisateur.");
-            });
-    };
-
-    // Afficher/masquer le modal
-    $scope.modalShow = function() {
-        $('#myModal').modal('show');
-    };
-    $scope.modalHide = function() {
-        $('#myModal').modal('hide');
-    };
 }]);
 
-
-// var KTreservationsList=function(){var e,t,n,r,o=document.getElementById("kt_table_reservations"),c=()=>{o.querySelectorAll('[data-kt-reservations-table-filter="delete_row"]').forEach((t=>{t.addEventListener("click",(function(t){t.preventDefault();const n=t.target.closest("tr"),r=n.querySelectorAll("td")[1].querySelectorAll("a")[1].innerText;Swal.fire({text:"Are you sure you want to delete "+r+"?",icon:"warning",showCancelButton:!0,buttonsStyling:!1,confirmButtonText:"Yes, delete!",cancelButtonText:"No, cancel",customClass:{confirmButton:"btn fw-bold btn-danger",cancelButton:"btn fw-bold btn-active-light-primary"}}).then((function(t){t.value?Swal.fire({text:"You have deleted "+r+"!.",icon:"success",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}}).then((function(){e.row($(n)).remove().draw()})).then((function(){a()})):"cancel"===t.dismiss&&Swal.fire({text:customerName+" was not deleted.",icon:"error",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}})}))}))}))},l=()=>{const c=o.querySelectorAll('[type="checkbox"]');t=document.querySelector('[data-kt-reservation-table-toolbar="base"]'),n=document.querySelector('[data-kt-reservation-table-toolbar="selected"]'),r=document.querySelector('[data-kt-reservation-table-select="selected_count"]');const s=document.querySelector('[data-kt-reservation-table-select="delete_selected"]');c.forEach((e=>{e.addEventListener("click",(function(){setTimeout((function(){a()}),50)}))})),s.addEventListener("click",(function(){Swal.fire({text:"Are you sure you want to delete selected customers?",icon:"warning",showCancelButton:!0,buttonsStyling:!1,confirmButtonText:"Yes, delete!",cancelButtonText:"No, cancel",customClass:{confirmButton:"btn fw-bold btn-danger",cancelButton:"btn fw-bold btn-active-light-primary"}}).then((function(t){t.value?Swal.fire({text:"You have deleted all selected customers!.",icon:"success",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}}).then((function(){c.forEach((t=>{t.checked&&e.row($(t.closest("tbody tr"))).remove().draw()}));o.querySelectorAll('[type="checkbox"]')[0].checked=!1})).then((function(){a(),l()})):"cancel"===t.dismiss&&Swal.fire({text:"Selected customers was not deleted.",icon:"error",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}})}))}))};const a=()=>{const e=o.querySelectorAll('tbody [type="checkbox"]');let c=!1,l=0;e.forEach((e=>{e.checked&&(c=!0,l++)})),c?(r.innerHTML=l,t.classList.add("d-none"),n.classList.remove("d-none")):(t.classList.remove("d-none"),n.classList.add("d-none"))};return{init:function(){o&&(o.querySelectorAll("tbody tr").forEach((e=>{const t=e.querySelectorAll("td"),n=t[3].innerText.toLowerCase();let r=0,o="minutes";n.includes("yesterday")?(r=1,o="days"):n.includes("mins")?(r=parseInt(n.replace(/\D/g,"")),o="minutes"):n.includes("hours")?(r=parseInt(n.replace(/\D/g,"")),o="hours"):n.includes("days")?(r=parseInt(n.replace(/\D/g,"")),o="days"):n.includes("weeks")&&(r=parseInt(n.replace(/\D/g,"")),o="weeks");const c=moment().subtract(r,o).format();t[3].setAttribute("data-order",c);const l=moment(t[5].innerHTML,"DD MMM YYYY, LT").format();t[5].setAttribute("data-order",l)})),(e=$(o).DataTable({info:!1,order:[],pageLength:10,lengthChange:!1,columnDefs:[{orderable:!1,targets:0},{orderable:!1,targets:6}]})).on("draw",(function(){l(),c(),a()})),l(),document.querySelector('[data-kt-reservation-table-filter="search"]').addEventListener("keyup",(function(t){e.search(t.target.value).draw()})),document.querySelector('[data-kt-reservation-table-filter="reset"]').addEventListener("click",(function(){document.querySelector('[data-kt-reservation-table-filter="form"]').querySelectorAll("select").forEach((e=>{$(e).val("").trigger("change")})),e.search("").draw()})),c(),(()=>{const t=document.querySelector('[data-kt-reservation-table-filter="form"]'),n=t.querySelector('[data-kt-reservation-table-filter="filter"]'),r=t.querySelectorAll("select");n.addEventListener("click",(function(){var t="";r.forEach(((e,n)=>{e.value&&""!==e.value&&(0!==n&&(t+=" "),t+=e.value)})),e.search(t).draw()}))})())}}}();KTUtil.onDOMContentLoaded((function(){KTreservationsList.init()}));
+// Gestion du modal de création de client
+document.addEventListener("DOMContentLoaded", function () {
+    const modalElement = document.getElementById("kt_modal_add_client");
+    if (!modalElement) return;
+    
+    const formElement = modalElement.querySelector("#form_add_client");
+    if (!formElement) return;
+    
+    const modalInstance = new bootstrap.Modal(modalElement);
+    const clientUrl = "/api/users/clients";
+    
+    // Validation du formulaire
+    const validator = FormValidation.formValidation(formElement, {
+        fields: {
+            nomComplet: {
+                validators: {
+                    notEmpty: { message: "Le nom complet est requis" },
+                    stringLength: {
+                        min: 3,
+                        message: "Le nom complet doit contenir au moins 3 caractères"
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: { message: "Une adresse e-mail valide est requise" },
+                    emailAddress: { message: "L'entrée n'est pas une adresse e-mail valide" }
+                }
+            },
+            telephone: {
+                validators: {
+                    notEmpty: { message: "Le téléphone est requis" },
+                    regexp: {
+                        regexp: /^\d{8,15}$/,
+                        message: "Numéro de téléphone invalide"
+                    }
+                }
+            }
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap: new FormValidation.plugins.Bootstrap5({
+                rowSelector: ".fv-row",
+                eleInvalidClass: "",
+                eleValidClass: ""
+            })
+        }
+    });
+    
+    // Bouton de soumission
+    const submitButton = modalElement.querySelector('[data-kt-client-modal-action="submit"]');
+    if (submitButton) {
+        submitButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            
+            validator.validate().then(function(status) {
+                if (status === "Valid") {
+                    // Appeler la fonction AngularJS pour créer le client
+                    const scope = angular.element(document.querySelector('[ng-controller="reservationController"]')).scope();
+                    if (scope) {
+                        scope.$apply(function() {
+                            scope.createClient();
+                        });
+                    }
+                }
+            });
+        });
+    }
+    
+    // Boutons d'annulation
+    const cancelButtons = modalElement.querySelectorAll('[data-kt-client-modal-action="cancel"], [data-kt-client-modal-action="close"]');
+    cancelButtons.forEach(function(btn) {
+        btn.addEventListener("click", function(event) {
+            event.preventDefault();
+            formElement.reset();
+            modalInstance.hide();
+        });
+    });
+});
