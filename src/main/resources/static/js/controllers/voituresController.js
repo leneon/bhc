@@ -183,16 +183,13 @@ var App = angular.module('myApp', []);
 App.controller('voituresController', ['$scope', '$http', function($scope, $http) {
     // URLs pour les opérations CRUD sur les voitures
     const appUrl = 'api/voitures';
-    const urlLoadvoitures = appUrl;
     const urlLoadmodeles = 'api/modeles';
-    const urlCreatevoiture = appUrl;
-    const urlUpdatevoiture = appUrl ;
-    const urlDeletevoiture = appUrl;
     const disableUrl = appUrl + "/disable";
 
     // Initialisation des variables
     $scope.listevoitures = [];
     $scope.listemodeles = [];
+    $scope.loading = true;
     $scope.voitureDto = {
         id: null,
         nom: null,
@@ -226,20 +223,23 @@ App.controller('voituresController', ['$scope', '$http', function($scope, $http)
 
     // Fonction pour charger la liste des voitures 
     $scope.loadvoitures = function () {
-        $http.get(urlLoadvoitures)
+        $scope.loading = true;
+        $http.get(appUrl)
             .then(function (res) {
                 $scope.listevoitures = res.data;
-                
                 console.log("LISTE DES VOITURES : ", $scope.listevoitures);
+                $scope.loading = false;
             })
             .catch(function (error) {
                 console.error("ERREUR DE RECUPERATION DES VOITURES : ", error);
+                $scope.loading = false;
             });
     };
 
     // Chargement des voitures au chargement de la page
     $scope.loadvoitures();
-     $scope.loadmodeles = function () {
+    
+    $scope.loadmodeles = function () {
         $http.get(urlLoadmodeles)
             .then(function (res) {
                 $scope.listemodeles = res.data;
@@ -250,41 +250,8 @@ App.controller('voituresController', ['$scope', '$http', function($scope, $http)
             });
     };
 
-    // Chargement des voitures au chargement de la page
+    // Chargement des modèles au chargement de la page
     $scope.loadmodeles();
-
-    // Fonction pour créer une voiture
-    $scope.createvoiture = function () {
-        const voitureJson = angular.toJson($scope.voitureMasterDTO);
-
-        $http.post(urlCreatevoiture, voitureJson)
-            .then(function (res) {
-                console.log("VOITURE CREE : ", res.data);
-                $scope.loadvoitures();
-                $scope.resetvoitureForm();
-                $scope.modalHide();
-                $scope.successSwal("Voiture ajoutée avec succès.");
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE CREATION DE LA VOITURE : ", error);
-                $scope.errorSwal("Erreur lors de la création de la voiture.");
-            });
-    };
-
-    // Fonction pour mettre à jour une voiture
-    $scope.updatevoiture = function () {
-        $http.put(urlUpdatevoiture + '/' + $scope.voitureMasterDTO.id, $scope.voitureMasterDTO)
-            .then(function (res) {
-                console.log("VOITURE MISE A JOUR : ", res.data);
-                $scope.loadvoitures();
-                $scope.resetvoitureForm();
-                $scope.successSwal("Voiture modifiée avec succès.");
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE MISE A JOUR DE LA VOITURE : ", error);
-                $scope.errorSwal("Erreur lors de la mise à jour de la voiture.");
-            });
-    };
 
     // Fonction pour supprimer une voiture
     $scope.deletevoiture = function (id) {
@@ -383,50 +350,31 @@ $scope.findvoitureById = function (id) {
         $scope.voitureMasterDTO = angular.copy($scope.voitureDto);
     };
 
-    // Validation des données avant enregistrement
-    $scope.valider = function () {
-        if (!$scope.voitureMasterDTO.nom) {
-            console.log("Veuillez remplir le nom de la voiture.");
-            $scope.errorSwal("Veuillez remplir le nom de la voiture!");
-            return;
-        }
-
-        if (!$scope.voitureMasterDTO.immatriculation) {
-            console.log("Veuillez remplir l'immatriculation.");
-            $scope.errorSwal("Veuillez remplir l'immatriculation!");
-            return;
-        }
-
-        if (!$scope.voitureMasterDTO.prix) {
-            console.log("Veuillez remplir le prix.");
-            $scope.errorSwal("Veuillez remplir le prix!");
-            return;
-        }
-
-        if ($scope.voitureMasterDTO.id) {
-            $scope.updatevoiture();
-        } else {
-            $scope.createvoiture();
-        }
-    };
-
     // Fonction de succès pour les alertes
     $scope.successSwal = function(message) {
-        swal({
+        Swal.fire({
             title: "Succès",
             text: message,
             icon: "success",
-            button: "OK!",
+            confirmButtonText: "OK!",
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
         });
     };
 
     // Fonction d'erreur pour les alertes
     $scope.errorSwal = function(message) {
-        swal({
+        Swal.fire({
             title: "Erreur",
             text: message,
             icon: "error",
-            button: "OK!",
+            confirmButtonText: "OK!",
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
         });
     };
 

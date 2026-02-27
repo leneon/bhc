@@ -133,8 +133,17 @@
             <!--end::Card header-->
             <!--begin::Card body-->
             <div class="card-body py-4 table-responsive">
+                <!-- Loader -->
+                <div ng-if="loading" class="text-center py-10">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                        <span class="ms-3 text-muted">Chargement des employés...</span>
+                    </div>
+                </div>
                 <!--begin::Table-->
-                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users" ng-if="!loading">
                     <!--begin::Table head-->
                     <thead>
                         <!--begin::Table row-->
@@ -153,8 +162,14 @@
                         <!--end::Table row-->
                     </thead>
                     <!--end::Table head-->
-                    <!--begin::Table body-->
+                    <!--begin::Table body - Data -->
                     <tbody class="text-gray-600 fw-semibold">
+                        <!-- Message si liste vide -->
+                        <tr ng-if="!listeUsers || listeUsers.length === 0">
+                            <td colspan="6" class="text-center py-10">
+                                <div class="text-muted">Aucun employé trouvé</div>
+                            </td>
+                        </tr>
                         <!--begin::Table row-->
                         <tr ng-repeat="user in listeUsers track by $index">
                             <!--begin::Checkbox-->
@@ -265,5 +280,23 @@
     </script>
 
     <script src="/js/controllers/usersController.js" layout:fragment="script"></script>
+    <script>
+        // Gérer le loading
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var element = document.querySelector('[ng-controller="usersController"]');
+                if (element) {
+                    var scope = angular.element(element).scope();
+                    if (scope && !scope.$$phase) {
+                        scope.$apply(function() {
+                            if (typeof scope.loading === 'undefined') {
+                                scope.loading = true;
+                            }
+                        });
+                    }
+                }
+            }, 100);
+        });
+    </script>
 </body>
 </html>

@@ -254,29 +254,13 @@ document.addEventListener("DOMContentLoaded", function () {
     KTUsersAddUser.init();
 });
 
-
-// KTUtil.onDOMContentLoaded(function () {
-//     KTUsersAddUser.init();
-// });
-
 var App = angular.module('myApp', []);
 App.controller('usersController', ['$scope', '$http', function($scope, $http) {
     // URLs pour les opérations CRUD sur les utilisateurs
     const appUrl = 'api/users';
     const urlLoadUsers = appUrl;
-    const urlSignup = "auth/signup";
     const urlUpdateUser = appUrl + "/update";
     const urlDeleteUser = appUrl + "/delete";
-    const urlFindUser = appUrl + "/find";
-
-    // Initialisation des variables
-    $scope.users = [];
-    $scope.userDto = {
-        id: null,
-        username: null,
-        email: null,
-        role: null,
-    };
     $scope.userMasterDto = {
         id: null,
         username: null,
@@ -284,40 +268,25 @@ App.controller('usersController', ['$scope', '$http', function($scope, $http) {
         role: null,
     };
     $scope.listeUsers = null;
-    //$scope.userMasterDto= angular.copy($scope.userDTO); // Copie pour éviter la référence
+    $scope.loading = true;
 
     // Fonction pour charger la liste des utilisateurs
     $scope.loadUsers = function () {
+        $scope.loading = true;
         $http.get(appUrl)
             .then(function (res) {
                 $scope.listeUsers = res.data;
                 console.log("LISTE DES UTILISATEURS : ", $scope.listeUsers);
+                $scope.loading = false;
             })
             .catch(function (error) {
                 console.error("ERREUR DE RECUPERATION DES UTILISATEURS : ", error);
+                $scope.loading = false;
             });
     };
 
     // Chargement des utilisateurs au chargement de la page
     $scope.loadUsers();
-
-    // Fonction pour créer un utilisateur
-    $scope.createUser = function (data) {
-        const userJson = angular.toJson(data);
-        console.log(userJson);
-        $http.post(urlSignup, userJson)
-            .then(function (res) {
-                console.log("UTILISATEUR CREE : ");
-                $scope.loadUsers();
-                $scope.userDto= angular.copy($scope.userMasterDto); // Copie pour éviter la référence
-                $scope.showSuccessMessage("Utilisateur créé avec succès");
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE CREATION DE L'UTILISATEUR : ", error);
-                $scope.showErrorMessage("Erreur lors de la création de l'utilisateur.");
-                return false;
-            });
-    };
 
     // Fonction pour voir les détails d'un utilisateur
     $scope.viewUser = function(userId) {
@@ -466,15 +435,6 @@ App.controller('usersController', ['$scope', '$http', function($scope, $http) {
         });
     };
 
-    // Validation des données avant enregistrement
-    $scope.valider = function () {
-        if ($scope.userMasterDto.id) {
-            $scope.updateUser();
-        } else {
-            $scope.createUser();
-        }
-    };
-
     // Fonction pour mettre à jour un utilisateur
     $scope.updateUser = function() {
         $http.put(urlUpdateUser, $scope.userMasterDto)
@@ -490,14 +450,4 @@ App.controller('usersController', ['$scope', '$http', function($scope, $http) {
             });
     };
 
-    // Afficher/masquer le modal
-    $scope.modalShow = function() {
-        $('#myModal').modal('show');
-    };
-    $scope.modalHide = function() {
-        $('#myModal').modal('hide');
-    };
 }]);
-
-
-// var KTUsersList=function(){var e,t,n,r,o=document.getElementById("kt_table_users"),c=()=>{o.querySelectorAll('[data-kt-users-table-filter="delete_row"]').forEach((t=>{t.addEventListener("click",(function(t){t.preventDefault();const n=t.target.closest("tr"),r=n.querySelectorAll("td")[1].querySelectorAll("a")[1].innerText;Swal.fire({text:"Are you sure you want to delete "+r+"?",icon:"warning",showCancelButton:!0,buttonsStyling:!1,confirmButtonText:"Yes, delete!",cancelButtonText:"No, cancel",customClass:{confirmButton:"btn fw-bold btn-danger",cancelButton:"btn fw-bold btn-active-light-primary"}}).then((function(t){t.value?Swal.fire({text:"You have deleted "+r+"!.",icon:"success",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}}).then((function(){e.row($(n)).remove().draw()})).then((function(){a()})):"cancel"===t.dismiss&&Swal.fire({text:customerName+" was not deleted.",icon:"error",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}})}))}))}))},l=()=>{const c=o.querySelectorAll('[type="checkbox"]');t=document.querySelector('[data-kt-user-table-toolbar="base"]'),n=document.querySelector('[data-kt-user-table-toolbar="selected"]'),r=document.querySelector('[data-kt-user-table-select="selected_count"]');const s=document.querySelector('[data-kt-user-table-select="delete_selected"]');c.forEach((e=>{e.addEventListener("click",(function(){setTimeout((function(){a()}),50)}))})),s.addEventListener("click",(function(){Swal.fire({text:"Are you sure you want to delete selected customers?",icon:"warning",showCancelButton:!0,buttonsStyling:!1,confirmButtonText:"Yes, delete!",cancelButtonText:"No, cancel",customClass:{confirmButton:"btn fw-bold btn-danger",cancelButton:"btn fw-bold btn-active-light-primary"}}).then((function(t){t.value?Swal.fire({text:"You have deleted all selected customers!.",icon:"success",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}}).then((function(){c.forEach((t=>{t.checked&&e.row($(t.closest("tbody tr"))).remove().draw()}));o.querySelectorAll('[type="checkbox"]')[0].checked=!1})).then((function(){a(),l()})):"cancel"===t.dismiss&&Swal.fire({text:"Selected customers was not deleted.",icon:"error",buttonsStyling:!1,confirmButtonText:"D'accord, compris !",customClass:{confirmButton:"btn fw-bold btn-primary"}})}))}))};const a=()=>{const e=o.querySelectorAll('tbody [type="checkbox"]');let c=!1,l=0;e.forEach((e=>{e.checked&&(c=!0,l++)})),c?(r.innerHTML=l,t.classList.add("d-none"),n.classList.remove("d-none")):(t.classList.remove("d-none"),n.classList.add("d-none"))};return{init:function(){o&&(o.querySelectorAll("tbody tr").forEach((e=>{const t=e.querySelectorAll("td"),n=t[3].innerText.toLowerCase();let r=0,o="minutes";n.includes("yesterday")?(r=1,o="days"):n.includes("mins")?(r=parseInt(n.replace(/\D/g,"")),o="minutes"):n.includes("hours")?(r=parseInt(n.replace(/\D/g,"")),o="hours"):n.includes("days")?(r=parseInt(n.replace(/\D/g,"")),o="days"):n.includes("weeks")&&(r=parseInt(n.replace(/\D/g,"")),o="weeks");const c=moment().subtract(r,o).format();t[3].setAttribute("data-order",c);const l=moment(t[5].innerHTML,"DD MMM YYYY, LT").format();t[5].setAttribute("data-order",l)})),(e=$(o).DataTable({info:!1,order:[],pageLength:10,lengthChange:!1,columnDefs:[{orderable:!1,targets:0},{orderable:!1,targets:6}]})).on("draw",(function(){l(),c(),a()})),l(),document.querySelector('[data-kt-user-table-filter="search"]').addEventListener("keyup",(function(t){e.search(t.target.value).draw()})),document.querySelector('[data-kt-user-table-filter="reset"]').addEventListener("click",(function(){document.querySelector('[data-kt-user-table-filter="form"]').querySelectorAll("select").forEach((e=>{$(e).val("").trigger("change")})),e.search("").draw()})),c(),(()=>{const t=document.querySelector('[data-kt-user-table-filter="form"]'),n=t.querySelector('[data-kt-user-table-filter="filter"]'),r=t.querySelectorAll("select");n.addEventListener("click",(function(){var t="";r.forEach(((e,n)=>{e.value&&""!==e.value&&(0!==n&&(t+=" "),t+=e.value)})),e.search(t).draw()}))})())}}}();KTUtil.onDOMContentLoaded((function(){KTUsersList.init()}));

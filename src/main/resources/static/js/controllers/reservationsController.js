@@ -1,6 +1,11 @@
 "use strict";
 
-var myApp = angular.module('myApp', []);
+var myApp;
+try {
+    myApp = angular.module('myApp');
+} catch (e) {
+    myApp = angular.module('myApp', []);
+}
 
 myApp.controller('reservationsController', ['$scope', '$http', function($scope, $http) {
     // URLs pour les opérations CRUD sur les réservations
@@ -41,7 +46,8 @@ myApp.controller('reservationsController', ['$scope', '$http', function($scope, 
             })
             .catch(function(error) {
                 console.error("ERREUR DE RÉCUPÉRATION DES RÉSERVATIONS : ", error);
-                $scope.showErrorMessage("Erreur lors du chargement des réservations.");
+                const errorMsg = error.data?.error || error.data?.message || "Erreur lors du chargement des réservations.";
+                $scope.showErrorMessage(errorMsg);
                 $scope.loading = false;
             });
     };
@@ -80,7 +86,8 @@ myApp.controller('reservationsController', ['$scope', '$http', function($scope, 
             })
             .catch(function(error) {
                 console.error("ERREUR LORS DE LA RÉCUPÉRATION : ", error);
-                $scope.showErrorMessage("Erreur lors de la récupération des détails de la réservation.");
+                const errorMsg = error.data?.error || error.data?.message || "Erreur lors de la récupération des détails de la réservation.";
+                $scope.showErrorMessage(errorMsg);
             });
     };
 
@@ -88,6 +95,30 @@ myApp.controller('reservationsController', ['$scope', '$http', function($scope, 
     $scope.editReservation = function(reservation) {
         // Rediriger vers la page de modification
         window.location.href = '/atiko/locations/reservation?id=' + reservation.reservationId;
+    };
+    
+    // Fonction pour changer l'état d'une réservation
+    $scope.changeEtat = function(reservationId, newEtat) {
+        $http.get(urlGetReservation + '/' + reservationId)
+            .then(function(res) {
+                const reservation = res.data;
+                reservation.etatReservation = newEtat;
+                
+                $http.put(urlUpdateReservation + '/' + reservationId, reservation)
+                    .then(function(response) {
+                        $scope.showSuccessMessage("État de la réservation mis à jour avec succès");
+                        $scope.loadReservations();
+                    })
+                    .catch(function(error) {
+                        console.error("ERREUR LORS DE LA MISE À JOUR : ", error);
+                        const errorMsg = error.data?.error || error.data?.message || "Erreur lors de la mise à jour de l'état.";
+                        $scope.showErrorMessage(errorMsg);
+                    });
+            })
+            .catch(function(error) {
+                console.error("ERREUR LORS DE LA RÉCUPÉRATION : ", error);
+                $scope.showErrorMessage("Erreur lors de la récupération de la réservation.");
+            });
     };
 
     // Fonction pour supprimer une réservation
@@ -114,7 +145,8 @@ myApp.controller('reservationsController', ['$scope', '$http', function($scope, 
                     })
                     .catch(function(error) {
                         console.error("ERREUR LORS DE LA SUPPRESSION : ", error);
-                        $scope.showErrorMessage("Erreur lors de la suppression de la réservation.");
+                        const errorMsg = error.data?.error || error.data?.message || "Erreur lors de la suppression de la réservation.";
+                        $scope.showErrorMessage(errorMsg);
                     });
             }
         });

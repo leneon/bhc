@@ -406,6 +406,15 @@
                     </div>
                 </div>
                 <!--end::Statistics-->
+                <!-- Loader -->
+                <div ng-if="loading" class="text-center py-10">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                        <span class="ms-3 text-muted">Chargement des voitures...</span>
+                    </div>
+                </div>
                 <!--begin::Table-->
                 <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_voitures" ng-if="!loading">
                     <!--begin::Table head-->
@@ -429,8 +438,14 @@
                         <!--end::Table row-->
                     </thead>
                     <!--end::Table head-->
-                    <!--begin::Table body-->
+                    <!--begin::Table body - Data -->
                     <tbody class="text-gray-600 fw-semibold">
+                        <!-- Message si liste vide -->
+                        <tr ng-if="!listevoitures || listevoitures.length === 0">
+                            <td colspan="8" class="text-center py-10">
+                                <div class="text-muted">Aucune voiture trouvée</div>
+                            </td>
+                        </tr>
                         <!--begin::Table row-->
                         <tr ng-repeat="voiture in listevoitures | filter:searchVoiture">
                             <!-- Checkbox -->
@@ -521,5 +536,23 @@
     </div>
 
     <script src="/js/controllers/voituresController.js" layout:fragment="script"></script>
+    <script>
+        // Gérer le loading
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var element = document.querySelector('[ng-controller="voituresController"]');
+                if (element) {
+                    var scope = angular.element(element).scope();
+                    if (scope && !scope.$$phase) {
+                        scope.$apply(function() {
+                            if (typeof scope.loading === 'undefined') {
+                                scope.loading = true;
+                            }
+                        });
+                    }
+                }
+            }, 100);
+        });
+    </script>
 </body>
 </html>

@@ -35,6 +35,7 @@
                             <select class="form-select" ng-model="reservationDto.clientId" id="reservation_client"
                                 name="reservation_client" data-control="select2"
                                 data-placeholder="Sélectionner un client..." required
+                                ng-change="onClientChange()"
                                 ng-options="client.id as (client.nom || client.username || 'Client #' + client.id) + ' (' + (client.telephone || client.email || '') + ')' for client in clients">
                                 <option value="">Sélectionner un client...</option>
                             </select>
@@ -44,6 +45,7 @@
                             <select class="form-select" ng-model="reservationDto.vehiculeId" id="reservation_voiture"
                                 name="reservation_voiture" data-control="select2"
                                 data-placeholder="Sélectionner une voiture..." required
+                                ng-change="onVehiculeChange()"
                                 ng-options="voiture.id as (voiture.nom + ' (' + (voiture.immatriculation || '') + ') - ' + (voiture.prix || 0) + ' FCFA/jour') for voiture in voitures">
                                 <option value="">Sélectionner une voiture...</option>
                             </select>
@@ -271,9 +273,9 @@
                         </div>
                         <div class="col-md-6" ng-if="reservationDto.modePaiement">
                             <label class="form-label">Acompte</label>
-                            <input type="number" class="form-control" ng-model="reservationDto.voiture.acompte"
-                                placeholder="Acompte" readonly>
-                            <small class="text-muted" ng-if="selectedVoiture && selectedVoiture.acompte">Acompte de la voiture sélectionnée</small>
+                            <input type="number" class="form-control" ng-model="reservationDto.acompte"
+                                placeholder="Acompte" step="0.01">
+                            <small class="text-muted" ng-if="selectedVoiture && selectedVoiture.acompte">Acompte suggéré de la voiture: {{ selectedVoiture.acompte | number:0 }} FCFA</small>
                         </div>
                     </div>
                     

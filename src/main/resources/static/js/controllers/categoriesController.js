@@ -58,24 +58,57 @@ var KTcategoriesAddcategorie = function () {
                                     },
                                     body: JSON.stringify(userData)
                                 })
-                                .then(response => {
+                                .then(async (response) => {
+                                    // Cloner la réponse pour pouvoir la lire plusieurs fois si nécessaire
+                                    const responseClone = response.clone();
+                                    
                                     if (!response.ok) {
                                         // Gérer les erreurs de réponse HTTP
-                                        return response.json().then(error => {
-                                            throw new Error(error.message || "Une erreur est survenue.");
-                                        });
+                                        let errorMessage = "Une erreur est survenue.";
+                                        try {
+                                            const errorData = await response.json();
+                                            errorMessage = errorData.message || errorMessage;
+                                        } catch (e) {
+                                            // Si ce n'est pas du JSON, essayer de lire le texte
+                                            try {
+                                                const errorText = await responseClone.text();
+                                                errorMessage = errorText || errorMessage;
+                                            } catch (textError) {
+                                                // Ignorer si même le texte ne peut pas être lu
+                                            }
+                                        }
+                                        throw new Error(errorMessage);
                                     }
+                                    
+                                    // Recharger la liste des catégories
                                     angular.element(document.querySelector('[ng-controller="categoriesController"]')).scope().loadcategories();
-                                    return response.json();
+                                    
+                                    // Essayer de parser la réponse en JSON seulement si elle a du contenu
+                                    let data = null;
+                                    const contentType = response.headers.get("content-type");
+                                    if (contentType && contentType.includes("application/json")) {
+                                        try {
+                                            const text = await response.text();
+                                            if (text && text.trim()) {
+                                                data = JSON.parse(text);
+                                            }
+                                        } catch (e) {
+                                            // Si le parsing échoue, ce n'est pas grave, on continue
+                                            console.log("Réponse non-JSON ou vide, ignorée:", e);
+                                        }
+                                    }
+                                    
+                                    return data;
                                 })
-                                .then(data => {
+                                .then((data) => {
                                     setTimeout(() => {
                                         submitButton.removeAttribute("data-kt-indicator");
                                         submitButton.disabled = false;
 
-                                        // Affichez une alerte de succès après la création
+                                        // Affichez une alerte de succès
+                                        const message = userData.id ? "Catégorie modifiée avec succès" : "Catégorie créée avec succès";
                                         Swal.fire({
-                                            text: "Catégorie créé avec succès",
+                                            text: message,
                                             icon: "success",
                                             buttonsStyling: false,
                                             confirmButtonText: "D'accord, compris !",
@@ -84,6 +117,7 @@ var KTcategoriesAddcategorie = function () {
                                             }
                                         }).then(function (result) {
                                             if (result.isConfirmed) {
+                                                formElement.reset();
                                                 modalInstance.hide();
                                             }
                                         });
@@ -93,16 +127,40 @@ var KTcategoriesAddcategorie = function () {
                                     submitButton.removeAttribute("data-kt-indicator");
                                     submitButton.disabled = false;
 
-                                    // Affichez une alerte en cas d'erreur
-                                    Swal.fire({
-                                        text: error.message || "Une erreur est survenue, veuillez réessayer.",
-                                        icon: "error",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "D'accord, compris !",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    });
+                                    // Vérifier si c'est vraiment une erreur ou juste un problème de parsing
+                                    const errorMessage = error.message || "Une erreur est survenue, veuillez réessayer.";
+                                    
+                                    // Si l'utilisateur a été créé malgré l'erreur de parsing, recharger et afficher succès
+                                    if (errorMessage.indexOf('supprimé') === -1 && errorMessage.indexOf('succès') === -1) {
+                                        // Affichez une alerte en cas d'erreur réelle
+                                        Swal.fire({
+                                            text: errorMessage,
+                                            icon: "error",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "D'accord, compris !",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        });
+                                    } else {
+                                        // Si c'est un faux positif, recharger et afficher succès
+                                        angular.element(document.querySelector('[ng-controller="categoriesController"]')).scope().loadcategories();
+                                        const message = userData.id ? "Catégorie modifiée avec succès" : "Catégorie créée avec succès";
+                                        Swal.fire({
+                                            text: message,
+                                            icon: "success",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "D'accord, compris !",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        }).then(function (result) {
+                                            if (result.isConfirmed) {
+                                                formElement.reset();
+                                                modalInstance.hide();
+                                            }
+                                        });
+                                    }
                                 });
                             } else {
                                 Swal.fire({
@@ -172,71 +230,38 @@ KTUtil.onDOMContentLoaded(function () {
 var App = angular.module('myApp', []);
 
 App.controller('categoriesController', ['$scope', '$http', function($scope, $http) {
-    // URLs pour les opérations CRUD sur les rôles
+    // URLs pour les opérations CRUD sur les catégories
     const appUrl = 'api/categories';
-    const urlLoadcategories = appUrl;
-    const urlCreatecategorie = appUrl + "/create";
-    const urlUpdatecategorie = appUrl + "/update";
-    const urlDeletecategorie = appUrl + "/deete";
     const disableUrl = appUrl + "/disable";
 
     // Initialisation des variables
     $scope.listecategories = [];
+    $scope.loading = true;
     $scope.categorieDto = {
         id: null,
         nom: null,
         description: null,
         statut: null
     };
-    $scope.categorieMasterDTO = angular.copy($scope.categorieDto); // Copie pour éviter la référence
+    $scope.categorieMasterDTO = angular.copy($scope.categorieDto);
 
-    // Fonction pour charger la liste des rôles
+    // Fonction pour charger la liste des catégories
     $scope.loadcategories = function () {
-        $http.get(urlLoadcategories)
+        $scope.loading = true;
+        $http.get(appUrl)
             .then(function (res) {
                 $scope.listecategories = res.data;
-                console.log("LISTE DES categorieS : ", $scope.listecategories);
+                console.log("LISTE DES CATEGORIES : ", $scope.listecategories);
+                $scope.loading = false;
             })
             .catch(function (error) {
-                console.error("ERREUR DE RECUPERATION DES categorieS : ", error);
+                console.error("ERREUR DE RECUPERATION DES CATEGORIES : ", error);
+                $scope.loading = false;
             });
     };
 
-    // Chargement des rôles au chargement de la page
+    // Chargement des catégories au chargement de la page
     $scope.loadcategories();
-
-    // Fonction pour créer un rôle
-    $scope.createcategorie = function () {
-        const categorieJson = angular.toJson($scope.categorieMasterDTO);
-
-        $http.post(urlCreatecategorie, categorieJson)
-            .then(function (res) {
-                console.log("categorie CREE : ", res.data);
-                $scope.loadcategories();
-                $scope.resetcategorieForm();
-                $scope.modalHide();
-                $scope.successSwal("Rôle ajouté avec succès.");
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE CREATION DU categorie : ", error);
-                $scope.errorSwal("Erreur lors de la création du rôle.");
-            });
-    };
-
-    // Fonction pour mettre à jour un rôle
-    $scope.updatecategorie = function () {
-        $http.put(urlUpdatecategorie + '/' + $scope.categorieMasterDTO.id, $scope.categorieMasterDTO)
-            .then(function (res) {
-                console.log("categorie MISE A JOUR : ", res.data);
-                $scope.loadcategories();
-                $scope.resetcategorieForm();
-                $scope.successSwal("Rôle modifié avec succès.");
-            })
-            .catch(function (error) {
-                console.error("ERREUR DE MISE A JOUR DU categorie : ", error);
-                $scope.errorSwal("Erreur lors de la mise à jour du rôle.");
-            });
-    };
     $scope.deletecategorie = function (id) {
         Swal.fire({
             title: "Êtes-vous sûr?",
@@ -288,68 +313,63 @@ App.controller('categoriesController', ['$scope', '$http', function($scope, $htt
     };
     
 
-    // Fonction pour trouver un rôle par son ID
+    // Fonction pour trouver une catégorie par son ID
     $scope.findcategorieById = function (id) {
         $http.get(appUrl + '/' + id)
             .then(function (res) {
-                console.log("categorie TROUVÉ : ", res.data);
+                console.log("CATEGORIE TROUVÉE : ", res.data);
                 $scope.categorieDto = res.data;
                 $scope.modalShow();
             })
             .catch(function (error) {
-                console.error("ERREUR DE RECHERCHE DU categorie : ", error);
-                $scope.errorSwal("Erreur lors de la recherche du rôle.");
+                console.error("ERREUR DE RECHERCHE DE LA CATEGORIE : ", error);
+                $scope.errorSwal("Erreur lors de la recherche de la catégorie.");
             });
     };
 
+    // Fonction pour désactiver une catégorie
     $scope.disableCategorie = function (id) {
         $http.put(disableUrl + '/' + id)
             .then(function (res) {
-                console.log("categorie TROUVÉ : ", res.data);
+                console.log("CATEGORIE DESACTIVEE : ", res.data);
                 $scope.loadcategories();
             })
             .catch(function (error) {
-                console.error("ERREUR DE RECHERCHE DU categorie : ", error);
-                $scope.errorSwal("Erreur lors de la recherche du rôle.");
+                console.error("ERREUR DE DESACTIVATION DE LA CATEGORIE : ", error);
+                $scope.errorSwal("Erreur lors de la désactivation de la catégorie.");
             });
     };
-    // Fonction pour réinitialiser le formulaire de rôle
+
+    // Fonction pour réinitialiser le formulaire
     $scope.resetcategorieForm = function() {
-        $scope.categorieMasterDTO = angular.copy($scope.categorieDto); // Réinitialisation
-    };
-
-    // Validation des données avant enregistrement
-    $scope.valider = function () {
-        if (!$scope.categorieMasterDTO.nom) {
-            console.log("Veuillez remplir le nom de la catégorie.");
-            $scope.errorSwal("Veuillez remplir le nom de la catégorie!");
-            return;
-        }
-
-        if ($scope.categorieMasterDTO.id) {
-            $scope.updatecategorie();
-        } else {
-            $scope.createcategorie();
-        }
+        $scope.categorieMasterDTO = angular.copy($scope.categorieDto);
     };
 
     // Fonction de succès pour les alertes
     $scope.successSwal = function(message) {
-        swal({
+        Swal.fire({
             title: "Succès",
             text: message,
             icon: "success",
-            button: "OK!",
+            confirmButtonText: "OK!",
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
         });
     };
 
     // Fonction d'erreur pour les alertes
     $scope.errorSwal = function(message) {
-        swal({
+        Swal.fire({
             title: "Erreur",
             text: message,
             icon: "error",
-            button: "OK!",
+            confirmButtonText: "OK!",
+            buttonsStyling: false,
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
         });
     };
 

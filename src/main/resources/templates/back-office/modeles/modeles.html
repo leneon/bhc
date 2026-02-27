@@ -132,7 +132,16 @@
             </div>
 
             <div class="card-body py-4 table-responsive">
-                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_modeles">
+                <!-- Loader -->
+                <div ng-if="loading" class="text-center py-10">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                        <span class="ms-3 text-muted">Chargement des modèles...</span>
+                    </div>
+                </div>
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_modeles" ng-if="!loading">
                     <thead>
                         <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                             <th class="w-10px pe-2">
@@ -150,7 +159,15 @@
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
                     </thead>
+                    <!--begin::Table body - Data -->
                     <tbody class="text-gray-600 fw-semibold">
+                        <!-- Message si liste vide -->
+                        <tr ng-if="!listemodeles || listemodeles.length === 0">
+                            <td colspan="8" class="text-center py-10">
+                                <div class="text-muted">Aucun modèle trouvé</div>
+                            </td>
+                        </tr>
+                        <!-- Data rows -->
                         <tr ng-repeat="modele in listemodeles">
                             <td>
                                 <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -204,5 +221,23 @@
     </div>
 
     <script src="/js/controllers/modelesController.js" layout:fragment="script"></script>
+    <script>
+        // Gérer le loading
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var element = document.querySelector('[ng-controller="modelesController"]');
+                if (element) {
+                    var scope = angular.element(element).scope();
+                    if (scope && !scope.$$phase) {
+                        scope.$apply(function() {
+                            if (typeof scope.loading === 'undefined') {
+                                scope.loading = true;
+                            }
+                        });
+                    }
+                }
+            }, 100);
+        });
+    </script>
 </body>
 </html>

@@ -76,22 +76,52 @@ var KTmodeleszerAddmodele = function () {
                                     },
                                     body: JSON.stringify(modeleData)
                                 })
-                                .then(response => {
+                                .then(async (response) => {
                                     if (!response.ok) {
-                                        return response.json().then(error => {
-                                            throw new Error(error.message || "Une erreur est survenue.");
-                                        });
+                                        let errorMessage = "Une erreur est survenue.";
+                                        try {
+                                            const errorData = await response.json();
+                                            errorMessage = errorData.message || errorMessage;
+                                        } catch (e) {
+                                            // Si ce n'est pas du JSON, essayer de lire le texte
+                                            try {
+                                                const errorText = await response.text();
+                                                errorMessage = errorText || errorMessage;
+                                            } catch (textError) {
+                                                // Ignorer si même le texte ne peut pas être lu
+                                            }
+                                        }
+                                        throw new Error(errorMessage);
                                     }
+                                    
+                                    // Recharger la liste des modèles
                                     angular.element(document.querySelector('[ng-controller="modelesController"]')).scope().loadmodeles();
-                                    return response.json();
+                                    
+                                    // Essayer de parser la réponse en JSON seulement si elle a du contenu
+                                    let data = null;
+                                    const contentType = response.headers.get("content-type");
+                                    if (contentType && contentType.includes("application/json")) {
+                                        try {
+                                            const text = await response.text();
+                                            if (text && text.trim()) {
+                                                data = JSON.parse(text);
+                                            }
+                                        } catch (e) {
+                                            // Si le parsing échoue, ce n'est pas grave, on continue
+                                            console.log("Réponse non-JSON ou vide, ignorée:", e);
+                                        }
+                                    }
+                                    
+                                    return data;
                                 })
-                                .then(data => {
+                                .then(async (data) => {
                                     setTimeout(() => {
                                         submitButton.removeAttribute("data-kt-indicator");
                                         submitButton.disabled = false;
 
+                                        const message = modeleData.id ? "Modèle modifié avec succès" : "Modèle créé avec succès";
                                         Swal.fire({
-                                            text: "Modèle enregistré avec succès",
+                                            text: message,
                                             icon: "success",
                                             buttonsStyling: false,
                                             confirmButtonText: "D'accord, compris!",
@@ -196,6 +226,7 @@ App.controller('modelesController', ['$scope', '$http', function($scope, $http) 
     $scope.listemodeles = [];
     $scope.listecategories = [];
     $scope.listeMarques = [];
+    $scope.loading = true;
     $scope.modeleDto = {
         id: null,
         nom: null,
@@ -210,13 +241,16 @@ App.controller('modelesController', ['$scope', '$http', function($scope, $http) 
 
     // Charger les modèles
     $scope.loadmodeles = function () {
+        $scope.loading = true;
         $http.get(appUrl)
             .then(function (res) {
                 $scope.listemodeles = res.data;
                 console.log("LISTE DES MODELES : ", $scope.listemodeles);
+                $scope.loading = false;
             })
             .catch(function (error) {
                 console.error("ERREUR DE RECUPERATION DES MODELES : ", error);
+                $scope.loading = false;
                 $scope.errorSwal("Erreur lors du chargement des modèles.");
             });
     };
