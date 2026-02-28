@@ -13,7 +13,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 	# Utilisez une image JDK pour exécuter l'application
-	FROM eclipse-temurin:17-jdk-jammy
+	FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
 
 # Copiez le fichier JAR de l'image précédente
