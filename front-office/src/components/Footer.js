@@ -9,6 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           {/* About */}
           <div className="text-center sm:text-left">
+            <img src="/logo.png" alt="Atiko Logo" className="mx-auto sm:mx-0 mb-3 w-12 h-12" />
             <h3 className="text-xl font-bold mb-3 sm:mb-4" style={{ fontFamily: 'Work Sans' }}>Atiko</h3>
             <p className="text-gray-400 text-sm">
               Votre partenaire de confiance pour tous vos déplacements au Sénégal et à l'international.

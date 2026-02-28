@@ -18,9 +18,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2" data-testid="logo-link">
-            <div className="w-10 h-10 bg-[#38BDF8] rounded-lg flex items-center justify-center">
-              <Car className="h-6 w-6 text-white" />
-            </div>
+            <img src="/logo.png" alt="Atiko Logo" className="w-10 h-10" />
             <span className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Work Sans' }}>
               Atiko
             </span>
