@@ -1,5 +1,5 @@
-# Utilisez une image Maven pour construire le projet
-FROM maven:3.8.5-openjdk-17 AS build
+# Utilisez une image Maven avec JDK 21 pour construire le projet
+FROM maven:3.8.5-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Copiez le fichier pom.xml et téléchargez les dépendances
@@ -12,8 +12,8 @@ COPY src ./src
 # Compilez le projet
 RUN mvn clean package -DskipTests
 
-	# Utilisez une image JDK pour exécuter l'application
-	FROM eclipse-temurin:21-jdk-jammy
+# Utilisez une image JDK 21 pour exécuter l'application
+FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
 
 # Copiez le fichier JAR de l'image précédente
