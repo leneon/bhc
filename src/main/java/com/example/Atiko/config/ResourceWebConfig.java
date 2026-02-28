@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean; 
 import org.springframework.web.multipart.support.MultipartFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 @Configuration
 public class ResourceWebConfig implements WebMvcConfigurer {
   final Environment environment;
@@ -24,6 +25,14 @@ public class ResourceWebConfig implements WebMvcConfigurer {
     .addResourceLocations("file:./uploads/files/");
   }
 
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+        .allowedOrigins("https://atiko.onrender.com")
+        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        .allowedHeaders("*")
+        .allowCredentials(true);
+  }
 
 //   @Bean
 // public MultipartResolver multipartResolver() {
