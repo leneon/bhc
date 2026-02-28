@@ -18,10 +18,7 @@ public class BaseController {
     @Value("${app.name}")
     private String appName;
 
-    @GetMapping("/")
-    public String redirectToDashboard() {
-        return "redirect:/atiko/dashboard";
-    }
+    // Suppression du mapping '/' pour éviter le conflit avec la SPA React
     
     @GetMapping(value = "/dashboard", name = "dashboard")
     public String dashboard(Model model) {
