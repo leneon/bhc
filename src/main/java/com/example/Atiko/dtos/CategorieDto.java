@@ -5,6 +5,7 @@ import com.example.Atiko.entities.Categorie;
 public class CategorieDto {
     private Long id;
     private String nom;
+    private String description;
     private Boolean statut;
     private Integer articlesCount;
 
@@ -24,9 +25,18 @@ public class CategorieDto {
         this.nom = nom;
         this.statut = statut;
     }
+    
+    public CategorieDto(Long id, String nom, String description, Boolean statut) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.statut = statut;
+    }
+    
     public CategorieDto(Categorie cat) {
         this.id = cat.getId();
         this.nom = cat.getNom();
+        this.description = cat.getDescription();
         this.statut = cat.getStatut();
         if(cat.getArticles() != null )
             this.articlesCount = cat.getArticles().size();
@@ -47,6 +57,14 @@ public class CategorieDto {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Boolean getStatut() {

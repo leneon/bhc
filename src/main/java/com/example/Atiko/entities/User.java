@@ -1,7 +1,9 @@
+ 
 package com.example.Atiko.entities;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -20,9 +22,15 @@ import jakarta.validation.constraints.Size;
     })
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
+    
   @NotBlank
   @Size(max = 20)
   private String username;
@@ -36,7 +44,7 @@ public class User {
   private String resetToken;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  private Profile profile;
+  private UserProfile profile;
 
 
   public String getResetToken() {
@@ -158,15 +166,23 @@ public class User {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", createdAt="
+    return "User [id=" + id + ", username=" + username + ", email=" + email + " status= "+ status +", password=" + password + ", createdAt="
         + createdAt + ", roles=" + roles.toString() + "]";
   }
 
-  public Profile getProfile() {
+  public UserProfile getProfile() {
     return profile;
   }
 
-public void setProfile(Profile profile) {
+public void setProfile(UserProfile profile) {
     this.profile = profile;
 }
+ // Ajout d'un rôle unique (ex: ROLE_USER) à l'utilisateur
+  public void setRole(String roleName) {
+    if (this.roles == null) {
+      this.roles = new HashSet<>();
+    }
+    this.roles.clear();
+    this.roles.add(new Role(ERole.valueOf(roleName)));
+  }
 }

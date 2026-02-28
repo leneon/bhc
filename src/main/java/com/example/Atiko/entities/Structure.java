@@ -1,21 +1,25 @@
 package com.example.Atiko.entities;
 
 import java.util.Date;
+import java.util.Random;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "structures")
 public class Structure {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column
     private Long id;
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
     @Column(nullable = true)
     private String nom;
     @Column(nullable = true)

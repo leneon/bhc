@@ -44,7 +44,7 @@
                                 <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
                             </svg>
                         </span>
-                        <!--end::Svg Icon-->Add User</button>
+                        <!--end::Svg Icon-->Ajouter</button>
                         <!--end::Add user-->
                     </div>
                     <!--end::Toolbar-->
@@ -63,7 +63,7 @@
                                     <!--begin::Modal header-->
                                     <div class="modal-header" id="kt_modal_add_user_header">
                                         <!--begin::Modal title-->
-                                        <h2 class="fw-bold">Add User</h2>
+                                        <h2 class="fw-bold">Nouvel Utilisateur</h2>
                                         <!--end::Modal title-->
                                         <!--begin::Close-->
                                         <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
@@ -83,45 +83,35 @@
                                         <form id="kt_modal_add_user_form" class="form" >
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-7">
-                                                <!--begin::Label-->
-                                                <label class="required fw-semibold fs-6 mb-2">Full Name</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input  ng-model="userMasterDTO.userName" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name" />
-                                                <!--end::Input-->
+                                                <label class="required fw-semibold fs-6 mb-2">Nom d'utilisateur</label>
+                                                <input ng-model="userMasterDto.username" type="text" id="user_name" name="user_name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Nom d'utilisateur" />
                                             </div>
                                             <!--end::Input group-->
-                                            
+
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-7">
-                                                <!--begin::Label-->
                                                 <label class="required fw-semibold fs-6 mb-2">Email</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input  ng-model="userMasterDTO.email" id="user_email" type="email" name="user_email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" />
-                                                <!--end::Input-->
+                                                <input ng-model="userMasterDto.email" id="user_email" type="email" name="user_email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" />
                                             </div>
                                             <!--end::Input group-->
 
                                             <div class="col-lg-12 fv-row">
                                                 <label class="required fw-semibold fs-6 mb-2">Rôle</label>
-
-                                                <select ng-model="userMasterDTO.role" id="user_role" name="user_role" aria-label="Select a Role" data-control="select2" data-placeholder="Select a role..." class="form-select form-select-solid form-select-lg fw-semibold">
+                                                <select ng-model="userMasterDto.role" id="user_role" name="user_role" aria-label="Select a Role" data-control="select2" data-placeholder="Select a role..." class="form-select form-select-solid form-select-lg fw-semibold">
                                                     <option value="">Select a Role...</option>
-                                                    <option value="USER">ROLE_USER</option>
-                                                    <option value="MODERATOR">ROLE_MODERATOR</option>
-                                                    <option value="ADMIN">ROLE_ADMIN</option>
-                                                    <option value="SUPER_ADMIN">ROLE_SUPER_ADMIN</option>
+                                                    <option value="ROLE_USER">ROLE_USER</option>
+                                                    <option value="ROLE_MODERATOR">ROLE_MODERATOR</option>
+                                                    <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                                    <option value="ROLE_SUPER_ADMIN">ROLE_SUPER_ADMIN</option>
                                                 </select>
                                             </div>
-                                            
-                                            
+
                                             <!--begin::Actions-->
                                             <div class="text-center pt-15">
-                                                <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                                                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
-                                                    <span class="indicator-label">Submit</span>
-                                                    <span class="indicator-progress">Please wait...
+                                                <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Annuler</button>
+                                                <button type="button" class="btn btn-primary" ng-click="valider()" data-kt-users-modal-action="submit">
+                                                    <span class="indicator-label">Valider</span>
+                                                    <span class="indicator-progress">Veuillez patienter...
                                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                                                 </button>
                                             </div>
@@ -143,8 +133,17 @@
             <!--end::Card header-->
             <!--begin::Card body-->
             <div class="card-body py-4 table-responsive">
+                <!-- Loader -->
+                <div ng-if="loading" class="text-center py-10">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                        <span class="ms-3 text-muted">Chargement des employés...</span>
+                    </div>
+                </div>
                 <!--begin::Table-->
-                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users" ng-if="!loading">
                     <!--begin::Table head-->
                     <thead>
                         <!--begin::Table row-->
@@ -163,8 +162,14 @@
                         <!--end::Table row-->
                     </thead>
                     <!--end::Table head-->
-                    <!--begin::Table body-->
+                    <!--begin::Table body - Data -->
                     <tbody class="text-gray-600 fw-semibold">
+                        <!-- Message si liste vide -->
+                        <tr ng-if="!listeUsers || listeUsers.length === 0">
+                            <td colspan="6" class="text-center py-10">
+                                <div class="text-muted">Aucun employé trouvé</div>
+                            </td>
+                        </tr>
                         <!--begin::Table row-->
                         <tr ng-repeat="user in listeUsers track by $index">
                             <!--begin::Checkbox-->
@@ -178,14 +183,17 @@
                             <td class="d-flex align-items-center">
                                 <!--begin:: Avatar -->
                                 <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                    <a th:href="@{bhc/utilisateurs/details/{{user.id}}}">
-                                        <div class="symbol-label fs-3 bg-light-danger text-danger">{{ user.username.charAt(0) }}</div>
+                                    <a th:href="@{atiko/utilisateurs/details/{{user.id}}}">
+                                            <div class="symbol-label fs-3 bg-light-danger text-danger d-flex align-items-center justify-content-center">
+                                                <img ng-if="user.avatar" ng-src="/{{user.avatar}}" alt="{{user.username}}" class="w-100 h-100 object-fit-cover rounded-circle">
+                                                <span ng-if="!user.avatar" class="fw-bold">{{ user.username.charAt(0).toUpperCase() }}</span>
+                                            </div>
                                     </a>
                                 </div>
                                 <!--end::Avatar-->
                                 <!--begin::User details-->
                                 <div class="d-flex flex-column">
-                                    <a th:href="@{bhc/utilisateurs/details/{{user.id}}}" class="text-gray-800 text-hover-primary mb-1">{{ user.username }}</a>
+                                    <a th:href="@{atiko/utilisateurs/details/{{user.id}}}" class="text-gray-800 text-hover-primary mb-1">{{ user.username }}</a>
                                     <span>{{ user.email }}</span>
                                 </div>
                                 <!--begin::User details-->
@@ -196,7 +204,7 @@
                             <!--end::Role=-->
                      
                             <td>
-                                <span ng-if="user.status" class="badge badge-success">Actvé</span>
+                                <span ng-if="user.status" class="badge badge-success">Activé</span>
                                 <span ng-if="!user.status" class="badge badge-danger">Désactivé</span>
                             </td>
 
@@ -205,17 +213,16 @@
                             <!--begin::Action=-->
                             <td>
                                 <div class="d-flex justify-content-end flex-shrink-0">
-                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <a ng-click="viewUser(user.id)" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" title="Voir">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
-                                                <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
+                                                <path d="M21.25 18.525L14.05 11.325C15.2 9.125 14.8 6.325 12.9 4.425C10.55 2.075 7.1 2.075 4.75 4.425C2.4 6.775 2.4 10.225 4.75 12.575C6.65 14.475 9.45 14.875 11.65 13.725L18.85 20.925C19.05 21.125 19.35 21.125 19.55 20.925L21.25 18.525ZM5.15 11.925C3.55 10.325 3.55 7.675 5.15 6.075C6.75 4.475 9.4 4.475 11 6.075C12.6 7.675 12.6 10.325 11 11.925C9.4 13.525 6.75 13.525 5.15 11.925Z" fill="currentColor"/>
                                             </svg>
                                         </span>
                                         <!--end::Svg Icon-->
                                     </a>
-                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <a ng-click="editUser(user)" class="btn btn-icon btn-bg-light btn-active-color-warning btn-sm me-1" title="Modifier">
                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -225,7 +232,17 @@
                                         </span>
                                         <!--end::Svg Icon-->
                                     </a>
-                                    <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                                    <a ng-click="toggleUserStatus(user.id, user.status)" class="btn btn-icon btn-bg-light btn-active-color-info btn-sm me-1" title="{{user.status ? 'Désactiver' : 'Activer'}}">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
+                                        <span class="svg-icon svg-icon-3">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z" fill="currentColor"></path>
+                                                <path opacity="0.3" d="M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z" fill="currentColor"></path>
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </a>
+                                    <a ng-click="deleteUser(user.id, user.username)" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" title="Supprimer">
                                         <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                         <span class="svg-icon svg-icon-3">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -262,6 +279,24 @@
 
     </script>
 
-    <script src="/assets/js/controllers/usersController.js" layout:fragment="script"></script>
+    <script src="/js/controllers/usersController.js" layout:fragment="script"></script>
+    <script>
+        // Gérer le loading
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var element = document.querySelector('[ng-controller="usersController"]');
+                if (element) {
+                    var scope = angular.element(element).scope();
+                    if (scope && !scope.$$phase) {
+                        scope.$apply(function() {
+                            if (typeof scope.loading === 'undefined') {
+                                scope.loading = true;
+                            }
+                        });
+                    }
+                }
+            }, 100);
+        });
+    </script>
 </body>
 </html>

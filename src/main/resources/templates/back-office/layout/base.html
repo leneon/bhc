@@ -34,7 +34,7 @@
 					$('#auth-username').text(data.username);
 					$('#auth-email').text(data.email);
 					$('#auth-role').text(data.role);
-					$('#auth-profil').attr("href", "bhc/utilisateurs/details/" + data.id);	
+					$('#auth-profil').attr("href", "atiko/utilisateurs/details/" + data.id);	
 					
 					$.get("/api/users/details/"+data.id, function(data) {
 
@@ -83,7 +83,7 @@
 						<!--begin::Logo-->
 						<div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
 							<!--begin::Logo image-->
-							<a href="/demo1/dist/index.html">
+							<a href="/">
 								<img alt="Logo" src="/assets/media/logos/default-dark.svg" class="h-25px app-sidebar-logo-default" />
 								<img alt="Logo" src="/assets/media/logos/default-small.svg" class="h-20px app-sidebar-logo-minimize" />
 							</a>
@@ -142,7 +142,7 @@
 										<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
 											<!--begin::Item-->
 											<li class="breadcrumb-item text-muted">
-												<a href="/demo1/dist/index.html" class="text-muted text-hover-primary">Home</a>
+												<a href="/" class="text-muted text-hover-primary">Home</a>
 											</li>
 											<!--end::Item-->
 											<!--begin::Item-->

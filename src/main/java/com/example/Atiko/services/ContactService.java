@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.Atiko.dtos.ContactDTO;
 import com.example.Atiko.entities.Contact;
 import com.example.Atiko.repositories.ContactRepository;
-import com.example.Atiko.repositories.ServiceRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,8 +14,6 @@ public class ContactService {
     @Autowired
     private ContactRepository contactRepository;
 
-    @Autowired
-    private ServiceRepository serviceRepository;  // Si vous avez besoin de récupérer un service par son ID
 
     // Méthode pour créer un contact
     public Contact createContact(ContactDTO contactDTO) {
@@ -24,14 +21,10 @@ public class ContactService {
         contact.setUsername(contactDTO.getUsername());
         contact.setUseremail(contactDTO.getUseremail());
         contact.setUserphone(contactDTO.getUserphone());
+        contact.setService(contactDTO.getservice());
         contact.setMessage(contactDTO.getMessage());
 
-        // Ajouter un service si l'ID est fourni
-        if (contactDTO.getServiceId() != null) {
-            com.example.Atiko.entities.Service service = serviceRepository.findById(contactDTO.getServiceId())
-                    .orElseThrow(() -> new RuntimeException("Service not found with id: " + contactDTO.getServiceId()));
-            contact.setService(service);
-        }
+     
 
         // Ajouter le statut (par défaut "PENDING")
         contact.setStatus(contactDTO.getStatus() != null ? contactDTO.getStatus() : "EN ATTENTE");

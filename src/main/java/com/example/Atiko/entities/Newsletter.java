@@ -1,10 +1,11 @@
 package com.example.Atiko.entities;
 
+import java.util.Random;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -12,8 +13,13 @@ import jakarta.persistence.UniqueConstraint;
 @Table(name = "newsletters", uniqueConstraints = { @UniqueConstraint(columnNames = "useremail") })
 public class Newsletter {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
     @Column
     private String useremail;
 

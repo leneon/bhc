@@ -1,24 +1,29 @@
 package com.example.Atiko.entities;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "commentaires")
 public class Commentaire {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
     @Column(columnDefinition = "TEXT", nullable = true)  // Utilise le type TEXT
     private String contenue;
     @Column(columnDefinition = "BOOLEAN DEFAULT true")

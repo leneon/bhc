@@ -26,6 +26,7 @@ public class CategorieService {
         Categorie categorie = new Categorie();
         categorie.setId(dto.getId());
         categorie.setNom(dto.getNom());
+        categorie.setDescription(dto.getDescription());
         categorie.setStatut(dto.getStatut());
         return categorie;
     }
@@ -44,6 +45,7 @@ public class CategorieService {
         Categorie categorie = new Categorie();
         categorie.setId(categorieDto.getId());
         categorie.setNom(categorieDto.getNom());
+        categorie.setDescription(categorieDto.getDescription());
         categorie.setStatut(true);        
         Categorie savedCategorie = categorieRepository.save(categorie);
         return convertToDto(savedCategorie);
@@ -52,6 +54,7 @@ public class CategorieService {
     public Optional<CategorieDto> updateCategorie(Long id, CategorieDto categorieDto) {
         return categorieRepository.findById(id).map(existingCategorie -> {
             existingCategorie.setNom(categorieDto.getNom());
+            existingCategorie.setDescription(categorieDto.getDescription());
             existingCategorie.setStatut(categorieDto.getStatut());
             return convertToDto(categorieRepository.save(existingCategorie));
         });

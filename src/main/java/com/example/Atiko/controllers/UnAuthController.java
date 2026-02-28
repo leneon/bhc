@@ -13,12 +13,15 @@ public class UnAuthController {
     private String appName;
 
     @GetMapping("/")
-    public String index(Model model){
-        model.addAttribute("appName", appName);
-        model.addAttribute("title", "Accueil");
-        return ("front-office/pages/index");
+    public String home() {
+        return "forward:/front/index.html";
     }
 
+    @RequestMapping(value = "/{path:^(?!api|front|assets|js|css).*$}")
+    public String redirect() {
+        return "forward:/front/index.html";
+    }
+    
     @GetMapping("/a-propos")
     public String abut(Model model) {
         model.addAttribute("appName", appName);

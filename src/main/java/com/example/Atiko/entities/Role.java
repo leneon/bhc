@@ -1,13 +1,20 @@
 package com.example.Atiko.entities;
 
+import java.util.Random;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "roles")
 public class Role {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Long id;
+  @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            this.id = System.currentTimeMillis() * 1000 + new Random().nextInt(1000);
+        }
+    }
 
   @Enumerated(EnumType.STRING)
   @Column(length = 20)
@@ -21,11 +28,11 @@ public class Role {
     this.name = name;
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
