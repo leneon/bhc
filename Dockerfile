@@ -1,5 +1,5 @@
 # Utilisez une image Maven avec JDK 21 pour construire le projet
-FROM maven:3.8.5-eclipse-temurin-21 AS build
+FROM maven:3.8.8-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Copiez le fichier pom.xml et téléchargez les dépendances
