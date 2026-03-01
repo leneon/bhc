@@ -21,38 +21,15 @@ export default function HomePage() {
     try {
       const result = await voitureService.getAllVoitures();
       
-      console.log('🚗 [HomePage] Chargement des véhicules');
-      console.log('✅ Success:', result.success);
-      console.log('📊 Total véhicules reçus:', result.data?.length || 0);
-      
-      if (result.success && result.data) {
-        console.log('📋 Données brutes:', result.data);
-        
-        // Afficher chaque véhicule et son statut
-        result.data.forEach((v, index) => {
-          console.log(`Véhicule ${index + 1}:`, {
-            id: v.id,
-            nom: v.nom,
-            statut: v.statut,
-            disponibilite: v.disponibilite,
-            'Passe le filtre?': v.statut && v.disponibilite === 'disponible'
-          });
-        });
-        
-        const filtered = result.data.filter(v => v.statut && v.disponibilite === 'disponible');
-        console.log('✔️ Véhicules après filtre:', filtered.length);
-        
-        const transformedCars = filtered
+      if (result.success) {
+        const transformedCars = result.data
+          .filter(v => v.statut && v.disponibilite === 'disponible')
           .map(v => voitureService.transformVoitureForDisplay(v))
           .slice(0, 3);
-        
-        console.log('🎨 Véhicules transformés:', transformedCars);
         setPopularCars(transformedCars);
-      } else {
-        console.error('❌ Erreur API:', result.error);
       }
     } catch (error) {
-      console.error('💥 Error loading popular cars:', error);
+      console.error('Error loading popular cars:', error);
     } finally {
       setLoading(false);
     }

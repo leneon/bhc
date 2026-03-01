@@ -27,38 +27,17 @@ export default function CarRentalPage() {
     try {
       const result = await voitureService.getAllVoitures();
       
-      console.log('🚗 [CarRentalPage] Chargement des véhicules');
-      console.log('✅ Success:', result.success);
-      console.log('📊 Total véhicules reçus:', result.data?.length || 0);
-      
-      if (result.success && result.data) {
-        console.log('📋 Données brutes:', result.data);
-        
-        // Afficher chaque véhicule et son statut
-        result.data.forEach((v, index) => {
-          console.log(`Véhicule ${index + 1}:`, {
-            id: v.id,
-            nom: v.nom,
-            statut: v.statut,
-            disponibilite: v.disponibilite,
-            'Passe le filtre?': v.statut && v.disponibilite === 'disponible'
-          });
-        });
-        
-        const filtered = result.data.filter(v => v.statut && v.disponibilite === 'disponible');
-        console.log('✔️ Véhicules après filtre:', filtered.length);
-        
-        const transformedCars = filtered.map(v => voitureService.transformVoitureForDisplay(v));
-        console.log('🎨 Véhicules transformés:', transformedCars);
-        
+      if (result.success) {
+        const transformedCars = result.data
+          .filter(v => v.statut && v.disponibilite === 'disponible')
+          .map(v => voitureService.transformVoitureForDisplay(v));
         setCars(transformedCars);
       } else {
-        console.error('❌ Erreur API:', result.error);
         toast.error(result.error || 'Erreur lors du chargement des voitures');
         setCars([]);
       }
     } catch (error) {
-      console.error('💥 Error loading cars:', error);
+      console.error('Error loading cars:', error);
       toast.error('Erreur de connexion au serveur');
       setCars([]);
     } finally {

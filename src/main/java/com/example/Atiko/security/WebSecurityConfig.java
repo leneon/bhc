@@ -81,6 +81,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
+        .cors(cors -> cors.configure(http))  // Enable CORS with custom configuration
         .csrf(csrf -> csrf.disable())  // Disable CSRF protection
         .exceptionHandling(exception -> exception
             .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))  // Redirect to login page when unauthorized
@@ -90,7 +91,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         )
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/atiko/**").authenticated()  // Require authentication for these URLs
-            .requestMatchers("/assets/**","/auth/**","/uploads/**","/unauth/**", "/api/test/**").permitAll()  // Allow public access to these APIs
+            .requestMatchers("/assets/**","/auth/**","/uploads/**","/unauth/**", "/api/test/**","/api/voitures").permitAll()  // Allow public access to these APIs
             .requestMatchers("/api/**").authenticated()  // Require authentication for these URLs
             .anyRequest().permitAll()  // Allow all other requests
         )

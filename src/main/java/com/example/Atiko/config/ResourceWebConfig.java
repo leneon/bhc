@@ -25,14 +25,7 @@ public class ResourceWebConfig implements WebMvcConfigurer {
     .addResourceLocations("file:./uploads/files/");
   }
 
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-        .allowedOrigins("https://atiko.onrender.com")
-        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        .allowedHeaders("*")
-        .allowCredentials(true);
-  }
+
 
 //   @Bean
 // public MultipartResolver multipartResolver() {
