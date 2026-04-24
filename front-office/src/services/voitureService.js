@@ -4,6 +4,8 @@ export const voitureService = {
   async getAllVoitures() {
     try {
       const response = await api.get('/api/voitures');
+            console.log('Get all voitures response:', response.data);
+
       return { success: true, data: response.data };
     } catch (error) {
       console.error('Get all voitures error:', error);

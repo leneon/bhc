@@ -23,7 +23,7 @@ export default function HomePage() {
       
       if (result.success) {
         const transformedCars = result.data
-          .filter(v => v.statut && v.disponibilite === 'disponible')
+          // .filter(v => v.statut && String(v.disponibilite).toLowerCase() === 'disponible')
           .map(v => voitureService.transformVoitureForDisplay(v))
           .slice(0, 3);
         setPopularCars(transformedCars);

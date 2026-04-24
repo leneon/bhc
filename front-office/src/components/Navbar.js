@@ -1,98 +1,209 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Car, Menu, X, User } from 'lucide-react';
+import {
+  Car,
+  Bus,
+  Plane,
+  Menu,
+  X,
+  User,
+  LogOut,
+  LayoutDashboard,
+  Info,
+  Mail,
+  ChevronDown,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { isAuthenticated } from '@/utils/auth';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { isAuthenticated, getCurrentUser, logout } from '@/utils/auth';
+
+const NAV_LINKS = [
+  { to: '/cars', label: 'Voitures', icon: Car },
+  { to: '/bus', label: 'Bus', icon: Bus },
+  { to: '/flights', label: 'Vols', icon: Plane },
+  { to: '/about', label: 'À propos', icon: Info },
+  { to: '/contact', label: 'Contact', icon: Mail },
+];
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
   const authenticated = isAuthenticated();
+  const user = getCurrentUser();
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) =>
+    path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const getInitials = (name, email) => {
+    const source = (name || email || 'U').trim();
+    const parts = source.split(/\s+/);
+    if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return source.slice(0, 2).toUpperCase();
+  };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50" data-testid="navbar">
+    <nav
+      className={`bg-white/95 backdrop-blur-md sticky top-0 z-50 transition-shadow duration-200 ${
+        scrolled ? 'shadow-md' : 'shadow-sm'
+      }`}
+      data-testid="navbar"
+    >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2" data-testid="logo-link">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] rounded-lg flex items-center justify-center">
+          <Link to="/" className="flex items-center space-x-2 shrink-0" data-testid="logo-link">
+            <img
+              src="/logo.png"
+              alt="Atiko Logo"
+              className="w-10 h-10 object-contain"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.style.display = 'none';
+                e.target.nextElementSibling.style.display = 'flex';
+              }}
+            />
+            <div className="w-10 h-10 bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] rounded-lg items-center justify-center hidden shadow-sm">
               <Car className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Work Sans' }}>
+            <span
+              className="text-2xl font-bold text-gray-800"
+              style={{ fontFamily: 'Work Sans' }}
+            >
               Atiko
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/cars" 
-              className={`text-gray-700 hover:text-[#38BDF8] font-medium transition-colors ${
-                isActive('/cars') ? 'text-[#38BDF8]' : ''
-              }`}
-              data-testid="nav-cars"
-            >
-              Voitures
-            </Link>
-            <Link 
-              to="/bus" 
-              className={`text-gray-700 hover:text-[#38BDF8] font-medium transition-colors ${
-                isActive('/bus') ? 'text-[#38BDF8]' : ''
-              }`}
-              data-testid="nav-bus"
-            >
-              Bus
-            </Link>
-            <Link 
-              to="/flights" 
-              className={`text-gray-700 hover:text-[#38BDF8] font-medium transition-colors ${
-                isActive('/flights') ? 'text-[#38BDF8]' : ''
-              }`}
-              data-testid="nav-flights"
-            >
-              Vols
-            </Link>
-            <Link 
-              to="/about" 
-              className={`text-gray-700 hover:text-[#38BDF8] font-medium transition-colors ${
-                isActive('/about') ? 'text-[#38BDF8]' : ''
-              }`}
-              data-testid="nav-about"
-            >
-              À propos
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`text-gray-700 hover:text-[#38BDF8] font-medium transition-colors ${
-                isActive('/contact') ? 'text-[#38BDF8]' : ''
-              }`}
-              data-testid="nav-contact"
-            >
-              Contact
-            </Link>
+          <div className="hidden lg:flex items-center space-x-1">
+            {NAV_LINKS.map((link) => {
+              const active = isActive(link.to);
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`relative px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    active
+                      ? 'text-[#0EA5E9] bg-sky-50'
+                      : 'text-gray-700 hover:text-[#0EA5E9] hover:bg-gray-50'
+                  }`}
+                  data-testid={`nav-${link.to.replace('/', '')}`}
+                >
+                  {link.label}
+                  {active && (
+                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#0EA5E9] rounded-full" />
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button
-              onClick={() => navigate(authenticated ? '/dashboard' : '/auth')}
-              variant={authenticated ? 'default' : 'outline'}
-              size="icon"
-              className={`rounded-full ${authenticated ? 'bg-[#38BDF8] hover:bg-[#0EA5E9]' : ''}`}
-              aria-label={authenticated ? 'Mon espace' : 'Authentification'}
-              data-testid="account-btn"
-            >
-              <User className="h-5 w-5" />
-            </Button>
+          <div className="hidden md:flex items-center space-x-3">
+            {authenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="flex items-center gap-2 px-2 py-1.5 rounded-full hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0EA5E9]/40"
+                    data-testid="account-btn"
+                  >
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] text-white flex items-center justify-center font-semibold text-sm shadow-sm">
+                      {getInitials(user?.name, user?.email)}
+                    </div>
+                    <div className="hidden lg:flex flex-col items-start leading-tight">
+                      <span className="text-xs text-gray-500">Bonjour,</span>
+                      <span className="text-sm font-semibold text-gray-800 truncate max-w-[120px]">
+                        {user?.name || 'Utilisateur'}
+                      </span>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-gray-500 hidden lg:block" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col">
+                      <span className="font-semibold truncate">{user?.name || 'Mon compte'}</span>
+                      {user?.email && (
+                        <span className="text-xs text-gray-500 font-normal truncate">
+                          {user.email}
+                        </span>
+                      )}
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => navigate('/dashboard')}
+                    className="cursor-pointer"
+                    data-testid="menu-dashboard"
+                  >
+                    <LayoutDashboard className="h-4 w-4" />
+                    Mon espace
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => navigate('/dashboard')}
+                    className="cursor-pointer"
+                  >
+                    <User className="h-4 w-4" />
+                    Mon profil
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                    data-testid="menu-logout"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Déconnexion
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button
+                  onClick={() => navigate('/auth')}
+                  variant="ghost"
+                  className="text-gray-700 hover:text-[#0EA5E9]"
+                  data-testid="nav-login-btn"
+                >
+                  Connexion
+                </Button>
+                <Button
+                  onClick={() => navigate('/auth?mode=register')}
+                  className="bg-[#38BDF8] hover:bg-[#0EA5E9] text-white shadow-sm"
+                  data-testid="nav-register-btn"
+                >
+                  S'inscrire
+                </Button>
+              </>
+            )}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2"
+            className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+            aria-label="Menu"
+            aria-expanded={mobileMenuOpen}
             data-testid="mobile-menu-btn"
           >
             {mobileMenuOpen ? (
@@ -104,65 +215,91 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t" data-testid="mobile-menu">
-          <div className="px-4 py-4 space-y-3">
-            <Link 
-              to="/cars" 
-              className="block py-2 text-gray-700 hover:text-[#38BDF8] font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Voitures
-            </Link>
-            <Link 
-              to="/bus" 
-              className="block py-2 text-gray-700 hover:text-[#38BDF8] font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Bus
-            </Link>
-            <Link 
-              to="/flights" 
-              className="block py-2 text-gray-700 hover:text-[#38BDF8] font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Vols
-            </Link>
-            <Link 
-              to="/about" 
-              className="block py-2 text-gray-700 hover:text-[#38BDF8] font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              À propos
-            </Link>
-            <Link 
-              to="/contact" 
-              className="block py-2 text-gray-700 hover:text-[#38BDF8] font-medium"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <div className="pt-3 border-t space-y-2">
-              <div className="flex justify-center">
-                <Button
-                  onClick={() => {
-                    navigate(authenticated ? '/dashboard' : '/auth');
-                    setMobileMenuOpen(false);
-                  }}
-                  variant={authenticated ? 'default' : 'outline'}
-                  size="icon"
-                  className={`rounded-full ${authenticated ? 'bg-[#38BDF8] hover:bg-[#0EA5E9]' : ''}`}
-                  aria-label={authenticated ? 'Mon espace' : 'Authentification'}
-                  data-testid="mobile-account-btn"
-                >
-                  <User className="h-5 w-5" />
-                </Button>
+      <div
+        className={`lg:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out border-t border-gray-100 ${
+          mobileMenuOpen ? 'max-h-[640px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+        data-testid="mobile-menu"
+      >
+        <div className="px-4 py-4 space-y-1">
+          {authenticated && (
+            <div className="flex items-center gap-3 p-3 mb-2 rounded-lg bg-gradient-to-r from-sky-50 to-orange-50">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] text-white flex items-center justify-center font-semibold text-sm">
+                {getInitials(user?.name, user?.email)}
+              </div>
+              <div className="min-w-0">
+                <div className="font-semibold text-gray-800 truncate">
+                  {user?.name || 'Utilisateur'}
+                </div>
+                {user?.email && (
+                  <div className="text-xs text-gray-500 truncate">{user.email}</div>
+                )}
               </div>
             </div>
+          )}
+
+          {NAV_LINKS.map((link) => {
+            const Icon = link.icon;
+            const active = isActive(link.to);
+            return (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`flex items-center gap-3 py-3 px-3 rounded-lg font-medium transition-colors ${
+                  active
+                    ? 'bg-sky-50 text-[#0EA5E9]'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                {link.label}
+              </Link>
+            );
+          })}
+
+          <div className="pt-3 mt-3 border-t border-gray-100 space-y-2">
+            {authenticated ? (
+              <>
+                <Button
+                  onClick={() => navigate('/dashboard')}
+                  className="w-full justify-start bg-[#38BDF8] hover:bg-[#0EA5E9]"
+                  data-testid="mobile-dashboard-btn"
+                >
+                  <LayoutDashboard className="h-4 w-4 mr-2" />
+                  Mon espace
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="w-full justify-start text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
+                  data-testid="mobile-logout-btn"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Déconnexion
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => navigate('/auth')}
+                  variant="outline"
+                  className="w-full justify-center"
+                  data-testid="mobile-login-btn"
+                >
+                  Connexion
+                </Button>
+                <Button
+                  onClick={() => navigate('/auth?mode=register')}
+                  className="w-full justify-center bg-[#38BDF8] hover:bg-[#0EA5E9]"
+                  data-testid="mobile-register-btn"
+                >
+                  S'inscrire
+                </Button>
+              </>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }
