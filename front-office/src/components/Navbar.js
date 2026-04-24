@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Logo from '@/components/Logo';
 import { isAuthenticated, getCurrentUser, logout } from '@/utils/auth';
 
 const NAV_LINKS = [
@@ -75,26 +76,13 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2 shrink-0" data-testid="logo-link">
-            <img
-              src="/logo.png"
-              alt="Atiko Logo"
-              className="w-10 h-10 object-contain"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.style.display = 'none';
-                e.target.nextElementSibling.style.display = 'flex';
-              }}
-            />
-            <div className="w-10 h-10 bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] rounded-lg items-center justify-center hidden shadow-sm">
-              <Car className="h-6 w-6 text-white" />
-            </div>
-            <span
-              className="text-2xl font-bold text-gray-800"
-              style={{ fontFamily: 'Work Sans' }}
-            >
-              Atiko
-            </span>
+          <Link
+            to="/"
+            className="flex items-center shrink-0 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9] rounded-lg"
+            data-testid="logo-link"
+            aria-label="Atiko - Retour à l'accueil"
+          >
+            <Logo size={40} className="group-hover:scale-105 transition-transform" />
           </Link>
 
           <div className="hidden lg:flex items-center space-x-1">

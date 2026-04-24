@@ -21,6 +21,21 @@ public class UnAuthController {
     public String redirect() {
         return "forward:/front/index.html";
     }
+
+    // React SPA routes (support refresh/direct access)
+    @GetMapping({
+        "/cars/**",
+        "/bus/**",
+        "/flights/**",
+        "/checkout/**",
+        "/auth/**",
+        "/dashboard/**",
+        "/about",
+        "/contact"
+    })
+    public String reactRoutes() {
+        return "forward:/front/index.html";
+    }
     
     @GetMapping("/a-propos")
     public String abut(Model model) {
@@ -28,7 +43,7 @@ public class UnAuthController {
         model.addAttribute("title", "Qui sommes-nous");
         return "front-office/pages/about";
     }
-    @GetMapping("/contact")
+    @GetMapping("/contact-page")
     public String contact(Model model) {
         model.addAttribute("appName", appName);
         model.addAttribute("title", "Contact");

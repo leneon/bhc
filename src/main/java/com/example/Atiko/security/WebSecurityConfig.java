@@ -3,6 +3,8 @@ package com.example.Atiko.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -81,7 +83,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        .cors(cors -> cors.configure(http))  // Enable CORS with custom configuration
+        .cors(Customizer.withDefaults())  // Use global CorsConfigurationSource bean
         .csrf(csrf -> csrf.disable())  // Disable CSRF protection
         .exceptionHandling(exception -> exception
             .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))  // Redirect to login page when unauthorized
@@ -91,7 +93,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         )
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/atiko/**").authenticated()  // Require authentication for these URLs
-            .requestMatchers("/assets/**","/auth/**","/uploads/**","/unauth/**", "/api/test/**","/api/voitures").permitAll()  // Allow public access to these APIs
+            .requestMatchers("/assets/**","/auth/**","/uploads/**","/unauth/**", "/api/test/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/voitures", "/api/voitures/**").permitAll()  // Lecture publique du catalogue voitures
+            .requestMatchers(HttpMethod.GET, "/api/reservations/check-availability").permitAll()  // Vérification dispo sans login
             .requestMatchers("/api/**").authenticated()  // Require authentication for these URLs
             .anyRequest().permitAll()  // Allow all other requests
         )
