@@ -31,11 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
   UserProfileRepository profileRepository;
   
-  private final PasswordEncoder encoder;
-
-  public UserDetailsServiceImpl(PasswordEncoder encoder) {
-      this.encoder = encoder;
-  }
+  @Autowired
+  private PasswordEncoder encoder;
 
   @Override
   @Transactional

@@ -16,7 +16,7 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
@@ -124,7 +124,7 @@
 
 	<build>
 		<plugins>
-			<!-- Ensure compiler plugin targets Java 21 -->
+			<!-- Ensure compiler plugin targets Java env -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
