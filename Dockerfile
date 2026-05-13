@@ -19,8 +19,10 @@ WORKDIR /app
 # Copiez le fichier JAR de l'image précédente
 COPY --from=build /app/target/*.jar app.jar
 
-# Exposez le port sur lequel votre application écoute (par défaut Spring Boot écoute sur le port 8080)
-EXPOSE 8080
+# Exposez le port sur lequel votre application écoute
+# Render utilise le port 10000 par défaut
+EXPOSE 10000
 
 # Commande pour exécuter l'application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Utilise la variable PORT de Render si disponible, sinon 10000
+ENTRYPOINT ["java", "-jar", "app.jar", "--server.port=${PORT:-10000}"]
